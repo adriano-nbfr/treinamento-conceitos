@@ -1,0 +1,42 @@
+{
+  "name": "Treinamento - Conceitos",
+  "image": "dev-jdk17-angular19",
+  "updateRemoteUserUID": false,
+
+  "runArgs": [
+    "--network=host",
+    "--name=treinamento-conceitos"
+  ],
+
+  "initializeCommand": "./.devcontainer/scripts/preparar-ambiente.sh dev-jdk17-angular19 treinamento-conceitos",
+  "postCreateCommand": "./.devcontainer/scripts/post-create.sh && ng version",
+
+  "forwardPorts": [4200, 3000],
+
+  "containerEnv": {
+    "NODE_EXTRA_CA_CERTS": "${containerWorkspaceFolder}/.devcontainer/certificados/CertificadosRedeMPF.pem"
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "EditorConfig.EditorConfig",
+        "eamodio.gitlens",
+        "angular.ng-template",
+        "johnpapa.angular2",
+        "natewallace.angular2-inline",
+        "alexiv.vscode-angular2-files",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "mariusalchimavicius.json-to-ts",
+        "postman.postman-for-vscode"
+      ]
+    }
+  },
+
+  "mounts": [
+    "source=${localWorkspaceFolder}/node_modules,target=${containerWorkspaceFolder}/node_modules,type=bind,consistency=cached"
+  ],
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  "workspaceFolder": "/workspace"
+}
