@@ -1,0 +1,13 @@
+@if (atalhos().length) {
+  <nav class="links-destaque">
+    @for (atalho of atalhos(); track $index) {
+      <a [href]="atalho.url" target="_blank">
+        <img aria-hidden="true" [src]="`img/atalhos/${atalho.icone || 'icone-generico.jpg'}`">
+        {{atalho.nome}}
+      </a>
+    }
+  </nav>
+}
+@else {
+  <h2 class="text-center fs-5 mt-5">Não existem atalhos a serem exibidos.</h2>
+}

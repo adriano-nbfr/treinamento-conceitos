@@ -6,7 +6,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
   host: {
     'class' : 'app-header',
     '[class.header-gigante]' : 'gigante',
-    '(click)' : 'alternarGigante($event)'
+    '(click)' : 'headerClick($event)'
   },
   imports: [],
   templateUrl: './header.component.html',
@@ -26,15 +26,17 @@ export class HeaderComponent {
 
   protected gigante = false;
 
-  protected alternarGradiente(event: MouseEvent) {
+
+  protected logoCkick(event: MouseEvent) {
     event.preventDefault();
-    event.stopPropagation();
+    event.stopPropagation(); // evita o bubbling
     this.logoGradiente = !this.logoGradiente;
   }
 
-  protected alternarGigante(event: MouseEvent) {
-    this.gigante = !this.gigante;
+  protected headerClick(event: MouseEvent) {
+    if (event.ctrlKey) { // Só alterna se clicar segurando Ctrl
+      this.gigante = !this.gigante;
+    }
   }
-
 
 }

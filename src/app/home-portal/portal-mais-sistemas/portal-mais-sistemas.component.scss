@@ -1,0 +1,30 @@
+.links-mais-sistemas {
+  display: grid;
+  width: clamp(300px, 30%, 70%);
+  margin: 1rem auto;
+}
+
+.links-mais-sistemas a {
+  padding: 0.5rem;
+  text-align: center;
+  text-decoration: none;
+  color: #456;
+  outline: none;
+  border: 1px solid transparent;
+}
+
+.links-mais-sistemas a + a {
+  border-top-color: #ddd;
+}
+
+.links-mais-sistemas:not(.links-edicao) a:hover,
+.links-mais-sistemas:not(.links-edicao) a:focus-visible {
+  background-color: #ddd6;
+  text-decoration: underline;
+}
+
+.links-mais-sistemas.links-edicao a:hover {
+  border: 1px dashed #777;
+  background-color: #ffd8;
+}
+
