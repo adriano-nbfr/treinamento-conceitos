@@ -1,0 +1,10 @@
+<img class="app-logo"
+  [src]="`img/logo-angular-${logoGradiente ? 'gradiente' : 'branco'}.png`"
+  [attr.aria-hidden]="true"
+  (click)="alternarGradiente($event)" />
+
+<h1 [style.opacity]="opacidadeTitulo"
+ [class.w-100]="tituloCentralizado"
+ [class]="{'text-center': tituloCentralizado}">
+  {{titulo}}
+</h1>

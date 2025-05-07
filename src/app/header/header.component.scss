@@ -1,0 +1,26 @@
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  color: #fff;
+  background: linear-gradient(to top, #1e3c72, #2a5298);
+  box-shadow: 0px 3px 6px rgba(0,0,0,0.3);
+}
+
+.app-header .app-logo {
+  height: 2em;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 150%;
+}
+
+.app-header.header-gigante .app-logo {
+  height: 4em;
+}
+
+.app-header.header-gigante h1 {
+  font-size: 300%;
+}
