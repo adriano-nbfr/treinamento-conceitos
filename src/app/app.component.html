@@ -3,8 +3,8 @@
   <!-- <app-two-way-pai></app-two-way-pai> -->
 </app-layout>
 
-<ng-template #templateLink let-atalho>
-  <div class="fs-5">{{atalho.nome}}</div>
+<ng-template #templateLink let-atalhoImplicit let-atalho="atalho">
+  <div class="fs-5">{{atalhoImplicit.nome}}</div>
   <div class="text-primary">({{atalho.url}})</div>
 </ng-template>
 
