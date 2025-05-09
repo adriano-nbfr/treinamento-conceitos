@@ -1,4 +1,6 @@
-<app-card titulo="Two-way binding">
+<app-card >
+  <span slot="titulo">Two-way binding no <b>content</b></span>
+
   <div class="d-flex align-items-center gap-4">
     <h3>Valor no componente pai: <span class="text-primary">{{valorPai}}</span></h3>
     <app-two-way-filho [(valor)]="valorPai"></app-two-way-filho>
