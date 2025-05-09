@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, model } from '@angular/core';
 
 @Component({
   selector: 'app-two-way-filho',
@@ -8,15 +8,15 @@ import { Component } from '@angular/core';
 })
 export class TwoWayFilhoComponent {
 
-  protected valorInterno = 0;
-
+  /** Valor usado internamente */
+  valor = model(0);
 
   protected incrementar() {
-    this.valorInterno++;
+    this.valor.update(v => v + 1);
   }
 
   protected decrementar() {
-    this.valorInterno--;
+    this.valor.update(v => v - 1);
   }
 
 }
