@@ -1,9 +1,12 @@
 import { Component, input } from '@angular/core';
 import { AtalhoSistema } from '../atalho-sistema';
+import { FiltroHoverDirective } from '../../shared/diretivas/filtro-hover.directive';
 
 @Component({
   selector: 'app-portal-destaques',
-  imports: [],
+  imports: [
+    FiltroHoverDirective
+  ],
   templateUrl: './portal-destaques.component.html',
   styleUrl: './portal-destaques.component.scss'
 })
