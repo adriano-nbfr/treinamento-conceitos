@@ -6,7 +6,7 @@
 
   @if (atalhosDestaque.length > 0 && atalhosMaisSistemas.length > 0) {
     <app-portal-mais-sistemas
-      [atalhos]="atalhosMaisSistemas" [minimoColapsar]="6"
+      [atalhos]="atalhosMaisSistemas | ordenar : 'nome'" [minimoColapsar]="6"
       (atalhoPromovido)="promoverAtalhoMaisSistemas($event)">
     </app-portal-mais-sistemas>
   }

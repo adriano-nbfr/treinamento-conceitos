@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { AtalhoSistema } from './atalho-sistema';
 import { PortalDestaquesComponent } from "./portal-destaques/portal-destaques.component";
 import { PortalMaisSistemasComponent } from './portal-mais-sistemas/portal-mais-sistemas.component';
+import { OrdenarPipe } from '../shared/pipes/ordenar.pipe';
 
 @Component({
   selector: 'app-home-portal',
   imports: [
     PortalDestaquesComponent,
-    PortalMaisSistemasComponent
+    PortalMaisSistemasComponent,
+    OrdenarPipe
   ],
   templateUrl: './home-portal.component.html',
   styleUrl: './home-portal.component.scss'

@@ -7,14 +7,12 @@ import { TwoWayPaiComponent } from "./exemplos/two-way/two-way-pai/two-way-pai.c
   selector: 'app-root',
   imports: [
     HeaderComponent,
-    // HomePortalComponent,
-    TwoWayPaiComponent
+    HomePortalComponent,
+    // TwoWayPaiComponent
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-
-  exibir = true;
 
 }
