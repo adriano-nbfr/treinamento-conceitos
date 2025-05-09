@@ -1,16 +1,6 @@
-<header app-header></header>
+<app-layout>
+  <!-- <app-home-portal></app-home-portal> -->
+  <app-two-way-pai></app-two-way-pai>
+</app-layout>
 
-<button #bot class="btn btn-secondary"
-  (click)="bloqueado = !bloqueado">
-  Alternar bloqueio pela propriedade
-</button>
 
-<button #bot class="btn btn-secondary" [disabled]="!bloqueado"
-  (click)="bloq.desbloquear()">
-  Desbloquear direto pela diretiva
-</button>
-
-<main class="app-main" [(appBloqueado)]="bloqueado" #main #bloq="appBloqueado">
-  <app-home-portal></app-home-portal>
-  <!-- <app-two-way-pai></app-two-way-pai> -->
-</main>

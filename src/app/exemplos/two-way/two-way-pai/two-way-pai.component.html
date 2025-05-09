@@ -1,12 +1,6 @@
-<div class="card shadow">
-  <div class="card-header text-bg-secondary">
-    <h2>Two-way binding</h2>
+<app-card titulo="Two-way binding">
+  <div class="d-flex align-items-center gap-4">
+    <h3>Valor no componente pai: <span class="text-primary">{{valorPai}}</span></h3>
+    <app-two-way-filho [(valor)]="valorPai"></app-two-way-filho>
   </div>
-
-  <div class="card-body">
-    <div class="d-flex align-items-center gap-4">
-      <h3>Valor no componente pai: <span class="text-primary">{{valorPai}}</span></h3>
-      <app-two-way-filho [(valor)]="valorPai"></app-two-way-filho>
-    </div>
-  </div>
-</div>
+</app-card>
