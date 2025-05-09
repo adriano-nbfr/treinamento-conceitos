@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, TemplateRef } from '@angular/core';
 import { AtalhoSistema } from './atalho-sistema';
 import { PortalDestaquesComponent } from "./portal-destaques/portal-destaques.component";
 import { PortalMaisSistemasComponent } from './portal-mais-sistemas/portal-mais-sistemas.component';
@@ -35,9 +35,12 @@ export class HomePortalComponent {
     { url: 'https://novoportal.mpf.mp.br/autoriza', nome: 'Sistema Autoriza', destaque: false },
   ];
 
-
   protected atalhosDestaque: AtalhoSistema[] = [];
   protected atalhosMaisSistemas: AtalhoSistema[] = [];
+
+
+  templateMaisSistemas = input<TemplateRef<unknown>>();
+
 
   constructor() {
     this.atualizarListasAtalhos();

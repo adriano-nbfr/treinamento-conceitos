@@ -29,7 +29,12 @@
     @for (atalho of atalhos(); track $index) {
       <a [href]="atalho.url" target="_blank"
         (click)="atalhoClick(atalho, $event)">
-        {{atalho.nome}}
+        @if (templateLink(); as templateLink) {
+          <ng-container *ngTemplateOutlet="templateLink; context: { $implicit: atalho, xyz: 'teste' }"></ng-container>
+        }
+        @else {
+          {{atalho.nome}}
+        }
       </a>
     }
   </nav>

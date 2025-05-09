@@ -1,6 +1,11 @@
 <app-layout>
-  <!-- <app-home-portal></app-home-portal> -->
-  <app-two-way-pai></app-two-way-pai>
+  <app-home-portal [templateMaisSistemas]="templateLink"></app-home-portal>
+  <!-- <app-two-way-pai></app-two-way-pai> -->
 </app-layout>
+
+<ng-template #templateLink let-atalho>
+  <div class="fs-5">{{atalho.nome}}</div>
+  <div class="text-primary">({{atalho.url}})</div>
+</ng-template>
 
 

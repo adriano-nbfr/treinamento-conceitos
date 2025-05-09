@@ -7,8 +7,8 @@ import { TwoWayPaiComponent } from "./exemplos/two-way/two-way-pai/two-way-pai.c
   selector: 'app-root',
   imports: [
     LayoutComponent,
-    //HomePortalComponent,
-    TwoWayPaiComponent
+    HomePortalComponent,
+    // TwoWayPaiComponent
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
