@@ -26,7 +26,6 @@ export class HeaderComponent {
 
   protected gigante = false;
 
-
   protected logoCkick(event: MouseEvent) {
     event.preventDefault();
     event.stopPropagation(); // evita o bubbling

@@ -15,4 +15,6 @@ import { TwoWayPaiComponent } from "./exemplos/two-way/two-way-pai/two-way-pai.c
 })
 export class AppComponent {
 
+  exibir = true;
+
 }

@@ -11,6 +11,7 @@ export class TwoWayFilhoComponent {
   /** Valor usado internamente */
   valor = model(0);
 
+
   protected incrementar() {
     this.valor.update(v => v + 1);
   }
