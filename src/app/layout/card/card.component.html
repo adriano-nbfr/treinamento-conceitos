@@ -1,7 +1,20 @@
 <div class="card shadow">
   <div class="card-header text-bg-secondary">
-    <h2><ng-content select="[slot=titulo]">{{titulo()}}</ng-content></h2>
+    <h2>
+      @if (tituloLink()) {
+        <a [href]="tituloLink()" class="text-warning">
+          <ng-container *ngTemplateOutlet="tituloCard"></ng-container>
+        </a>
+      }
+      @else {
+        <ng-container *ngTemplateOutlet="tituloCard"></ng-container>
+      }
+    </h2>
   </div>
+
+  <ng-template #tituloCard>
+    <ng-content select="[slot=titulo]">{{titulo()}}</ng-content>
+  </ng-template>
 
   <div class="card-body">
     <ng-content></ng-content>
