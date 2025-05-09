@@ -20,11 +20,11 @@ export class HeaderComponent {
 
   protected tituloCentralizado = false;
 
-  protected logoGradiente = false;
+  logoGradiente = false;
 
   protected opacidadeTitulo = 0.8;
 
-  protected gigante = false;
+  gigante = false;
 
   protected logoCkick(event: MouseEvent) {
     event.preventDefault();

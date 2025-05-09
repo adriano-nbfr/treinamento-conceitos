@@ -1,11 +1,11 @@
 <header app-header></header>
 
-<button class="btn btn-secondary"
+<button #bot class="btn btn-secondary"
   (click)="bloqueado = !bloqueado">
   Alternar bloqueio pela propriedade
 </button>
 
-<button class="btn btn-secondary" [disabled]="!bloqueado"
+<button #bot class="btn btn-secondary" [disabled]="!bloqueado"
   (click)="bloq.desbloquear()">
   Desbloquear direto pela diretiva
 </button>
