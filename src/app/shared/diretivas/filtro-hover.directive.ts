@@ -9,6 +9,7 @@ import { Directive, input } from '@angular/core';
 })
 export class FiltroHoverDirective {
 
+  /** Um filtro a ser aplicado quando o cursor estiver sobre o elemento associado. (default = 'inverter') */
   appFiltroHover = input<'inverter' | 'dessaturar'>('inverter');
 
 
