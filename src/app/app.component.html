@@ -1,11 +1,19 @@
 <app-layout>
-  <app-home-portal [templateMaisSistemas]="templateLink"></app-home-portal>
+
+  <app-home-portal [templateLinkMaisSistemas]="linkMaisSistemas"></app-home-portal>
+  <!-- Exemplos de dados de contexto úteis fornecidos pelo componente portal-mais-sistemas -->
+  <ng-template #linkMaisSistemas
+    let-atalhoImplicit
+    let-atalho="atalho"
+    let-indice="index"
+    let-impar="odd"
+    let-primeiro="first"
+    let-ultimo="last">
+    <div class="fs-5" [class.fw-bold]="primeiro || ultimo">
+      {{atalhoImplicit.nome}} ({{indice + 1}})
+    </div>
+    <div class="text-{{impar ? 'secondary' : 'primary'}}">{{atalho.url}}</div>
+  </ng-template>
+
   <!-- <app-two-way-pai></app-two-way-pai> -->
 </app-layout>
-
-<ng-template #templateLink let-atalhoImplicit let-atalho="atalho">
-  <div class="fs-5">{{atalhoImplicit.nome}}</div>
-  <div class="text-primary">({{atalho.url}})</div>
-</ng-template>
-
-

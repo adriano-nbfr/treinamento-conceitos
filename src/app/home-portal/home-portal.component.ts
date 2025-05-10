@@ -16,6 +16,11 @@ import { OrdenarPipe } from '../shared/pipes/ordenar.pipe';
 })
 export class HomePortalComponent {
 
+  /** Um template para customizar o conteúdo dos links na seção "Mais Sistemas".
+   * O contexto contém um atributo 'atalho' do tipo `AtalhoSistema`, com dados para montar o link. */
+  templateLinkMaisSistemas = input<TemplateRef<unknown>>();
+
+
   // Esse array seria obtido como um JSON de resposta a uma requisição, por exemplo
   private atalhos: AtalhoSistema[] = [
     { url: 'https://novoportal.mpf.mp.br/novaintra', nome: 'Intranet', icone: 'Intranet-MPF.jpg', destaque: true },
@@ -37,9 +42,6 @@ export class HomePortalComponent {
 
   protected atalhosDestaque: AtalhoSistema[] = [];
   protected atalhosMaisSistemas: AtalhoSistema[] = [];
-
-
-  templateMaisSistemas = input<TemplateRef<unknown>>();
 
 
   constructor() {

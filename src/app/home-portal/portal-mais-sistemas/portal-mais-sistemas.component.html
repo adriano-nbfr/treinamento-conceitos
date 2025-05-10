@@ -30,7 +30,16 @@
       <a [href]="atalho.url" target="_blank"
         (click)="atalhoClick(atalho, $event)">
         @if (templateLink(); as templateLink) {
-          <ng-container *ngTemplateOutlet="templateLink; context: { $implicit: atalho, atalho: atalho }"></ng-container>
+          <ng-container *ngTemplateOutlet="templateLink;
+            context: {
+              $implicit: atalho,
+              atalho: atalho,
+              index: $index,
+              even: $even,
+              odd: $odd,
+              first: $first,
+              last: $last
+            }" />
         }
         @else {
           {{atalho.nome}}
