@@ -1,0 +1,26 @@
+@if (usuarios.length) {
+  <input type="text" [formControl]="filtro" class="form-control" placeholder="Filtrar...">
+
+  <table class="table table-striped mt-4">
+    <thead class="border-top">
+      <tr><th>Nome</th><th>E-mail</th><th>Matrícula</th><th>Dt. Nascimento</th></tr>
+    </thead>
+    <tbody>
+      @for (usuario of listagemFiltrada$ | async; track usuario.id) {
+        <tr>
+          <td>{{usuario.nome}}</td>
+          <td>{{usuario.email}}</td>
+          <td>{{usuario.matricula}}</td>
+          <td>{{usuario.dataNascimento | date : 'dd/MM/yyyy'}}</td>
+        </tr>
+      }
+      @empty {
+        <tr><td colspan="4">Nenhum usuário encontrado.</td></tr>
+      }
+    </tbody>
+  </table>
+}
+@else {
+  <div class="fs-5 p-5 text-center text-secondary">Carregando listagem...</div>
+}
+
