@@ -11,8 +11,8 @@ export class UsuarioService {
 
   private urlApi = '/api/usuarios';
 
-  async carregarUsuariosPromise() {
-    const res = await fetch(this.urlApi);
+  async carregarUsuariosPromise(abortSignal?: AbortSignal) {
+    const res = await fetch(this.urlApi, { signal: abortSignal });
     return await res.json() as Usuario[];
   }
 

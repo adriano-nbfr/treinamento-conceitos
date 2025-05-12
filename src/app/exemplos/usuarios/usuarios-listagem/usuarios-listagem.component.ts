@@ -40,11 +40,14 @@ export class UsuariosListagemComponent implements OnInit {
 
 
   protected async carregarUsuarios() {
-    // this.usuarioService.carregarUsuariosPromise()
-    //   .then(usuarios => this.usuarios = usuarios);
+    const abortController = new AbortController();
+    this.usuarioService.carregarUsuariosPromise(abortController.signal)
+      .then(usuarios => this.usuarios = usuarios);
 
-    this.usuarioService.carregarUsuariosObservable()
-      .subscribe(usuarios => this.usuarios = usuarios);
+    abortController.abort('Cancelada a requisição porque o componente foi destruído');
+
+    // const sub = this.usuarioService.carregarUsuariosObservable()
+    //   .subscribe(usuarios => this.usuarios = usuarios);
   }
 
 }
