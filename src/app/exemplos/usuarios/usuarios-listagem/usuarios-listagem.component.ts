@@ -1,9 +1,10 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, map, startWith, tap } from 'rxjs';
 import { Usuario } from '../../../shared/model/usuario';
 import { obterItensFiltrados } from '../../../shared/pipes/filtragem';
+import { UsuarioService } from '../usuario.service';
 
 @Component({
   selector: 'app-usuarios-listagem',
@@ -16,6 +17,8 @@ import { obterItensFiltrados } from '../../../shared/pipes/filtragem';
   styleUrl: './usuarios-listagem.component.scss'
 })
 export class UsuariosListagemComponent implements OnInit {
+
+  private usuarioService = inject(UsuarioService);
 
   protected filtro = new FormControl('');
 
@@ -37,9 +40,11 @@ export class UsuariosListagemComponent implements OnInit {
 
 
   protected async carregarUsuarios() {
-    return fetch('/api/usuarios')
-      .then(res => res.json())
-      .then(usuarios => this.usuarios = usuarios);
+    // this.usuarioService.carregarUsuariosPromise()
+    //   .then(usuarios => this.usuarios = usuarios);
+
+    this.usuarioService.carregarUsuariosObservable()
+      .subscribe(usuarios => this.usuarios = usuarios);
   }
 
 }
