@@ -21,6 +21,11 @@
   </table>
 }
 @else {
-  <div class="fs-5 p-5 text-center text-secondary">Carregando listagem...</div>
+  @if (erro) {
+    <div class="fs-5 p-5 text-center text-danger">{{erro}}</div>
+  }
+  @else {
+    <div class="fs-5 p-5 text-center text-secondary">Carregando listagem...</div>
+  }
 }
 

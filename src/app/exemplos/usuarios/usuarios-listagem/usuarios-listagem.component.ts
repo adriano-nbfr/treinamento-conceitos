@@ -22,6 +22,8 @@ export class UsuariosListagemComponent implements OnInit {
 
   protected filtro = new FormControl('');
 
+  protected erro = '';
+
   protected usuarios: Usuario[] = [];
 
   protected listagemFiltrada$ = this.filtro.valueChanges.pipe(
@@ -40,14 +42,16 @@ export class UsuariosListagemComponent implements OnInit {
 
 
   protected async carregarUsuarios() {
-    const abortController = new AbortController();
-    this.usuarioService.carregarUsuariosPromise(abortController.signal)
-      .then(usuarios => this.usuarios = usuarios);
+    // const abortController = new AbortController();
+    // this.usuarioService.carregarUsuariosPromise(abortController.signal)
+    //   .then(usuarios => this.usuarios = usuarios)
+    //   .catch((error: Error) => this.erro = `Não foi possível carregar: ${error.message}`);
 
-    abortController.abort('Cancelada a requisição porque o componente foi destruído');
-
-    // const sub = this.usuarioService.carregarUsuariosObservable()
-    //   .subscribe(usuarios => this.usuarios = usuarios);
+    const sub = this.usuarioService.carregarUsuariosObservable()
+      .subscribe({
+        next: usuarios => this.usuarios = usuarios,
+        error: (error: Error) => this.erro = `Não foi possível carregar: ${error.message}`
+      });
   }
 
 }
