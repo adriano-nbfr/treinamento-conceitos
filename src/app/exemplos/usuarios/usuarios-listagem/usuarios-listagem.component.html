@@ -1,5 +1,9 @@
 @if (usuarios.length) {
-  <input type="text" [formControl]="filtro" class="form-control" placeholder="Filtrar...">
+  <div class="input-group">
+    <input type="text" [formControl]="filtro" class="form-control" placeholder="Filtrar..." #inputFiltro>
+    <button class="btn btn-primary"
+      (click)="filtro.setValue(''); inputFiltro.focus()">Limpar</button>
+  </div>
 
   <table class="table table-striped mt-4">
     <thead class="border-top">
