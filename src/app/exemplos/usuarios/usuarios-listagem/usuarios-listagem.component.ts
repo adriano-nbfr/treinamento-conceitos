@@ -1,8 +1,8 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, map, startWith, tap } from 'rxjs';
 import { Usuario } from '../../../shared/model/usuario';
-import { debounceTime, distinctUntilChanged, map, of, startWith, switchMap, tap } from 'rxjs';
 import { obterItensFiltrados } from '../../../shared/pipes/filtragem';
 
 @Component({
@@ -27,8 +27,8 @@ export class UsuariosListagemComponent implements OnInit {
     startWith(''),
     distinctUntilChanged(),
     tap(texto => console.log(`Filtrando com : "${texto}"`)),
-    // map(texto => obterItensFiltrados(this.usuarios, texto)),
-    switchMap(texto => of(obterItensFiltrados(this.usuarios, texto)))
+    map(texto => obterItensFiltrados(this.usuarios, texto)),
+    // switchMap(texto => of(obterItensFiltrados(this.usuarios, texto)))
   );
 
   ngOnInit() {
@@ -37,7 +37,7 @@ export class UsuariosListagemComponent implements OnInit {
 
 
   protected async carregarUsuarios() {
-    return fetch('http://localhost:3000/usuarios')
+    return fetch('/api/usuarios')
       .then(res => res.json())
       .then(usuarios => this.usuarios = usuarios);
   }

@@ -8,8 +8,8 @@ import { UsuariosListagemComponent } from "./exemplos/usuarios/usuarios-listagem
   selector: 'app-root',
   imports: [
     LayoutComponent,
-    HomePortalComponent,
-    // UsuariosListagemComponent
+    // HomePortalComponent,
+    UsuariosListagemComponent
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
