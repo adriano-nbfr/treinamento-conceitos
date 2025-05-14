@@ -4,11 +4,13 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { customInterceptor } from './shared/interceptors/custom-interceptor';
+import { RAIZ_API } from './shared/providers/raiz-api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(withInterceptors([customInterceptor])),
-    provideRouter(routes)
+    provideRouter(routes),
+    { provide: RAIZ_API, useValue: '/api' }
   ]
 };
