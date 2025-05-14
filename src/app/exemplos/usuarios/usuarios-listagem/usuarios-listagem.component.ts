@@ -1,12 +1,11 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { Component, DestroyRef, inject, Injector, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, finalize, map, startWith, tap } from 'rxjs';
+import { debounceTime, finalize, map, startWith, tap } from 'rxjs';
+import { BloqueadoDirective } from '../../../shared/diretivas/bloqueado.directive';
 import { Usuario } from '../../../shared/model/usuario';
 import { obterItensFiltrados } from '../../../shared/pipes/filtragem';
 import { UsuarioService } from '../usuario.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { BloqueadoDirective } from '../../../shared/diretivas/bloqueado.directive';
 
 @Component({
   selector: 'app-usuarios-listagem',
