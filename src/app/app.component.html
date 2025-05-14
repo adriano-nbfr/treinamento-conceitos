@@ -1,20 +1,3 @@
 <app-layout>
-
-  <app-usuarios-listagem></app-usuarios-listagem>
-
-  <!-- <app-home-portal [templateLinkMaisSistemas]="linkMaisSistemas"></app-home-portal>
-  <ng-template #linkMaisSistemas
-    let-atalhoImplicit
-    let-atalho="atalho"
-    let-indice="index"
-    let-impar="odd"
-    let-primeiro="first"
-    let-ultimo="last">
-    <div class="fs-5" [class.fw-bold]="primeiro || ultimo">
-      {{atalhoImplicit.nome}} ({{indice + 1}})
-    </div>
-    <div class="text-{{impar ? 'secondary' : 'primary'}}">{{atalho.url}}</div>
-  </ng-template> -->
-
-  <!-- <app-two-way-pai></app-two-way-pai> -->
+  <router-outlet></router-outlet>
 </app-layout>
