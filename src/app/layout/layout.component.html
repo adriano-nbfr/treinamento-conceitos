@@ -1,5 +1,5 @@
 <header app-header></header>
 
-<main class="app-main" [appBloqueado]="bloqueado()">
+<main class="app-main" [appBloqueado]="isNavegando()" [desfoque]="true">
   <ng-content>Conteúdo default</ng-content>
 </main>

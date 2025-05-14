@@ -1,6 +1,7 @@
-import { Component, input } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { BloqueadoDirective } from '../shared/diretivas/bloqueado.directive';
+import { NavegacaoService } from '../shared/navegacao.service';
 import { HeaderComponent } from './header/header.component';
 
 @Component({
@@ -14,6 +15,6 @@ import { HeaderComponent } from './header/header.component';
 })
 export class LayoutComponent {
 
-  bloqueado = input(false);
+  protected isNavegando = inject(NavegacaoService).isNavegando;
 
 }
