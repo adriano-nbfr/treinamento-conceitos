@@ -3,9 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Usuario } from '../../shared/model/usuario';
 import { catchError, throwError } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class UsuarioService {
 
   private http = inject(HttpClient);
