@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'header[app-header]',
@@ -8,7 +9,9 @@ import { Component, ViewEncapsulation } from '@angular/core';
     '[class.header-gigante]' : 'gigante',
     '(click)' : 'headerClick($event)'
   },
-  imports: [],
+  imports: [
+    RouterLink
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })

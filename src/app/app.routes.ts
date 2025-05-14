@@ -1,21 +1,25 @@
 import { Routes } from '@angular/router';
-import { HomePortalComponent } from './home-portal/home-portal.component';
-import { UsuariosListagemComponent } from './exemplos/usuarios/usuarios-listagem/usuarios-listagem.component';
-import { TwoWayPaiComponent } from './exemplos/two-way/two-way-pai/two-way-pai.component';
-import { ErroNavegacaoComponent } from './erro-navegacao/erro-navegacao.component';
 
 export const routes: Routes = [
   {
     path: 'portal',
-    component: HomePortalComponent
+    loadComponent: () => import('./home-portal/home-portal.component')
+      .then(m => m.HomePortalComponent)
   },
   {
-    path: 'exemplos/usuarios',
-    component: UsuariosListagemComponent
-  },
-  {
-    path: 'exemplos/two-way',
-    component: TwoWayPaiComponent
+    path: 'exemplos',
+    children: [
+      {
+        path: 'usuarios',
+        loadComponent: () => import('./exemplos/usuarios/usuarios-listagem/usuarios-listagem.component')
+          .then(m => m.UsuariosListagemComponent)
+      },
+      {
+        path: 'two-way',
+        loadComponent: () => import('./exemplos/two-way/two-way-pai/two-way-pai.component')
+          .then(m => m.TwoWayPaiComponent)
+      },
+    ]
   },
   {
     path: '',
@@ -24,6 +28,7 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    component: ErroNavegacaoComponent
+    loadComponent: () => import('./erro-navegacao/erro-navegacao.component')
+      .then(m => m.ErroNavegacaoComponent)
   }
 ];
