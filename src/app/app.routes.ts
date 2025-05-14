@@ -8,18 +8,7 @@ export const routes: Routes = [
   },
   {
     path: 'exemplos',
-    children: [
-      {
-        path: 'usuarios',
-        loadComponent: () => import('./exemplos/usuarios/usuarios-listagem/usuarios-listagem.component')
-          .then(m => m.UsuariosListagemComponent)
-      },
-      {
-        path: 'two-way',
-        loadComponent: () => import('./exemplos/two-way/two-way-pai/two-way-pai.component')
-          .then(m => m.TwoWayPaiComponent)
-      },
-    ]
+    loadChildren: () => import('./exemplos/exemplos.routes')
   },
   {
     path: '',
