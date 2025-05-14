@@ -1,20 +1,22 @@
+@let usuarioCarregado = usuario();
+
 <app-card titulo="Usuário">
-  @if (usuario?.nome) {
+  @if (usuarioCarregado?.nome) {
     <div slot="titulo" class="d-flex gap-3">
-      <span>{{usuario?.nome}}</span>
+      <span>{{usuarioCarregado?.nome}}</span>
       <div class="ms-auto">
         <button class="btn btn-sm btn-outline-light" routerLink="..">Voltar</button>
       </div>
     </div>
   }
 
-  @if (usuario) {
+  @if (usuarioCarregado) {
     <div class="d-flex flex-wrap gap-4 p-3">
       <div>
-        <p><b>E-mail:</b> {{usuario.email}}</p>
-        <p><b>Matrícula:</b> {{usuario.matricula}}</p>
-        <p><b>Data Nascimento:</b> {{usuario.dataNascimento | date : 'dd/MM/yyyy'}}</p>
-        <p><b>Cadastro: </b> {{usuario.dataCadastro | date : 'dd/MM/yyyy'}}</p>
+        <p><b>E-mail:</b> {{usuarioCarregado.email}}</p>
+        <p><b>Matrícula:</b> {{usuarioCarregado.matricula}}</p>
+        <p><b>Data Nascimento:</b> {{usuarioCarregado.dataNascimento | date : 'dd/MM/yyyy'}}</p>
+        <p><b>Cadastro: </b> {{usuarioCarregado.dataCadastro | date : 'dd/MM/yyyy'}}</p>
       </div>
       <div class="ms-auto">
         <img src="./img/atalhos/icone-generico.jpg" width="128" class="rounded-circle">

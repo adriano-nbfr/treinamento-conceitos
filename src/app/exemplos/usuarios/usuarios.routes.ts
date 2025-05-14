@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { resolveUsuario } from './usuario-visualizacao/resolve';
+import { UsuarioService } from './usuario.service';
 
 export default [
   {
@@ -8,6 +10,12 @@ export default [
   },
   {
     path: ':idUsuario',
+    providers: [
+      UsuarioService
+    ],
+    resolve: {
+      usuario: resolveUsuario
+    },
     loadComponent: () => import('./usuario-visualizacao/usuario-visualizacao.component')
       .then(m => m.UsuarioVisualizacaoComponent)
   },
