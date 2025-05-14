@@ -26,7 +26,7 @@ export class BloqueadoDirective {
       pointer-events: none;
       user-select: none;
       opacity: 0.8;
-      ${this.desfoque() ? 'filter: blur(1px);' : ''}
+      ${this.desfoque() ? 'filter: blur(2px);' : ''}
       `;
   });
 
