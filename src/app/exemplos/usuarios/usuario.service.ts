@@ -1,8 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Usuario } from '../../shared/model/usuario';
-import { catchError, throwError } from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
 import { RAIZ_API } from '../../shared/providers/raiz-api';
+import { EstrategiaPaginacao, OrdenacaoDados } from '../../shared/rest/estrategia-paginacao';
 
 @Injectable()
 export class UsuarioService {
@@ -11,7 +12,20 @@ export class UsuarioService {
 
   private raizApi = inject(RAIZ_API);
 
+  private estrategia: EstrategiaPaginacao<Usuario> = inject(EstrategiaPaginacao);
+
   private urlApi = `${this.raizApi}/usuarios`;
+
+
+  listar(pagina?: number, tamanhoPagina?: number, ordenacao?: OrdenacaoDados) {
+    const params = this.estrategia
+      .montarParametrosRequest(pagina, tamanhoPagina, ordenacao);
+
+    return this.http.get(this.urlApi, {params}).pipe(
+      map(res => this.estrategia.montarPaginaResultado(res))
+    );
+  }
+
 
   async carregarUsuariosPromise(abortSignal?: AbortSignal) {
     try {
@@ -38,6 +52,9 @@ export class UsuarioService {
         })
       );
   }
+
+
+
 
 
 }

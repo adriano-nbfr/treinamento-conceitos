@@ -5,7 +5,7 @@
       (click)="filtro.setValue(''); inputFiltro.focus()">Limpar</button>
   </div>
 
-  <table class="table table-striped mt-4">
+  <table class="table table-striped mt-4" [appBloqueado]="carregando" [desfoque]="true">
     <thead class="border-top">
       <tr><th>Nome</th><th>E-mail</th><th>Matrícula</th><th>Dt. Nascimento</th></tr>
     </thead>
@@ -23,6 +23,30 @@
       }
     </tbody>
   </table>
+
+  <div class="d-flex align-items-center gap-3 py-2">
+    <div class="me-auto d-flex align-items-center gap-2">
+      Exibir
+      <select class="form-select form-select-sm" [value]="tamanhoPagina"
+        (change)="alterarTamanhoPagina($any($event.target).value)">
+        <option [ngValue]="5">5</option>
+        <option [ngValue]="10">10</option>
+      </select>
+      registros
+    </div>
+
+    <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina < 2"
+      (click)="primeira()">Primeira</button>
+    <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina < 2"
+      (click)="anterior()">Anterior</button>
+
+    <span>Página: {{numeroPagina}} {{totalPaginas > 0 ? 'de ' + totalPaginas : ''}}</span>
+
+    <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina >= totalPaginas"
+      (click)="proxima()">Próxima</button>
+    <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina >= totalPaginas"
+      (click)="ultima()">Última</button>
+  </div>
 }
 @else {
   @if (erro) {
