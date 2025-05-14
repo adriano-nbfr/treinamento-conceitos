@@ -8,8 +8,7 @@ export default [
   },
   {
     path: 'usuarios',
-    loadComponent: () => import('./usuarios/usuarios-listagem/usuarios-listagem.component')
-      .then(m => m.UsuariosListagemComponent)
+    loadChildren: () => import('./usuarios/usuarios.routes')
   },
   {
     path: 'two-way',

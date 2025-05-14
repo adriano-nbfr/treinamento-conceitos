@@ -53,8 +53,8 @@ export class UsuarioService {
       );
   }
 
-
-
-
+  obter(id: string) {
+    return this.http.get<Usuario>(`${this.urlApi}/${id}`);
+  }
 
 }

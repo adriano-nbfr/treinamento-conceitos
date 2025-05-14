@@ -6,6 +6,7 @@ import { BloqueadoDirective } from '../../../shared/diretivas/bloqueado.directiv
 import { Usuario } from '../../../shared/model/usuario';
 import { obterItensFiltrados } from '../../../shared/pipes/filtragem';
 import { UsuarioService } from '../usuario.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-usuarios-listagem',
@@ -13,7 +14,8 @@ import { UsuarioService } from '../usuario.service';
     ReactiveFormsModule,
     DatePipe,
     AsyncPipe,
-    BloqueadoDirective
+    BloqueadoDirective,
+    RouterLink
   ],
   providers: [
     UsuarioService

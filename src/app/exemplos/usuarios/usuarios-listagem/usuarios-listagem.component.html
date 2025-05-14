@@ -12,7 +12,7 @@
     <tbody>
       @for (usuario of listagemFiltrada$ | async; track usuario.id) {
         <tr>
-          <td>{{usuario.nome}}</td>
+          <td class="text-primary"><a herf="" [routerLink]="['.', usuario.id]">{{usuario.nome}}</a></td>
           <td>{{usuario.email}}</td>
           <td>{{usuario.matricula}}</td>
           <td>{{usuario.dataNascimento | date : 'dd/MM/yyyy'}}</td>
