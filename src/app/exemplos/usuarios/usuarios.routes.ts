@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { resolveUsuario } from './usuario-visualizacao/resolve';
+import { resolveUsuario } from './usuario-resolve';
 import { UsuarioService } from './usuario.service';
 
 export default [
