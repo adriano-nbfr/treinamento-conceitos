@@ -1,12 +1,13 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { debounceTime, finalize, map, startWith, tap } from 'rxjs';
+import { CardComponent } from '../../../layout/card/card.component';
 import { BloqueadoDirective } from '../../../shared/diretivas/bloqueado.directive';
 import { Usuario } from '../../../shared/model/usuario';
 import { obterItensFiltrados } from '../../../shared/pipes/filtragem';
 import { UsuarioService } from '../usuario.service';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-usuarios-listagem',
@@ -15,7 +16,8 @@ import { RouterLink } from '@angular/router';
     DatePipe,
     AsyncPipe,
     BloqueadoDirective,
-    RouterLink
+    RouterLink,
+    CardComponent
   ],
   providers: [
     UsuarioService

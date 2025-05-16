@@ -1,8 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Usuario } from '../../shared/model/usuario';
 import { catchError, map, throwError } from 'rxjs';
+import { Usuario } from '../../shared/model/usuario';
 import { RAIZ_API } from '../../shared/providers/raiz-api';
+import { erroResponseTratado } from '../../shared/rest/erro-response';
 import { EstrategiaPaginacao, OrdenacaoDados } from '../../shared/rest/estrategia-paginacao';
 
 @Injectable()
@@ -54,7 +55,25 @@ export class UsuarioService {
   }
 
   obter(id: string) {
-    return this.http.get<Usuario>(`${this.urlApi}/${id}`);
+    return this.http.get<Usuario>(`${this.urlApi}/${id}`)
+      .pipe(catchError(erroResponseTratado));
+  }
+
+  incluir(usuario: Usuario) {
+    return this.http.post<Usuario>(`${this.urlApi}`, usuario)
+      .pipe(catchError(erroResponseTratado));
+  }
+
+  alterar(usuario: Usuario, id?: string) {
+    const idUsuario = id ?? usuario.id;
+    const url = idUsuario ? `${this.urlApi}/${idUsuario}` : this.urlApi;
+    return this.http.put<Usuario>(url, usuario)
+      .pipe(catchError(erroResponseTratado));
+  }
+
+  excluir(id: string) {
+    return this.http.delete(`${this.urlApi}/${id}`)
+      .pipe(catchError(erroResponseTratado));
   }
 
 }
