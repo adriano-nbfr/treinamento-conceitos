@@ -72,9 +72,8 @@
         <div class="has-validation input-group">
           <input type="number" class="form-control"
             id="usuarioMatricula" formControlName="matricula"
-            min="100"
             aria-describedby="usuarioMatricula_erros"
-            [class.is-invalid]="formUsuario.controls.matricula.invalid && formUsuario.controls.matricula.touched"
+            [class.is-invalid]="formUsuario.get('matricula')?.invalid && formUsuario.get('matricula')?.touched"
             [attr.aria-invalid]="formUsuario.controls.matricula.invalid" />
 
           <div id="usuarioMatricula_erros" class="invalid-feedback">

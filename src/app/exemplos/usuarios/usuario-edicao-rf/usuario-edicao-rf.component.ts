@@ -1,10 +1,16 @@
 import { Component, inject, input } from '@angular/core';
 import { Usuario } from '../../../shared/model/usuario';
-import { AbstractControl, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CardComponent } from "../../../layout/card/card.component";
 import { DatePipe, JsonPipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { UsuarioService } from '../usuario.service';
+
+interface TipoFormUsuario {
+  nome: FormControl<string | null>;
+  email: FormControl<string | null>;
+  matricula: FormControl<number | null>;
+}
 
 @Component({
   selector: 'app-usuario-edicao-rf',
@@ -28,11 +34,14 @@ export class UsuarioEdicaoRfComponent {
 
   private fb = inject(FormBuilder);
 
-  protected formUsuario = this.fb.group({
-    nome: this.fb.control(''),
-    email: this.fb.control(''),
-    matricula: this.fb.control<number | null>(null)
-  });
+  protected formUsuario = this.fb.group<TipoFormUsuario>({
+    nome: this.fb.control('',
+      { validators: [Validators.required, Validators.minLength(10)] }),
+    email: this.fb.control('',
+      { validators: [Validators.required, Validators.email] }),
+    matricula: this.fb.control<number | null>(null,
+      { validators: [Validators.min(100)] })
+  }, { validators: [this.customValidator] });
 
 
   ngOnInit() {
