@@ -10,6 +10,7 @@ interface TipoFormUsuario {
   nome: FormControl<string | null>;
   email: FormControl<string | null>;
   matricula: FormControl<number | null>;
+  dataNascimento?: FormControl<string | null>;
 }
 
 @Component({
@@ -31,6 +32,8 @@ export class UsuarioEdicaoRfComponent {
   private usuarioService = inject(UsuarioService);
 
   private router = inject(Router);
+
+  protected informarDataNascimento = new FormControl(false);
 
   private fb = inject(FormBuilder);
 
@@ -68,6 +71,19 @@ export class UsuarioEdicaoRfComponent {
       });
     }
   }
+
+  protected informarDataNascimentoChange() {
+    if (this.informarDataNascimento.value) {
+      const control = this.fb.control('', [Validators.required]);
+      this.formUsuario.addControl('dataNascimento', control);
+      //this.formMascaras.updateValueAndValidity();
+    }
+    else {
+      this.formUsuario.removeControl('dataNascimento');
+      //this.formMascaras.updateValueAndValidity();
+    }
+  }
+
 
   private customValidator(control: AbstractControl<Usuario>) {
     const usuario = control.value;

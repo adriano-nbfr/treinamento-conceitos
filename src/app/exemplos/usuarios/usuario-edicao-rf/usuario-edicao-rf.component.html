@@ -97,6 +97,38 @@
       }
     </div>
 
+    <div class="col-md-12 mt-4">
+      <div class="form-check form-switch">
+        <label for="informarDataNascimento" class="form-check-label">Informar data de nascimento?</label>
+        <input type="checkbox" class="form-check-input" id="informarDataNascimento"
+          [formControl]="informarDataNascimento"
+          (change)="informarDataNascimentoChange()">
+      </div>
+    </div>
+
+    @if (informarDataNascimento.value) {
+      <div class="col-md-2">
+        <label for="usuarioDataNascimento" class="form-label">
+          <span class="d-flex gap-1">Dt. Nascimento</span>
+        </label>
+
+        <div class="has-validation input-group">
+          <input type="text" class="form-control"
+            id="usuarioDataNascimento" formControlName="dataNascimento"
+            aria-describedby="usuarioDataNascimento_erros"
+            [class.is-invalid]="formUsuario.get('dataNascimento')?.invalid && formUsuario.get('dataNascimento')?.touched"
+            [attr.aria-invalid]="formUsuario.get('dataNascimento')?.invalid" />
+
+          <div id="usuarioDataNascimento_erros" class="invalid-feedback">
+            @let dataNascimentoErros = formUsuario.get('dataNascimento')?.errors || {};
+            @if (dataNascimentoErros['required']) {
+              <div> Preencha este campo</div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
     @if (formUsuario.errors && formUsuario.touched) {
       <div class="text-danger mt-5 fw-semibold">
         @if(formUsuario.errors['matricula.reservada']) {
