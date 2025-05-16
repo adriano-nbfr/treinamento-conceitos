@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { usuarioResolve } from './usuario-resolve';
+import { usuarioEdicaoResolve, usuarioResolve } from './usuario-resolve';
 import { UsuarioService } from './usuario.service';
 
 export default [
@@ -11,13 +11,28 @@ export default [
   {
     path: ':idUsuario',
     providers: [
-      UsuarioService
+      { provide: UsuarioService }
     ],
-    resolve: {
-      usuario: usuarioResolve
-    },
-    loadComponent: () => import('./usuario-visualizacao/usuario-visualizacao.component')
-      .then(m => m.UsuarioVisualizacaoComponent)
+    children: [
+      {
+        path: 'visualizar',
+        title: 'Usuários - Visualização',
+        resolve: {
+          usuario: usuarioResolve
+        },
+        loadComponent: () => import('./usuario-visualizacao/usuario-visualizacao.component')
+          .then(m => m.UsuarioVisualizacaoComponent)
+      },
+      {
+        path: '',
+        title: 'Usuários - Edição',
+        resolve: {
+          usuario: usuarioEdicaoResolve
+        },
+        loadComponent: () => import('./usuario-edicao-td/usuario-edicao-td.component')
+          .then(m => m.UsuarioEdicaoTdComponent)
+      },
+    ]
   },
   {
     path: '**',

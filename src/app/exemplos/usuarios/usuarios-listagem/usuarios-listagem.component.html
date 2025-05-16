@@ -1,6 +1,9 @@
 <app-card>
   <div slot="titulo" class="d-flex gap-3">
     <span>Usuários - Listagem</span>
+    <div class="ms-auto">
+      <button class="btn btn-outline-light" routerLink="./novo">Incluir</button>
+    </div>
   </div>
 
   @if (usuarios.length) {
@@ -21,7 +24,10 @@
             <td>{{usuario.email}}</td>
             <td>{{usuario.matricula}}</td>
             <td>{{usuario.dataNascimento | date : 'dd/MM/yyyy'}}</td>
-            <td><button class="btn btn-sm btn-danger" (click)="excluir(usuario)">Excluir</button></td>
+            <td>
+              <button [routerLink]="['.', usuario.id]" class="btn btn-sm btn-primary me-2">Editar</button>
+              <button class="btn btn-sm btn-danger" (click)="excluir(usuario)">Excluir</button>
+            </td>
           </tr>
         }
         @empty {
