@@ -87,6 +87,17 @@ export class UsuariosListagemComponent implements OnInit {
       });
   }
 
+  protected async excluir(usuario: Usuario) {
+    if (!confirm(`Confirmar a exclusão de ${usuario.nome} ?`))
+      return;
+
+    this.usuarioService.excluir(usuario.id).subscribe({
+      next: () => this.carregarUsuarios(),
+      error: (error) => console.error(error.message)
+    });
+  }
+
+
   protected primeira() {
     this.carregarPagina(1);
   }

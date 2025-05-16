@@ -12,7 +12,7 @@
 
     <table class="table table-striped mt-4" [appBloqueado]="carregando" [desfoque]="true">
       <thead class="border-top">
-        <tr><th>Nome</th><th>E-mail</th><th>Matrícula</th><th>Dt. Nascimento</th></tr>
+        <tr><th>Nome</th><th>E-mail</th><th>Matrícula</th><th>Dt. Nascimento</th><th>Ações</th></tr>
       </thead>
       <tbody>
         @for (usuario of listagemFiltrada$ | async; track usuario.id) {
@@ -21,10 +21,11 @@
             <td>{{usuario.email}}</td>
             <td>{{usuario.matricula}}</td>
             <td>{{usuario.dataNascimento | date : 'dd/MM/yyyy'}}</td>
+            <td><button class="btn btn-sm btn-danger" (click)="excluir(usuario)">Excluir</button></td>
           </tr>
         }
         @empty {
-          <tr><td colspan="4">Nenhum usuário encontrado.</td></tr>
+          <tr><td colspan="5">Nenhum usuário encontrado.</td></tr>
         }
       </tbody>
     </table>

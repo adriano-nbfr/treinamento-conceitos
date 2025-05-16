@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { resolveUsuario } from './usuario-resolve';
+import { usuarioResolve } from './usuario-resolve';
 import { UsuarioService } from './usuario.service';
 
 export default [
@@ -14,7 +14,7 @@ export default [
       UsuarioService
     ],
     resolve: {
-      usuario: resolveUsuario
+      usuario: usuarioResolve
     },
     loadComponent: () => import('./usuario-visualizacao/usuario-visualizacao.component')
       .then(m => m.UsuarioVisualizacaoComponent)
