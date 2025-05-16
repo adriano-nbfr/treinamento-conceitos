@@ -29,8 +29,8 @@ export default [
         resolve: {
           usuario: usuarioEdicaoResolve
         },
-        loadComponent: () => import('./usuario-edicao-td/usuario-edicao-td.component')
-          .then(m => m.UsuarioEdicaoTdComponent)
+        loadComponent: () => import('./usuario-edicao-rf/usuario-edicao-rf.component')
+          .then(m => m.UsuarioEdicaoRfComponent)
       },
     ]
   },

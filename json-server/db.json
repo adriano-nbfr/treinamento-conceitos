@@ -1574,9 +1574,9 @@
     },
     {
       "id": "171",
-      "nome": "Alex Almeida Nobre",
+      "nome": "Alex Almeida Nobre Junior",
       "email": "alex.nobre@zmail.com",
-      "matricula": 23845,
+      "matricula": 99999,
       "dataNascimento": "1977-11-18T03:00:00.000Z",
       "dataCadastro": "2018-05-09T03:00:00.000Z"
     },
@@ -1818,6 +1818,13 @@
       "email": "axvxvxv",
       "matricula": 55,
       "dataCadastro": "2025-05-16T17:08:13.193Z"
+    },
+    {
+      "id": "605f",
+      "nome": "__DDFSFS",
+      "email": "a#dfgdgd",
+      "matricula": 258,
+      "dataCadastro": "2025-05-16T18:50:47.563Z"
     }
   ]
 }
