@@ -1,6 +1,6 @@
 import { DatePipe, JsonPipe } from '@angular/common';
 import { Component, inject, input, viewChild } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { AbstractControl, FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CardComponent } from "../../../layout/card/card.component";
 import { Usuario } from '../../../shared/model/usuario';
@@ -32,6 +32,8 @@ export class UsuarioEdicaoTdComponent {
   ngOnInit() {
     setTimeout(() => {
       this.formUsuario().form.patchValue(this.usuario());
+      this.formUsuario().form.addValidators(this.customValidator);
+      this.formUsuario().form.updateValueAndValidity();
     })
   }
 
@@ -55,5 +57,15 @@ export class UsuarioEdicaoTdComponent {
       });
     }
   }
+
+  private customValidator(control: AbstractControl<Usuario>) {
+    const usuario = control.value;
+    if (usuario.email && !usuario.email.endsWith('@mpf.mp.br') &&
+      usuario.matricula && usuario.matricula < 1000)
+      return {'matricula.reservada': true};
+
+    return null;
+  }
+
 
 }

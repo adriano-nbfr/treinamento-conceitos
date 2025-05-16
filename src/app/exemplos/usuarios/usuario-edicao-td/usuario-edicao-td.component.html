@@ -99,6 +99,14 @@
         </div>
       }
     </div>
+
+    @if (form.errors && form.touched) {
+      <div class="text-danger mt-5 fw-semibold">
+        @if(form.errors['matricula.reservada']) {
+          <p>A matrícula está em uma faixa reservada para usuários do MPF</p>
+        }
+      </div>
+    }
   </form>
 
   <hr class="divider mt-5">
