@@ -20,8 +20,23 @@
 
         <div class="has-validation input-group">
           <input type="text" class="form-control"
-            id="usuarioNome" ngModel name="nome" />
+            id="usuarioNome" ngModel name="nome" #nome="ngModel"
+            required minlength="10"
+            aria-describedby="usuarioNome_erros"
+            [class.is-invalid]="nome.invalid && nome.touched"
+            [attr.aria-invalid]="nome.invalid" />
+
+          <div id="usuarioNome_erros" class="invalid-feedback">
+            @let nomeErros = nome.errors || {};
+            @if (nomeErros['required']) {
+              <div>Preencha este campo</div>
+            }
+            @if (nomeErros['minlength']) {
+              <div>Mínimo de caracteres: {{nomeErros['minlength'].requiredLength}}</div>
+            }
+          </div>
         </div>
+
       </div>
 
       <div class="col-md-4">
@@ -32,8 +47,22 @@
         </label>
 
         <div class="has-validation input-group">
-          <input type="email" class="form-control"
-            id="usuarioEmail" ngModel name="email" />
+          <input type="text" class="form-control"
+            id="usuarioEmail" ngModel name="email" #email="ngModel"
+            required email
+            aria-describedby="usuarioEmail_erros"
+            [class.is-invalid]="email.invalid && email.touched"
+            [attr.aria-invalid]="email.invalid" />
+
+          <div id="usuarioEmail_erros" class="invalid-feedback">
+            @let emailErros = email.errors || {};
+            @if (emailErros['required']) {
+              <div> Preencha este campo</div>
+            }
+            @if (emailErros['email']) {
+              <div>E-mail inválido</div>
+            }
+          </div>
         </div>
       </div>
 
@@ -44,7 +73,18 @@
 
         <div class="has-validation input-group">
           <input type="number" class="form-control"
-            id="usuarioMatricula" ngModel name="matricula" />
+            id="usuarioMatricula" ngModel name="matricula" #matricula="ngModel"
+            min="100"
+            aria-describedby="usuarioMatricula_erros"
+            [class.is-invalid]="matricula.invalid && matricula.touched"
+            [attr.aria-invalid]="matricula.invalid" />
+
+          <div id="usuarioMatricula_erros" class="invalid-feedback">
+            @let matriculaErros = matricula.errors || {};
+            @if (matriculaErros['min']) {
+              <div>Matrícula inválida</div>
+            }
+          </div>
         </div>
       </div>
 

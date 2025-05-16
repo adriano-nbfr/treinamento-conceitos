@@ -1,10 +1,10 @@
+import { DatePipe, JsonPipe } from '@angular/common';
 import { Component, inject, input, viewChild } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { CardComponent } from "../../../layout/card/card.component";
 import { Usuario } from '../../../shared/model/usuario';
 import { UsuarioService } from '../usuario.service';
-import { Router, RouterLink } from '@angular/router';
-import { FormsModule, NgForm } from '@angular/forms';
-import { CardComponent } from "../../../layout/card/card.component";
-import { DatePipe, JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-usuario-edicao-td',
