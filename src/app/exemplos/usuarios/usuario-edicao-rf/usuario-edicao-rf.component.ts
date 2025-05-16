@@ -1,9 +1,9 @@
-import { Component, inject, input } from '@angular/core';
-import { Usuario } from '../../../shared/model/usuario';
-import { AbstractControl, FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CardComponent } from "../../../layout/card/card.component";
 import { DatePipe, JsonPipe } from '@angular/common';
+import { Component, inject, input } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { CardComponent } from "../../../layout/card/card.component";
+import { Usuario } from '../../../shared/model/usuario';
 import { UsuarioService } from '../usuario.service';
 
 interface TipoFormUsuario {
