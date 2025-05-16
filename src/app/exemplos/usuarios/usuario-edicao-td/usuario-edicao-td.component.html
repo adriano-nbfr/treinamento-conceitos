@@ -1,1 +1,76 @@
-<p>usuario-edicao-td works!</p>
+@let usuarioEdicao = usuario();
+
+<app-card>
+  <div slot="titulo" class="d-flex gap-3">
+    <span>Usuários - {{usuarioEdicao.id ? 'Alteração' : 'Inclusão'}}</span>
+    <div class="ms-auto">
+      <button class="btn btn-outline-light"
+        routerLink="'..'">Voltar</button>
+    </div>
+  </div>
+
+  <form #form="ngForm" autocomplete="off">
+    <div class="row gy-4">
+      <div class="col-md-6">
+        <label for="usuarioNome" class="form-label">
+          <span class="d-flex gap-1">Nome
+            <abbr title="Este campo é obrigatório">*</abbr>
+          </span>
+        </label>
+
+        <div class="has-validation input-group">
+          <input type="text" class="form-control"
+            id="usuarioNome" ngModel name="nome" />
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="usuarioEmail" class="form-label">
+          <span class="d-flex gap-1">E-mail
+            <abbr title="Este campo é obrigatório">*</abbr>
+          </span>
+        </label>
+
+        <div class="has-validation input-group">
+          <input type="email" class="form-control"
+            id="usuarioEmail" ngModel name="email" />
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <label for="usuarioMatricula" class="form-label">
+          <span class="d-flex gap-1">Matrícula</span>
+        </label>
+
+        <div class="has-validation input-group">
+          <input type="number" class="form-control"
+            id="usuarioMatricula" ngModel name="matricula" />
+        </div>
+      </div>
+
+      @if (usuarioEdicao.dataCadastro) {
+        <div class="col-md-4">
+          <label for="usuarioDataCadastro" class="form-label">
+            <span class="d-flex gap-1">Data de Cadastro</span>
+          </label>
+
+          <input type="text" class="form-control" id="usuarioDataCadastro" disabled
+            [value]="usuarioEdicao.dataCadastro | date : 'dd/MM/yyyy HH:mm'">
+        </div>
+      }
+    </div>
+  </form>
+
+  <hr class="divider mt-5">
+  <div class="d-flex justify-content-end gap-3">
+    <button class="btn btn-outline-secondary"
+      (click)="form.resetForm()" >Limpar
+    </button>
+    <button class="btn btn-primary" [disabled]="form.invalid"
+      (click)="salvarClick(form.value)">Salvar
+    </button>
+  </div>
+
+  <hr class="divider mt-4">
+  <div>Form: <code>{{form.value | json}}</code></div>
+</app-card>
