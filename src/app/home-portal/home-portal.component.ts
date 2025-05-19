@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal, TemplateRef, untracked } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, resource, TemplateRef, untracked } from '@angular/core';
 import { OrdenarPipe } from '../shared/pipes/ordenar.pipe';
 import { AtalhoSistema } from './atalho-sistema';
 import { HomePortalService } from './home-portal.service';
 import { PortalDestaquesComponent } from "./portal-destaques/portal-destaques.component";
 import { PortalMaisSistemasComponent } from './portal-mais-sistemas/portal-mais-sistemas.component';
-import { dadoAssincrono, resolverDadoAssincrono } from '../shared/dado-assincrono';
 
 @Component({
   selector: 'app-home-portal',
@@ -26,11 +25,15 @@ export class HomePortalComponent {
   private portalService = inject(HomePortalService);
 
   // Esse array seria obtido como um JSON de resposta a uma requisição, por exemplo
-  protected readonly atalhos = dadoAssincrono<AtalhoSistema[]>([]);
+  // protected readonly atalhos = dadoAssincrono<AtalhoSistema[]>([]);
+  protected readonly atalhos = resource({
+    loader: () => this.portalService.carregarAtalhos(),
+    defaultValue: []
+  });
 
-  protected readonly atalhosDestaque = computed(() => this.atalhos.valor().filter(a => a.destaque));
+  protected readonly atalhosDestaque = computed(() => this.atalhos.value().filter(a => a.destaque));
 
-  protected readonly atalhosMaisSistemas = computed(() => this.atalhos.valor().filter(a => !a.destaque));
+  protected readonly atalhosMaisSistemas = computed(() => this.atalhos.value().filter(a => !a.destaque));
 
 
   constructor() {
@@ -45,15 +48,15 @@ export class HomePortalComponent {
 
 
   ngOnInit() {
-    this.carregarAtalhos();
+    // this.carregarAtalhos();
   }
 
-  protected carregarAtalhos() {
-    resolverDadoAssincrono(this.portalService.carregarAtalhos(), this.atalhos, []);
-  }
+  // protected carregarAtalhos() {
+  //   resolverDadoAssincrono(this.portalService.carregarAtalhos(), this.atalhos, []);
+  // }
 
   protected promoverAtalhoMaisSistemas(atalho: AtalhoSistema) {
-    this.atalhos.valor.update(itens => itens.map(a => a.url === atalho.url ? {...a, destaque: true} : a));
+    this.atalhos.update(itens => itens.map(a => a.url === atalho.url ? {...a, destaque: true} : a));
   }
 
 }

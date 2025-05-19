@@ -1,10 +1,10 @@
 <div class="container">
 
-  @if (atalhos.status().ocupado) {
+  @if (atalhos.isLoading()) {
     <h2 class="text-center">Carregando atalhos...</h2>
   }
-  @else if (atalhos.status().erro) {
-    <h2 class="text-center text-danger">{{atalhos.status().erro}}</h2>
+  @else if (atalhos.error()) {
+    <h2 class="text-center text-danger">{{atalhos.error()}}</h2>
   }
   @else {
     @let destaques = atalhosDestaque().length > 0 ? atalhosDestaque() : atalhosMaisSistemas();
