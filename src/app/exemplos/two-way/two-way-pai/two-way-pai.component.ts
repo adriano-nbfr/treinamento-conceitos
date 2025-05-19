@@ -21,10 +21,10 @@ export class TwoWayPaiComponent {
   });
 
   constructor() {
+    effect(() => console.log('Effect leu isPar: ', this.isPar()));
     this.valorPai.set(2);
     this.valorPai.set(3);
     this.valorPai.set(4);
-    effect(() => console.log('Effect leu isPar: ', this.isPar()));
   }
 
 }
