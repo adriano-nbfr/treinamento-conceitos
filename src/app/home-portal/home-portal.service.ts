@@ -9,8 +9,13 @@ export class HomePortalService {
   private urlAtalhosJson = './json/atalhos-portal.json';
 
   async carregarAtalhos(): Promise<AtalhoSistema[]> {
-    const res = await fetch(this.urlAtalhosJson);
-    return await res.json();
+    try {
+      const res = await fetch(this.urlAtalhosJson);
+      return await res.json();
+    }
+    catch {
+      throw new Error('Não foi possível obter os atalhos');
+    }
   }
 
 }

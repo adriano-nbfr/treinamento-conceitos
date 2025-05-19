@@ -4,6 +4,7 @@ import { AtalhoSistema } from './atalho-sistema';
 import { HomePortalService } from './home-portal.service';
 import { PortalDestaquesComponent } from "./portal-destaques/portal-destaques.component";
 import { PortalMaisSistemasComponent } from './portal-mais-sistemas/portal-mais-sistemas.component';
+import { dadoAssincrono, resolverDadoAssincrono } from '../shared/dado-assincrono';
 
 @Component({
   selector: 'app-home-portal',
@@ -25,11 +26,11 @@ export class HomePortalComponent {
   private portalService = inject(HomePortalService);
 
   // Esse array seria obtido como um JSON de resposta a uma requisição, por exemplo
-  private readonly atalhos = signal<AtalhoSistema[]>([]);
+  protected readonly atalhos = dadoAssincrono<AtalhoSistema[]>([]);
 
-  protected readonly atalhosDestaque = computed(() => this.atalhos().filter(a => a.destaque));
+  protected readonly atalhosDestaque = computed(() => this.atalhos.valor().filter(a => a.destaque));
 
-  protected readonly atalhosMaisSistemas = computed(() => this.atalhos().filter(a => !a.destaque));
+  protected readonly atalhosMaisSistemas = computed(() => this.atalhos.valor().filter(a => !a.destaque));
 
 
   constructor() {
@@ -48,14 +49,11 @@ export class HomePortalComponent {
   }
 
   protected carregarAtalhos() {
-    this.portalService.carregarAtalhos()
-      .then((atalhos) => {
-        this.atalhos.set(atalhos);
-      });
+    resolverDadoAssincrono(this.portalService.carregarAtalhos(), this.atalhos, []);
   }
 
   protected promoverAtalhoMaisSistemas(atalho: AtalhoSistema) {
-    this.atalhos.update(itens => itens.map(a => a.url === atalho.url ? {...a, destaque: true} : a));
+    this.atalhos.valor.update(itens => itens.map(a => a.url === atalho.url ? {...a, destaque: true} : a));
   }
 
 }
