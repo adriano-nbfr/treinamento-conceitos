@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, inject, input, signal, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal, TemplateRef, untracked } from '@angular/core';
 import { OrdenarPipe } from '../shared/pipes/ordenar.pipe';
 import { AtalhoSistema } from './atalho-sistema';
 import { HomePortalService } from './home-portal.service';
@@ -24,14 +24,23 @@ export class HomePortalComponent {
 
   private portalService = inject(HomePortalService);
 
-  private changeDectector = inject(ChangeDetectorRef);
-
   // Esse array seria obtido como um JSON de resposta a uma requisição, por exemplo
-  private atalhos = signal<AtalhoSistema[]>([]);
+  private readonly atalhos = signal<AtalhoSistema[]>([]);
 
-  protected atalhosDestaque = computed(() => this.atalhos().filter(a => a.destaque));
+  protected readonly atalhosDestaque = computed(() => this.atalhos().filter(a => a.destaque));
 
-  protected atalhosMaisSistemas = computed(() => this.atalhos().filter(a => !a.destaque));
+  protected readonly atalhosMaisSistemas = computed(() => this.atalhos().filter(a => !a.destaque));
+
+
+  constructor() {
+    effect(() => {
+      const lengthMaisSistemas = this.atalhosMaisSistemas().length;
+      untracked(() => {
+        if (lengthMaisSistemas === 0)
+          console.log('Mais sistemas vazios!');
+      });
+    });
+  }
 
 
   ngOnInit() {
