@@ -1,10 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { combineLatest, debounceTime, distinctUntilChanged, map, startWith, Subject, switchMap, tap } from 'rxjs';
 import { CardComponent } from '../../../layout/card/card.component';
+import { dadoAssincrono, mapearDadoAssincrono } from '../../../shared/dado-assincrono';
 import { BloqueadoDirective } from '../../../shared/diretivas/bloqueado.directive';
 import { Usuario } from '../../../shared/model/usuario';
 import { obterItensFiltrados } from '../../../shared/pipes/filtragem';
@@ -31,10 +32,6 @@ export class UsuariosListagemComponent implements OnInit {
 
   protected filtro = new FormControl<string>('', {nonNullable: true});
 
-  protected erro = '';
-
-  protected carregando = false;
-
   protected numeroPagina = signal(1);
 
   protected tamanhoPagina = signal(5);
@@ -43,6 +40,8 @@ export class UsuariosListagemComponent implements OnInit {
 
   private recarregar$ = new Subject<void>();
 
+  protected usuarios = dadoAssincrono<Usuario[]>([]);
+
   private usuarios$ =
     combineLatest([
       toObservable(this.numeroPagina),
@@ -50,15 +49,21 @@ export class UsuariosListagemComponent implements OnInit {
       this.recarregar$
     ])
     .pipe(
-      switchMap(([numPagina, tamPagina]) => this.usuarioService.listar(numPagina, tamPagina, 'nome')),
-      tap(pagina => {
-        this.numeroPagina.set(pagina.info?.pagina ?? 1);
-        this.totalPaginas.set(pagina.info?.totalPaginas ?? 1);
+      switchMap(([numPagina, tamPagina]) => {
+        return this.usuarioService.listar(numPagina, tamPagina, 'nome')
+          .pipe(
+            tap(pagina => {
+              this.numeroPagina.set(pagina.info?.pagina ?? 1);
+              this.totalPaginas.set(pagina.info?.totalPaginas ?? 1);
+            }),
+            map(pagina => [...pagina.dados]),
+            mapearDadoAssincrono(this.usuarios, [])
+          )
       }),
-      map(pagina => [...pagina.dados])
+      takeUntilDestroyed()
     );
 
-  protected usuarios = toSignal(this.usuarios$, {initialValue: []});
+  // protected usuarios = toSignal(this.usuarios$, {initialValue: []});
 
   protected textoFiltro = toSignal(this.filtro.valueChanges.pipe(
     debounceTime(300),
@@ -68,11 +73,12 @@ export class UsuariosListagemComponent implements OnInit {
   ), {initialValue: ''});
 
   protected listagemFiltrada = computed(() => {
-    return obterItensFiltrados(this.usuarios(), this.textoFiltro());
+    return obterItensFiltrados(this.usuarios.valor(), this.textoFiltro());
   });
 
 
   ngOnInit() {
+    this.usuarios$.subscribe();
     this.recarregar$.next();
   }
 

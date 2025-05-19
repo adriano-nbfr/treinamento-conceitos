@@ -6,18 +6,21 @@
     </div>
   </div>
 
-  @if (usuarios().length) {
-    <div class="input-group">
-      <input type="text" [formControl]="filtro" class="form-control" placeholder="Filtrar..." #inputFiltro>
-      <button class="btn btn-primary"
-        (click)="filtro.setValue(''); inputFiltro.focus()">Limpar</button>
-    </div>
+  <div class="input-group">
+    <input type="text" [formControl]="filtro" class="form-control" placeholder="Filtrar..." #inputFiltro>
+    <button class="btn btn-primary"
+      (click)="filtro.setValue(''); inputFiltro.focus()">Limpar</button>
+  </div>
 
-    <table class="table table-striped mt-4" [appBloqueado]="carregando" [desfoque]="true">
-      <thead class="border-top">
-        <tr><th>Nome</th><th>E-mail</th><th>Matrícula</th><th>Dt. Nascimento</th><th>Ações</th></tr>
-      </thead>
-      <tbody>
+  <table class="table table-striped mt-4" [appBloqueado]="usuarios.status().ocupado" [desfoque]="true">
+    <thead class="border-top">
+      <tr><th>Nome</th><th>E-mail</th><th>Matrícula</th><th>Dt. Nascimento</th><th>Ações</th></tr>
+    </thead>
+    <tbody>
+      @if (usuarios.status().erro) {
+        <tr><td colspan="5" class="text-danger">{{usuarios.status().erro}}</td></tr>
+      }
+      @else {
         @for (usuario of listagemFiltrada(); track usuario.id) {
           <tr>
             <td class="text-primary"><a herf="" [routerLink]="['.', usuario.id]">{{usuario.nome}}</a></td>
@@ -33,40 +36,32 @@
         @empty {
           <tr><td colspan="5">Nenhum usuário encontrado.</td></tr>
         }
-      </tbody>
-    </table>
+      }
+    </tbody>
+  </table>
 
-    <div class="d-flex align-items-center gap-3 py-2">
-      <div class="me-auto d-flex align-items-center gap-2">
-        Exibir
-        <select class="form-select form-select-sm" [value]="tamanhoPagina()"
-          (change)="alterarTamanhoPagina($any($event.target).value)">
-          <option [ngValue]="5">5</option>
-          <option [ngValue]="10">10</option>
-        </select>
-        registros
-      </div>
-
-      <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina() < 2"
-        (click)="primeira()">Primeira</button>
-      <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina() < 2"
-        (click)="anterior()">Anterior</button>
-
-      <span>Página: {{numeroPagina()}} {{totalPaginas() > 0 ? 'de ' + totalPaginas() : ''}}</span>
-
-      <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina() >= totalPaginas()"
-        (click)="proxima()">Próxima</button>
-      <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina() >= totalPaginas()"
-        (click)="ultima()">Última</button>
+  <div class="d-flex align-items-center gap-3 py-2">
+    <div class="me-auto d-flex align-items-center gap-2">
+      Exibir
+      <select class="form-select form-select-sm" [value]="tamanhoPagina()"
+        (change)="alterarTamanhoPagina($any($event.target).value)">
+        <option [ngValue]="5">5</option>
+        <option [ngValue]="10">10</option>
+      </select>
+      registros
     </div>
-  }
-  @else {
-    @if (erro) {
-      <div class="fs-5 p-5 text-center text-danger">{{erro}}</div>
-    }
-    @else {
-      <div class="fs-5 p-5 text-center text-secondary">Carregando listagem...</div>
-    }
-  }
+
+    <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina() < 2"
+      (click)="primeira()">Primeira</button>
+    <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina() < 2"
+      (click)="anterior()">Anterior</button>
+
+    <span>Página: {{numeroPagina()}} {{totalPaginas() > 0 ? 'de ' + totalPaginas() : ''}}</span>
+
+    <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina() >= totalPaginas()"
+      (click)="proxima()">Próxima</button>
+    <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina() >= totalPaginas()"
+      (click)="ultima()">Última</button>
+  </div>
 
 </app-card>
