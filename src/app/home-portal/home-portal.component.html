@@ -1,12 +1,12 @@
 <div class="container">
 
-  @let destaques = atalhosDestaque.length > 0 ? atalhosDestaque : atalhosMaisSistemas;
+  @let destaques = atalhosDestaque().length > 0 ? atalhosDestaque() : atalhosMaisSistemas();
 
   <app-portal-destaques [atalhos]="destaques"></app-portal-destaques>
 
-  @if (atalhosDestaque.length > 0 && atalhosMaisSistemas.length > 0) {
+  @if (atalhosDestaque().length > 0 && atalhosMaisSistemas().length > 0) {
     <app-portal-mais-sistemas
-      [atalhos]="atalhosMaisSistemas | ordenar : 'nome'" [minimoColapsar]="6"
+      [atalhos]="atalhosMaisSistemas() | ordenar : 'nome'" [minimoColapsar]="6"
       [templateLink]="templateLinkMaisSistemas()"
       (atalhoPromovido)="promoverAtalhoMaisSistemas($event)">
     </app-portal-mais-sistemas>

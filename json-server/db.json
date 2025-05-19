@@ -51,8 +51,7 @@
       ],
       "noAtuacao": false,
       "valida": true,
-      "agrupador": "PGR",
-      "id": "41df"
+      "agrupador": "PGR"
     },
     {
       "idUnidadeOrganica": 15885,
@@ -67,8 +66,7 @@
         }
       ],
       "noAtuacao": false,
-      "valida": true,
-      "id": "aada"
+      "valida": true
     },
     {
       "idUnidadeOrganica": -1,
@@ -79,8 +77,7 @@
       },
       "papeis": [],
       "noAtuacao": true,
-      "valida": false,
-      "id": "a2b3"
+      "valida": false
     }
   ],
   "categorias": [
@@ -646,7 +643,7 @@
     },
     {
       "id": "54",
-      "nome": "Gabriel Figueira Pereira cccvcvc",
+      "nome": "Gabriel Figueira Pereira",
       "email": "gabriel.pereira@zmail.com",
       "matricula": 14650,
       "dataNascimento": "1981-05-06T03:00:00.000Z",
@@ -1469,6 +1466,14 @@
       "dataCadastro": "2018-01-24T02:00:00.000Z"
     },
     {
+      "id": "157",
+      "nome": "Walter Aquino Nabuco",
+      "email": "walter.nabuco@zmail.com",
+      "matricula": 19616,
+      "dataNascimento": "1976-03-16T03:00:00.000Z",
+      "dataCadastro": "2018-01-31T02:00:00.000Z"
+    },
+    {
       "id": "158",
       "nome": "Clara Lobato Rossi",
       "email": "clara.rossi@zmail.com",
@@ -1574,9 +1579,9 @@
     },
     {
       "id": "171",
-      "nome": "Alex Almeida Nobre Junior",
+      "nome": "Alex Almeida Nobre",
       "email": "alex.nobre@zmail.com",
-      "matricula": 99999,
+      "matricula": 23845,
       "dataNascimento": "1977-11-18T03:00:00.000Z",
       "dataCadastro": "2018-05-09T03:00:00.000Z"
     },
@@ -1811,34 +1816,6 @@
       "matricula": 29799,
       "dataNascimento": "1975-12-04T03:00:00.000Z",
       "dataCadastro": "2018-11-28T02:00:00.000Z"
-    },
-    {
-      "id": "63b5",
-      "nome": "Teste",
-      "email": "axvxvxv",
-      "matricula": 55,
-      "dataCadastro": "2025-05-16T17:08:13.193Z"
-    },
-    {
-      "id": "605f",
-      "nome": "__DDFSFS",
-      "email": "a#dfgdgd",
-      "matricula": 258,
-      "dataCadastro": "2025-05-16T18:50:47.563Z"
-    },
-    {
-      "id": "1e0f",
-      "nome": "Fulano da Silva",
-      "email": "a@b.com",
-      "matricula": 100,
-      "dataCadastro": "2025-05-16T19:00:19.010Z"
-    },
-    {
-      "id": "5384",
-      "nome": "SFsf sfsd fsdfsd fsdfs",
-      "email": "adrianonobre@mpf.mp.br",
-      "matricula": 800,
-      "dataCadastro": "2025-05-16T19:03:19.708Z"
     }
   ]
 }

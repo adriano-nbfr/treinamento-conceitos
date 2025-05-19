@@ -1,12 +1,13 @@
-import { Component, inject, input, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, inject, input, signal, TemplateRef } from '@angular/core';
+import { OrdenarPipe } from '../shared/pipes/ordenar.pipe';
 import { AtalhoSistema } from './atalho-sistema';
+import { HomePortalService } from './home-portal.service';
 import { PortalDestaquesComponent } from "./portal-destaques/portal-destaques.component";
 import { PortalMaisSistemasComponent } from './portal-mais-sistemas/portal-mais-sistemas.component';
-import { OrdenarPipe } from '../shared/pipes/ordenar.pipe';
-import { HomePortalService } from './home-portal.service';
 
 @Component({
   selector: 'app-home-portal',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     PortalDestaquesComponent,
     PortalMaisSistemasComponent,
@@ -23,10 +24,14 @@ export class HomePortalComponent {
 
   private portalService = inject(HomePortalService);
 
+  private changeDectector = inject(ChangeDetectorRef);
+
   // Esse array seria obtido como um JSON de resposta a uma requisição, por exemplo
-  private atalhos: AtalhoSistema[] = [];
-  protected atalhosDestaque: AtalhoSistema[] = [];
-  protected atalhosMaisSistemas: AtalhoSistema[] = [];
+  private atalhos = signal<AtalhoSistema[]>([]);
+
+  protected atalhosDestaque = computed(() => this.atalhos().filter(a => a.destaque));
+
+  protected atalhosMaisSistemas = computed(() => this.atalhos().filter(a => !a.destaque));
 
 
   ngOnInit() {
@@ -36,20 +41,12 @@ export class HomePortalComponent {
   protected carregarAtalhos() {
     this.portalService.carregarAtalhos()
       .then((atalhos) => {
-        this.atalhos = atalhos;
-        this.atualizarListasAtalhos();
+        this.atalhos.set(atalhos);
       });
   }
 
   protected promoverAtalhoMaisSistemas(atalho: AtalhoSistema) {
-    this.atalhos = this.atalhos.map(a => a.url === atalho.url ? {...a, destaque: true} : a);
-    this.atualizarListasAtalhos();
-  }
-
-
-  private atualizarListasAtalhos() {
-    this.atalhosDestaque = this.atalhos.filter(a => a.destaque);
-    this.atalhosMaisSistemas = this.atalhos.filter(a => !a.destaque);
+    this.atalhos.update(itens => itens.map(a => a.url === atalho.url ? {...a, destaque: true} : a));
   }
 
 }
