@@ -1,9 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { debounceTime, distinctUntilChanged, finalize, map, startWith } from 'rxjs';
+import { combineLatest, debounceTime, distinctUntilChanged, map, startWith, Subject, switchMap, tap } from 'rxjs';
 import { CardComponent } from '../../../layout/card/card.component';
 import { BloqueadoDirective } from '../../../shared/diretivas/bloqueado.directive';
 import { Usuario } from '../../../shared/model/usuario';
@@ -35,13 +35,30 @@ export class UsuariosListagemComponent implements OnInit {
 
   protected carregando = false;
 
-  protected numeroPagina = 1;
+  protected numeroPagina = signal(1);
 
-  protected tamanhoPagina = 5;
+  protected tamanhoPagina = signal(5);
 
-  protected totalPaginas = 0;
+  protected totalPaginas = signal(0);
 
-  protected usuarios = signal<Usuario[]>([]);
+  private recarregar$ = new Subject<void>();
+
+  private usuarios$ =
+    combineLatest([
+      toObservable(this.numeroPagina),
+      toObservable(this.tamanhoPagina),
+      this.recarregar$
+    ])
+    .pipe(
+      switchMap(([numPagina, tamPagina]) => this.usuarioService.listar(numPagina, tamPagina, 'nome')),
+      tap(pagina => {
+        this.numeroPagina.set(pagina.info?.pagina ?? 1);
+        this.totalPaginas.set(pagina.info?.totalPaginas ?? 1);
+      }),
+      map(pagina => [...pagina.dados])
+    );
+
+  protected usuarios = toSignal(this.usuarios$, {initialValue: []});
 
   protected textoFiltro = toSignal(this.filtro.valueChanges.pipe(
     debounceTime(300),
@@ -56,7 +73,7 @@ export class UsuariosListagemComponent implements OnInit {
 
 
   ngOnInit() {
-    this.carregarUsuarios();
+    this.recarregar$.next();
   }
 
   // protected async carregarUsuarios() {
@@ -73,26 +90,26 @@ export class UsuariosListagemComponent implements OnInit {
   // }
 
 
-  protected async carregarUsuarios() {
-    this.carregando = true
-    this.usuarioService.listar(this.numeroPagina, this.tamanhoPagina, 'nome')
-      .pipe(finalize(() => this.carregando = false))
-      .subscribe({
-        next: pagina => {
-          this.usuarios.set([...pagina.dados]);
-          this.numeroPagina = pagina.info?.pagina ?? 1;
-          this.totalPaginas = pagina.info?.totalPaginas ?? 1;
-        },
-        error: error => console.error(error)
-      });
-  }
+  // protected async carregarUsuarios() {
+  //   this.carregando = true
+  //   this.usuarioService.listar(this.numeroPagina, this.tamanhoPagina, 'nome')
+  //     .pipe(finalize(() => this.carregando = false))
+  //     .subscribe({
+  //       next: pagina => {
+  //         this.usuarios.set([...pagina.dados]);
+  //         this.numeroPagina = pagina.info?.pagina ?? 1;
+  //         this.totalPaginas = pagina.info?.totalPaginas ?? 1;
+  //       },
+  //       error: error => console.error(error)
+  //     });
+  // }
 
   protected async excluir(usuario: Usuario) {
     if (!confirm(`Confirmar a exclusão de ${usuario.nome} ?`))
       return;
 
     this.usuarioService.excluir(usuario.id).subscribe({
-      next: () => this.carregarUsuarios(),
+      next: () => this.recarregar$.next(),
       error: (error) => console.error(error.message)
     });
   }
@@ -103,28 +120,27 @@ export class UsuariosListagemComponent implements OnInit {
   }
 
   protected anterior() {
-    this.carregarPagina(this.numeroPagina - 1)
+    this.carregarPagina(this.numeroPagina() - 1)
   }
 
   protected proxima() {
-    this.carregarPagina(this.numeroPagina + 1)
+    this.carregarPagina(this.numeroPagina() + 1)
   }
 
   protected ultima() {
-    this.carregarPagina(this.totalPaginas);
+    this.carregarPagina(this.totalPaginas());
   }
 
   protected alterarTamanhoPagina(n: number) {
-    this.tamanhoPagina = n;
+    this.tamanhoPagina.set(n);
     this.carregarPagina(1);
   }
 
   private carregarPagina(pagina: number) {
-    if (pagina > this.totalPaginas || pagina < 1)
+    if (pagina > this.totalPaginas() || pagina < 1)
       return;
 
-    this.numeroPagina = pagina;
-    this.carregarUsuarios();
+    this.numeroPagina.set(pagina);
   }
 
 
