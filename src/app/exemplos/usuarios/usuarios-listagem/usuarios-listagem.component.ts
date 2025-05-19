@@ -1,8 +1,9 @@
-import { AsyncPipe, DatePipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { debounceTime, finalize, map, startWith, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, finalize, map, startWith } from 'rxjs';
 import { CardComponent } from '../../../layout/card/card.component';
 import { BloqueadoDirective } from '../../../shared/diretivas/bloqueado.directive';
 import { Usuario } from '../../../shared/model/usuario';
@@ -14,7 +15,6 @@ import { UsuarioService } from '../usuario.service';
   imports: [
     ReactiveFormsModule,
     DatePipe,
-    AsyncPipe,
     BloqueadoDirective,
     RouterLink,
     CardComponent
@@ -29,7 +29,7 @@ export class UsuariosListagemComponent implements OnInit {
 
   private usuarioService = inject(UsuarioService);
 
-  protected filtro = new FormControl('');
+  protected filtro = new FormControl<string>('', {nonNullable: true});
 
   protected erro = '';
 
@@ -41,17 +41,18 @@ export class UsuariosListagemComponent implements OnInit {
 
   protected totalPaginas = 0;
 
-  protected usuarios: Usuario[] = [];
+  protected usuarios = signal<Usuario[]>([]);
 
-  protected listagemFiltrada$ = this.filtro.valueChanges.pipe(
+  protected textoFiltro = toSignal(this.filtro.valueChanges.pipe(
     debounceTime(300),
     startWith(''),
     map(texto => (texto?.length ?? 0) > 2 ? texto : ''),
-    //distinctUntilChanged(),
-    tap(texto => console.log(`Filtrando com : "${texto}"`)),
-    map(texto => obterItensFiltrados(this.usuarios, texto)),
-    // switchMap(texto => of(obterItensFiltrados(this.usuarios, texto)))
-  );
+    distinctUntilChanged(),
+  ), {initialValue: ''});
+
+  protected listagemFiltrada = computed(() => {
+    return obterItensFiltrados(this.usuarios(), this.textoFiltro());
+  });
 
 
   ngOnInit() {
@@ -78,10 +79,9 @@ export class UsuariosListagemComponent implements OnInit {
       .pipe(finalize(() => this.carregando = false))
       .subscribe({
         next: pagina => {
-          this.usuarios = [...pagina.dados];
+          this.usuarios.set([...pagina.dados]);
           this.numeroPagina = pagina.info?.pagina ?? 1;
           this.totalPaginas = pagina.info?.totalPaginas ?? 1;
-          this.filtro.setValue('');
         },
         error: error => console.error(error)
       });
