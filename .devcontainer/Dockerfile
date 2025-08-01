@@ -25,8 +25,8 @@ ARG PEM_REDE_MPF=${DIR_PEM}/CertificadosRedeMPF.pem
 ARG PEM_REPO_MAVEN=${DIR_PEM}/RepositoriosMaven.pem
 ARG JAVA_CACERTS=$JAVA_HOME/lib/security/cacerts
 ENV NODE_EXTRA_CA_CERTS=${PEM_REDE_MPF}
-COPY certificados/individuais/*.crt ${DIR_CRT}
-COPY certificados/*.pem ${DIR_PEM}
+COPY certificados/individuais/*.crt ${DIR_CRT}/
+COPY certificados/*.pem ${DIR_PEM}/
 
 RUN update-ca-certificates \
     && keytool -importcert -noprompt -keystore ${JAVA_CACERTS} -storepass changeit -file ${PEM_REDE_MPF} -alias "rede-mpf" \
