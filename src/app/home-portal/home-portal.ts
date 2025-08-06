@@ -37,8 +37,8 @@ export class HomePortal {
   }
 
   private atualizarListasAtalhos() {
-    // this.atalhosDestaque = this.atalhos.filter(a => a.destaque);
-    // this.atalhosMaisSistemas = this.atalhos.filter(a => !a.destaque);
+    this.atalhosDestaque = this.atalhos.filter(a => a.destaque);
+    this.atalhosMaisSistemas = this.atalhos.filter(a => !a.destaque);
   }
 
 }
