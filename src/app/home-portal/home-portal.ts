@@ -40,6 +40,11 @@ export class HomePortal {
     this.atualizarListasAtalhos();
   }
 
+  protected promoverAtalhoMaisSistemas(atalho: AtalhoSistema) {
+    this.atalhos = this.atalhos.map(a => a.url === atalho.url ? {...a, destaque: true} : a);
+    this.atualizarListasAtalhos();
+  }
+
   private atualizarListasAtalhos() {
     this.atalhosDestaque = this.atalhos.filter(a => a.destaque);
     this.atalhosMaisSistemas = this.atalhos.filter(a => !a.destaque);
