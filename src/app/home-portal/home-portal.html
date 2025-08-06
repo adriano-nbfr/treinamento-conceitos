@@ -2,36 +2,12 @@
 
 <div class="container">
 
-  @if (destaques.length) {
-    <nav class="links-destaque">
-      @for (atalho of destaques; track $index) {
-        <a [href]="atalho.url" target="_blank">
-          <img aria-hidden="true" [src]="`img/atalhos/${atalho.icone || 'icone-generico.jpg'}`">
-          {{atalho.nome}}
-        </a>
-      }
-    </nav>
-  }
-  @else {
-    <h2 class="text-center fs-5 mt-5">Não existem atalhos a serem exibidos.</h2>
-  }
+  <app-portal-destaques [atalhos]="destaques"></app-portal-destaques>
 
   @if (atalhosMaisSistemas.length > 0 && atalhosDestaque.length > 0) {
-    <hr class="divider my-4">
-    <!-- <h2 class="text-center">Mais sistemas do MPF</h2> -->
-    <div class="d-block text-center">
-      <button class="btn btn-outline-secondary fw-semibold dropdown-toggle"
-        [class.active]="exibirMais"
-        (click)="exibirMais = !exibirMais">
-        <span class="visually-hidden">{{exibirMais ? 'Ocultar' : 'Exibir'}} links para</span>
-        Mais sistemas do MPF
-      </button>
-    </div>
-
-    <nav class="links-mais-sistemas" [hidden]="!exibirMais">
-      @for (atalho of atalhosMaisSistemas; track $index) {
-        <a [href]="atalho.url" target="_blank">{{atalho.nome}}</a>
-      }
-    </nav>
+    <app-portal-mais-sistemas
+     [atalhos]="atalhosMaisSistemas"
+     [minimoColapsar]="0">
+    </app-portal-mais-sistemas>
   }
 </div>

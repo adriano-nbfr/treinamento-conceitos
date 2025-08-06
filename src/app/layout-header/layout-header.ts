@@ -1,5 +1,6 @@
 import { Component, input, Input } from '@angular/core';
 
+/** O componente que exibe o header da aplicação */
 @Component({
   selector: 'header [app-layout-header]',
   imports: [],
@@ -12,6 +13,7 @@ import { Component, input, Input } from '@angular/core';
 })
 export class LayoutHeader {
 
+  /** O título que será exibido no header da aplicação */
   titulo = input('Treinamento Angular');
 
   protected logoGradiente = false;

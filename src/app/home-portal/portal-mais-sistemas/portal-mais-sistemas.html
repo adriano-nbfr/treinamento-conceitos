@@ -1,0 +1,22 @@
+<hr class="divider my-4">
+
+@if (minimoColapsar() > 0 && atalhos().length >= minimoColapsar()) {
+  <div class="d-block text-center">
+    <button class="btn btn-outline-secondary fw-semibold dropdown-toggle"
+      [class.active]="exibirMais"
+      (click)="exibirMais = !exibirMais">
+      <span class="visually-hidden">{{exibirMais ? 'Ocultar' : 'Exibir'}} links para</span>
+      Mais sistemas do MPF
+    </button>
+  </div>
+}
+@else {
+  <h2 class="text-center">Mais sistemas do MPF</h2>
+}
+
+<nav class="links-mais-sistemas"
+  [hidden]="!(exibirMais || !minimoColapsar() || atalhos().length < minimoColapsar())">
+  @for (atalho of atalhos(); track $index) {
+    <a [href]="atalho.url" target="_blank">{{atalho.nome}}</a>
+  }
+</nav>
