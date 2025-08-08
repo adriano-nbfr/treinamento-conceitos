@@ -18,7 +18,13 @@
     <app-portal-mais-sistemas [atalhos]="atalhosMaisSistemas"
       [edicaoAtiva]="editando"
       [minimoColapsar]="5"
+      [templateLink]="customLink"
       (atalhoPromovido)="alterarDestaqueAtalho($event, true)">
     </app-portal-mais-sistemas>
+
+    <ng-template #customLink let-atalho let-indice="indice" let-impar="impar" let-ultimo="ultimo">
+      <div class="fs-5" [class.fw-bold]="ultimo">{{atalho.nome}} ({{indice + 1}})</div>
+      <div [class]="{'text-primary': impar, 'text-danger': !impar}">({{atalho.url}})</div>
+    </ng-template>
   }
 </div>
