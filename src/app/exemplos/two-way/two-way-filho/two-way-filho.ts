@@ -1,0 +1,21 @@
+import { Component, input, model, OnChanges, output, SimpleChanges } from '@angular/core';
+
+@Component({
+  selector: 'app-two-way-filho',
+  imports: [],
+  templateUrl: './two-way-filho.html',
+  styleUrl: './two-way-filho.scss'
+})
+export class TwoWayFilho {
+
+  valor = model(0);
+
+  protected incrementar() {
+    this.valor.update(n => n + 1);
+  }
+
+  protected decrementar() {
+    this.valor.update(n => n - 1);
+  }
+
+}
