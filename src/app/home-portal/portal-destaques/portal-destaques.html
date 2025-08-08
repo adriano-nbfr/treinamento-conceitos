@@ -1,9 +1,10 @@
 @if (atalhos().length) {
-  <nav class="links-destaque">
+  <nav class="links-destaque" [class.links-edicao]="edicaoAtiva()">
     @for (atalho of atalhos(); track $index) {
-      <a [href]="atalho.url" target="_blank">
-        <img aria-hidden="true" [src]="`img/atalhos/${atalho.icone || 'icone-generico.jpg'}`">
-        {{atalho.nome}}
+      <a [href]="atalho.url" target="_blank"
+        [title]="edicaoAtiva() ? `Remover ${atalho.nome} dos destaques` : ''"
+        (click)="atalhoClick(atalho, $event)">
+        <img aria-hidden="true" [src]="`img/atalhos/${atalho.icone || 'icone-generico.jpg'}`">{{atalho.nome}}
       </a>
     }
   </nav>

@@ -12,6 +12,9 @@ export class PortalMaisSistemas {
   /** Um array com dados de atalhos a exibir como links de destaque no portal */
   atalhos = input.required<AtalhoSistema[]>();
 
+  /** Determina se o modo de edição dos atalhos estará ativado. */
+  edicaoAtiva = input(false);
+
   /** O número de atalhos a partir do qual a lista será colapsada com um botão para alternar a exibição. (0 = nunca, default = 5) */
   minimoColapsar = input(5, {transform: (n: number) => Math.max(0, n) });
 
@@ -21,10 +24,9 @@ export class PortalMaisSistemas {
 
   protected exibirMais = false;
 
-  protected editando = false;
 
   protected atalhoClick(atalho: AtalhoSistema, event: MouseEvent) {
-    if (this.editando) {
+    if (this.edicaoAtiva()) {
       event.preventDefault(); // evita que o link seja acionado
       this.atalhoPromovido.emit(atalho);
     }

@@ -2,13 +2,23 @@
 
 <div class="container">
 
-  <app-portal-destaques [atalhos]="destaques"></app-portal-destaques>
+  <div class="d-block position-relative text-end">
+    <button class="btn btn-sm btn-outline-secondary"
+      (click)="editando = !editando">
+      {{editando ? 'Concluir edição' : 'Editar atalhos'}}
+    </button>
+  </div>
 
-  @if (atalhosMaisSistemas.length > 0 && atalhosDestaque.length > 0) {
-    <app-portal-mais-sistemas
-      [atalhos]="atalhosMaisSistemas"
+  <app-portal-destaques [atalhos]="destaques"
+    [edicaoAtiva]="editando"
+    (atalhoRebaixado)="alterarDestaqueAtalho($event, false)">
+  </app-portal-destaques>
+
+  @if (atalhosDestaque.length && atalhosMaisSistemas.length) {
+    <app-portal-mais-sistemas [atalhos]="atalhosMaisSistemas"
+      [edicaoAtiva]="editando"
       [minimoColapsar]="5"
-      (atalhoPromovido)="promoverAtalhoMaisSistemas($event)">
+      (atalhoPromovido)="alterarDestaqueAtalho($event, true)">
     </app-portal-mais-sistemas>
   }
 </div>

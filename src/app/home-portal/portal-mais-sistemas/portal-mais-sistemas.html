@@ -1,17 +1,9 @@
 <hr class="divider my-4">
 
-<div class="position-relative">
-  <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0"
-    (click)="editando = !editando; exibirMais = exibirMais || editando">
-    {{editando ? 'Concluir' : 'Editar'}}
-  </button>
-</div>
-
 @if (minimoColapsar() > 0 && atalhos().length >= minimoColapsar()) {
   <div class="d-block text-center">
     <button class="btn btn-outline-secondary fw-semibold dropdown-toggle"
       [class.active]="exibirMais"
-      [disabled]="editando"
       (click)="exibirMais = !exibirMais">
       <span class="visually-hidden">{{exibirMais ? 'Ocultar' : 'Exibir'}} links para</span>
       Mais sistemas do MPF
@@ -22,10 +14,11 @@
   <h2 class="text-center">Mais sistemas do MPF</h2>
 }
 
-<nav class="links-mais-sistemas" [class.links-edicao]="editando"
+<nav class="links-mais-sistemas" [class.links-edicao]="edicaoAtiva()"
   [hidden]="!(exibirMais || !minimoColapsar() || atalhos().length < minimoColapsar())">
   @for (atalho of atalhos(); track $index) {
     <a [href]="atalho.url" target="_blank"
+      [title]="edicaoAtiva() ? `Adicionar ${atalho.nome} aos destaques` : ''"
       (click)="atalhoClick(atalho, $event)">
       {{atalho.nome}}
     </a>

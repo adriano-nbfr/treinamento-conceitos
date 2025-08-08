@@ -35,13 +35,14 @@ export class HomePortal {
   protected atalhosDestaque: AtalhoSistema[] = [];
   protected atalhosMaisSistemas: AtalhoSistema[] = [];
 
+  protected editando = false;
 
   constructor() {
     this.atualizarListasAtalhos();
   }
 
-  protected promoverAtalhoMaisSistemas(atalho: AtalhoSistema) {
-    this.atalhos = this.atalhos.map(a => a.url === atalho.url ? {...a, destaque: true} : a);
+  protected alterarDestaqueAtalho(atalho: AtalhoSistema, destaque: boolean) {
+    this.atalhos = this.atalhos.map(a => a.url === atalho.url ? {...a, destaque} : a);
     this.atualizarListasAtalhos();
   }
 
