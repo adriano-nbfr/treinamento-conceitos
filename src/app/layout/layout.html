@@ -1,0 +1,17 @@
+<header app-layout-header titulo="Treinamento - Conceitos"></header>
+
+<ng-content select="ul[menu]"></ng-content>
+<!-- <div class="d-flex justify-content-center gap-3 p-4">
+  <button  class="btn btn-secondary" #botao
+    (click)="conteudoBloqueado = !conteudoBloqueado">
+    Alternar bloqueio pela propriedade
+  </button>
+  <button class="btn btn-secondary" #botao
+    (click)="bloq.appBloqueado.set(!conteudoBloqueado)">
+    Alternar bloqueio pela diretiva
+  </button>
+</div> -->
+
+<main #appMain class="app-main" [(appBloqueado)]="conteudoBloqueado" [desfoque]="true">
+  <ng-content></ng-content>
+</main>

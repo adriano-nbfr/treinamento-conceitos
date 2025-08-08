@@ -1,16 +1,14 @@
 import { Component } from '@angular/core';
 import { TwoWayPai } from './exemplos/two-way/two-way-pai/two-way-pai';
 import { HomePortal } from './home-portal/home-portal';
-import { LayoutHeader } from './layout-header/layout-header';
-import { Bloqueado } from './shared/diretivas/bloqueado';
+import { Layout } from './layout/layout';
 
 @Component({
   selector: 'app-root',
   imports: [
-    LayoutHeader,
+    Layout,
     HomePortal,
-    TwoWayPai,
-    Bloqueado
+    TwoWayPai
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
@@ -18,8 +16,6 @@ import { Bloqueado } from './shared/diretivas/bloqueado';
 export class App {
 
   protected tela: 'home' | 'two-way' = 'home';
-
-  protected conteudoBloqueado = false;
 
   // private elementoMain = viewChild<ElementRef>('appMain');
 
