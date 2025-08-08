@@ -17,7 +17,12 @@
       <app-two-way-pai></app-two-way-pai>
     }
     @default {
-      <app-home-portal></app-home-portal>
+      <app-home-portal>
+        <ng-template let-atalho let-indice="indice" let-impar="impar" let-ultimo="ultimo">
+          <div class="fs-5" [class.fw-bold]="ultimo">{{atalho.nome}} ({{indice + 1}})</div>
+          <div [class]="{'text-primary': impar, 'text-danger': !impar}">({{atalho.url}})</div>
+        </ng-template>
+      </app-home-portal>
     }
   }
 </app-layout>

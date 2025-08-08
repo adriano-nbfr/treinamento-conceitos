@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, contentChild, TemplateRef } from '@angular/core';
 import { AtalhoSistema } from './atalho-sistema';
 import { PortalDestaques } from "./portal-destaques/portal-destaques";
 import { PortalMaisSistemas } from './portal-mais-sistemas/portal-mais-sistemas';
@@ -37,9 +37,13 @@ export class HomePortal {
 
   protected editando = false;
 
+  protected templateContentChild = contentChild(TemplateRef<any>);
+
+
   constructor() {
     this.atualizarListasAtalhos();
   }
+
 
   protected alterarDestaqueAtalho(atalho: AtalhoSistema, destaque: boolean) {
     this.atalhos = this.atalhos.map(a => a.url === atalho.url ? {...a, destaque} : a);
