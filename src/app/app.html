@@ -13,7 +13,18 @@
   </li>
 </ul>
 
-<main class="app-main">
+<!-- <div class="d-flex justify-content-center gap-3 p-4">
+  <button  class="btn btn-secondary" #botao
+    (click)="conteudoBloqueado = !conteudoBloqueado">
+    Alternar bloqueio pela propriedade
+  </button>
+  <button class="btn btn-secondary" #botao
+    (click)="bloq.appBloqueado.set(!conteudoBloqueado)">
+    Alternar bloqueio pela diretiva
+  </button>
+</div> -->
+
+<main #appMain #bloq="appBloqueado" class="app-main" [(appBloqueado)]="conteudoBloqueado" [desfoque]="true">
   @switch (tela) {
     @case ('two-way') {
       <app-two-way-pai></app-two-way-pai>

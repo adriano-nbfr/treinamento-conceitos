@@ -21,11 +21,11 @@ export class LayoutHeader {
 
   protected logoGradiente = false;
 
-  protected tituloCentralizado = false;
+  tituloCentralizado = false;
 
   protected opacidade = 1;
 
-  protected gigante = false;
+  gigante = false;
 
   protected hoje = new Date();
 
