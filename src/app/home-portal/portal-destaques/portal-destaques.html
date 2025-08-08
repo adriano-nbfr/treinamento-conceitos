@@ -4,7 +4,9 @@
       <a [href]="atalho.url" target="_blank"
         [title]="edicaoAtiva() ? `Remover ${atalho.nome} dos destaques` : ''"
         (click)="atalhoClick(atalho, $event)">
-        <img aria-hidden="true" [src]="`img/atalhos/${atalho.icone || 'icone-generico.jpg'}`">{{atalho.nome}}
+        <img aria-hidden="true" appFiltroHover="negativo"
+          [src]="`img/atalhos/${atalho.icone || 'icone-generico.jpg'}`">
+        {{atalho.nome}}
       </a>
     }
   </nav>
