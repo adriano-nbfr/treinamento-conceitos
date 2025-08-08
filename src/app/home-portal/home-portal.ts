@@ -1,4 +1,4 @@
-import { Component, contentChild, TemplateRef } from '@angular/core';
+import { Component, contentChild, contentChildren, ElementRef, TemplateRef } from '@angular/core';
 import { AtalhoSistema } from './atalho-sistema';
 import { PortalDestaques } from "./portal-destaques/portal-destaques";
 import { PortalMaisSistemas } from './portal-mais-sistemas/portal-mais-sistemas';
@@ -39,9 +39,18 @@ export class HomePortal {
 
   protected templateContentChild = contentChild(TemplateRef<any>);
 
+  /// O contentChildren não consegue ler ElementRef diretamente sem um locator string
+  protected botoesContent = contentChildren('botao', {read: ElementRef});
+
 
   constructor() {
     this.atualizarListasAtalhos();
+  }
+
+
+  ngOnInit() {
+    // O que é detectado no contentChildren pode ser usado ainda que não seja projetado no temmplate
+    console.log(this.botoesContent().map(b => b.nativeElement.innerText));
   }
 
 

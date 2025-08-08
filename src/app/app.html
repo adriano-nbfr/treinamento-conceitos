@@ -18,10 +18,19 @@
     }
     @default {
       <app-home-portal>
-        <ng-template let-atalho let-indice="indice" let-impar="impar" let-ultimo="ultimo">
-          <div class="fs-5" [class.fw-bold]="ultimo">{{atalho.nome}} ({{indice + 1}})</div>
-          <div [class]="{'text-primary': impar, 'text-danger': !impar}">({{atalho.url}})</div>
+        <ng-template let-atalho let-indice="indice" let-impar="impar" let-primeiro="primeiro" let-ultimo="ultimo">
+          <div class="fs-5" [class.fw-bold]="primeiro || ultimo">
+            {{atalho.nome}} ({{indice + 1}})
+          </div>
+
+          <div [class]="{'text-primary': impar, 'text-secondary': !impar}">
+            ({{atalho.url}})
+          </div>
         </ng-template>
+
+        <!-- Não vai ser projetado, mas vai ser detectado pelo contentChildren -->
+        <button #botao>Teste 1</button>
+        <button #botao>Teste 2</button>
       </app-home-portal>
     }
   }

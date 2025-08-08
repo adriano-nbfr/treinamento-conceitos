@@ -16,12 +16,23 @@
 
 <nav class="links-mais-sistemas" [class.links-edicao]="edicaoAtiva()"
   [hidden]="!(exibirMais || !minimoColapsar() || atalhos().length < minimoColapsar())">
-  @for (atalho of atalhos() | ordenar : 'nome'; let i=$index, impar=$odd, ultimo=$last; track $index) {
+  @for (atalho of atalhos() | ordenar : 'nome';
+    let i=$index, impar=$odd, primeiro=$first, ultimo=$last;
+    track $index) {
+
     <a [href]="atalho.url" target="_blank"
       [title]="edicaoAtiva() ? `Adicionar ${atalho.nome} aos destaques` : ''"
       (click)="atalhoClick(atalho, $event)">
       @if (templateLink(); as template) {
-        <ng-container *ngTemplateOutlet="template; context: {$implicit: atalho, indice: i, impar, ultimo}"></ng-container>
+        <ng-container *ngTemplateOutlet="template;
+          context: {
+            $implicit: atalho,
+            indice: i,
+            impar,
+            primeiro,
+            ultimo
+          }">
+        </ng-container>
       }
       @else{
         {{atalho.nome}}
