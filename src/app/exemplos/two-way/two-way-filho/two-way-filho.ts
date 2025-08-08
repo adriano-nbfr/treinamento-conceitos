@@ -1,8 +1,11 @@
-import { Component, input, model, OnChanges, output, SimpleChanges } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { Component, model } from '@angular/core';
 
 @Component({
   selector: 'app-two-way-filho',
-  imports: [],
+  imports: [
+    DecimalPipe
+  ],
   templateUrl: './two-way-filho.html',
   styleUrl: './two-way-filho.scss'
 })

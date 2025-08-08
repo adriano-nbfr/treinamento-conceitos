@@ -16,7 +16,7 @@
 
 <nav class="links-mais-sistemas" [class.links-edicao]="edicaoAtiva()"
   [hidden]="!(exibirMais || !minimoColapsar() || atalhos().length < minimoColapsar())">
-  @for (atalho of atalhos(); track $index) {
+  @for (atalho of atalhos() | ordenar : 'nome'; track $index) {
     <a [href]="atalho.url" target="_blank"
       [title]="edicaoAtiva() ? `Adicionar ${atalho.nome} aos destaques` : ''"
       (click)="atalhoClick(atalho, $event)">

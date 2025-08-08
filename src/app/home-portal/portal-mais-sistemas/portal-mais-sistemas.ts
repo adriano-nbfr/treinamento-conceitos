@@ -1,9 +1,12 @@
 import { Component, input, output } from '@angular/core';
+import { OrdenarPipe } from '../../shared/pipes/ordenar';
 import { AtalhoSistema } from '../atalho-sistema';
 
 @Component({
   selector: 'app-portal-mais-sistemas',
-  imports: [],
+  imports: [
+    OrdenarPipe
+  ],
   templateUrl: './portal-mais-sistemas.html',
   styleUrl: './portal-mais-sistemas.scss'
 })

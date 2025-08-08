@@ -15,6 +15,6 @@ import { TwoWayPai } from './exemplos/two-way/two-way-pai/two-way-pai';
 })
 export class App {
 
-  protected tela: 'home' | 'two-way' = 'two-way';
+  protected tela: 'home' | 'two-way' = 'home';
 
 }

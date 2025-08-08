@@ -1,9 +1,12 @@
-import { Component, input, Input } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, input } from '@angular/core';
 
 /** O componente que exibe o header da aplicação */
 @Component({
   selector: 'header [app-layout-header]',
-  imports: [],
+  imports: [
+    DatePipe
+  ],
   host: {
     '[class.header-gigante]' : 'gigante',
     '(click)' : 'headerClick($event)'
@@ -23,6 +26,8 @@ export class LayoutHeader {
   protected opacidade = 1;
 
   protected gigante = false;
+
+  protected hoje = new Date();
 
 
   protected headerClick(event: MouseEvent) {
