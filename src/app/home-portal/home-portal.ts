@@ -1,7 +1,8 @@
-import { Component, contentChild, contentChildren, ElementRef, TemplateRef } from '@angular/core';
+import { Component, contentChild, contentChildren, ElementRef, inject, TemplateRef } from '@angular/core';
 import { AtalhoSistema } from './atalho-sistema';
 import { PortalDestaques } from "./portal-destaques/portal-destaques";
 import { PortalMaisSistemas } from './portal-mais-sistemas/portal-mais-sistemas';
+import { PortalApi } from './portal-api';
 
 @Component({
   selector: 'app-home-portal',
@@ -14,43 +15,32 @@ import { PortalMaisSistemas } from './portal-mais-sistemas/portal-mais-sistemas'
 })
 export class HomePortal {
 
-  private atalhos: AtalhoSistema[] = [
-    { url: 'https://novoportal.mpf.mp.br/novaintra', nome: 'Intranet', icone: 'Intranet-MPF.jpg', destaque: true },
-    { url: 'https://pontodigital.mpf.mp.br/pontodigital', nome: 'Ponto Digital', icone: 'PontoDigital.jpg', destaque: true },
-    { url: 'https://unico.mpf.mp.br/unico', nome: 'Único', icone: 'Unico.jpg', destaque: true },
-    { url: 'https://novoportal.mpf.mp.br/snp', nome: 'SNP', icone: 'SNP.jpg', destaque: true },
-    { url: 'https://novoportal.mpf.mp.br/kairos', nome: 'Kairos', icone: 'Kairos.jpg', destaque: true },
-    { url: 'https://horus.mpf.mp.br/horus', nome: 'Hórus', icone: 'Horus.jpg', destaque: true },
-    { url: 'https://mail.google.com/a/mpf.mp.br', nome: 'Correio Eletrônico', icone: 'Correio.jpg', destaque: true },
-    { url: 'https://novoportal.mpf.mp.br/biblioteca', nome: 'Biblioteca', icone: 'Biblioteca.jpg', destaque: true },
-    { url: 'https://novoportal.mpf.mp.br/apex/f?p=pin', nome: 'PIN', destaque: false },
-    { url: 'https://novoportal.mpf.mp.br/apex/f?p=sigov', nome: 'SIGOV', destaque: false },
-    { url: 'https://radar.mpf.mp.br/radar2', nome: 'RADAR', destaque: false },
-    { url: 'https://novoportal.mpf.mp.br/sisam/portal', nome: 'SISAM', destaque: false },
-    { url: 'https://novoportal.mpf.mp.br/extractus', nome: 'Extractus', destaque: false },
-    { url: 'https://novoportal.mpf.mp.br/sspr', nome: 'Portal de Senhas', destaque: false },
-    { url: 'https://novoportal.mpf.mp.br/autoriza', nome: 'Sistema Autoriza', destaque: false },
-  ];
+  private portalApi = inject(PortalApi);
+
+  private atalhos: AtalhoSistema[] = [];
 
   protected atalhosDestaque: AtalhoSistema[] = [];
   protected atalhosMaisSistemas: AtalhoSistema[] = [];
+
+  protected erroAtalhos = '';
 
   protected editando = false;
 
   protected templateContentChild = contentChild(TemplateRef<any>);
 
-  /// O contentChildren não consegue ler ElementRef diretamente sem um locator string
-  protected botoesContent = contentChildren('botao', {read: ElementRef});
 
-
-  constructor() {
-    this.atualizarListasAtalhos();
+  ngOnInit() {
+    this.carregarAtalhos();
   }
 
 
-  ngOnInit() {
-    // O que é detectado no contentChildren pode ser usado ainda que não seja projetado no temmplate
-    console.log(this.botoesContent().map(b => b.nativeElement.innerText));
+  protected carregarAtalhos() {
+    this.portalApi.obterAtalhos()
+      .then((atalhos) => {
+        this.atalhos = atalhos;
+        this.atualizarListasAtalhos();
+      })
+      .catch(() => this.erroAtalhos = 'Algo deu errado. Não foi possível obter os atalhos.');
   }
 
 
