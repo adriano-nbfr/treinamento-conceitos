@@ -4,7 +4,10 @@
       <tr><th>Nome</th><th>E-mail</th><th>Matrícula</th><th>Dt. Nascimento</th></tr>
     </thead>
     <tbody>
-      @if (erro) {
+      @if (carregando) {
+        <tr><td colspan="5">Carregando usuarios...</td></tr>
+      }
+      @else if (erro) {
         <tr><td colspan="5" class="text-danger">{{erro}}</td></tr>
       }
       @else {

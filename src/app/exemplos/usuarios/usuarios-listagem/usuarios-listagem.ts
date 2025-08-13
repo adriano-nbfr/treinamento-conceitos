@@ -21,15 +21,26 @@ export class UsuariosListagem {
 
   protected erro = '';
 
+  protected carregando = false;
+
 
   ngOnInit() {
     this.carregarUsuarios();
   }
 
   protected async carregarUsuarios() {
+    this.carregando = true;
+
     this.usuariosApi.carregarUsuariosPromise()
       .then(usuarios => this.usuarios = usuarios)
       .catch(error => this.erro = `Não foi possível carregar: ${error.message}`)
+      .finally(() => this.carregando = false);
+
+    // this.usuariosApi.carregarUsuariosObservable()
+    //   .subscribe({
+    //     next: (usuarios) => this.usuarios = usuarios,
+    //     error: (error: Error) => this.erro = `Não foi possível carregar: ${error.message}`
+    //   });
   }
 
 }
