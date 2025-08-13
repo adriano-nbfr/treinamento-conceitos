@@ -1,10 +1,9 @@
 <app-card titulo="Usuários - Listagem">
   <div class="input-group">
-    <input type="text" class="form-control" placeholder="Filtrar..."
-      [value]="filtro" (input)="filtro = $any($event.target).value ?? ''" #inputFiltro>
+    <input type="text" class="form-control" placeholder="Filtrar..." [formControl]="filtro" #inputFiltro>
 
     <button class="btn btn-primary"
-      (click)="filtro = ''; inputFiltro.focus()">Limpar</button>
+      (click)="filtro.setValue(''); inputFiltro.focus()">Limpar</button>
   </div>
 
   <table class="table table-striped mt-4">
@@ -19,7 +18,7 @@
         <tr><td colspan="5" class="text-danger">{{erro}}</td></tr>
       }
       @else {
-        @for (usuario of usuarios | filtrar : filtro; track usuario.id) {
+        @for (usuario of listagemFiltrada$ | async; track usuario.id) {
           <tr>
             <td>{{usuario.nome}}</td>
             <td>{{usuario.email}}</td>

@@ -1,16 +1,18 @@
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { Usuario } from '../../../shared/model/usuario';
-import { UsuariosApi } from '../usuarios-api';
-import { DatePipe } from '@angular/common';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, finalize, map, startWith, Subscription, tap } from 'rxjs';
 import { Card } from '../../../shared/card/card';
-import { finalize, firstValueFrom, Subscription } from 'rxjs';
-import { FiltrarPipe } from '../../../shared/pipes/filtrar-pipe';
+import { Usuario } from '../../../shared/model/usuario';
+import { obterItensFiltrados } from '../../../shared/pipes/filtragem';
+import { UsuariosApi } from '../usuarios-api';
 
 @Component({
   selector: 'app-usuarios-listagem',
   imports: [
+    ReactiveFormsModule,
     DatePipe,
-    FiltrarPipe,
+    AsyncPipe,
     Card
   ],
   templateUrl: './usuarios-listagem.html',
@@ -26,9 +28,18 @@ export class UsuariosListagem {
 
   protected carregando = false;
 
-  protected filtro = '';
-
   private subs?: Subscription = undefined;
+
+  protected filtro = new FormControl('');
+
+  protected listagemFiltrada$ = this.filtro.valueChanges.pipe(
+    debounceTime(300),
+    map(texto => (texto?.length ?? 0) >= 3 ? texto : ''),
+    startWith(''),
+    distinctUntilChanged(),
+    tap(texto => console.log('Filtrando com: ', texto)),
+    map(texto => obterItensFiltrados(this.usuarios, texto))
+  );
 
 
   ngOnInit() {

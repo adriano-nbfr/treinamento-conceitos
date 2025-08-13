@@ -1,4 +1,4 @@
-export function obterItensFiltrados<T>(itens: T[], texto: string) {
+export function obterItensFiltrados<T>(itens: T[], texto?: string | null) {
   if (!texto)
     return itens;
 
