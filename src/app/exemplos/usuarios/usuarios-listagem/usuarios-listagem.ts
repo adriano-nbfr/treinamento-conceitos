@@ -4,11 +4,13 @@ import { UsuariosApi } from '../usuarios-api';
 import { DatePipe } from '@angular/common';
 import { Card } from '../../../shared/card/card';
 import { finalize, firstValueFrom, Subscription } from 'rxjs';
+import { FiltrarPipe } from '../../../shared/pipes/filtrar-pipe';
 
 @Component({
   selector: 'app-usuarios-listagem',
   imports: [
     DatePipe,
+    FiltrarPipe,
     Card
   ],
   templateUrl: './usuarios-listagem.html',
@@ -23,6 +25,8 @@ export class UsuariosListagem {
   protected erro = '';
 
   protected carregando = false;
+
+  protected filtro = '';
 
   private subs?: Subscription = undefined;
 
