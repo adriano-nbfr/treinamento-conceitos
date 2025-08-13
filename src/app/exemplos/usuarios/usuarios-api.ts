@@ -10,11 +10,11 @@ export class UsuariosApi {
 
   private http = inject(HttpClient);
 
-  private urlApi = '/api/usuariosx';
+  private urlApi = '/api/usuarios';
 
-  async carregarUsuariosPromise() {
+  async carregarUsuariosPromise(signal?: AbortSignal) {
     try {
-      const res = await fetch(this.urlApi);
+      const res = await fetch(this.urlApi, {signal});
       if (!res.ok)
         throw new Error(`Erro ao obter os dados. [Status: ${res.status}]`);
 
