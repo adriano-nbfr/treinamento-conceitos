@@ -20,7 +20,6 @@ import { UsuariosApi } from '../usuarios-api';
   viewProviders: [
     // { provide: RAIZ_API, useValue: '/api/v2' },
     // { provide: EstrategiaPaginacao, useClass: EstrategiaPaginacaoSpring },
-    UsuariosApi
   ],
   templateUrl: './usuarios-listagem.html',
   styleUrl: './usuarios-listagem.scss'
