@@ -7,9 +7,6 @@ import { Bloqueado } from '../../../shared/diretivas/bloqueado';
 import { Usuario } from '../../../shared/model/usuario';
 import { FiltrarPipe } from '../../../shared/pipes/filtrar-pipe';
 import { UsuariosApi } from '../usuarios-api';
-import { RAIZ_API } from '../../../shared/providers/raiz-api';
-import { EstrategiaPaginacao } from '../../../shared/rest/estrategia-paginacao';
-import { EstrategiaPaginacaoSpring } from '../../../shared/rest/estrategia-paginacao-spring';
 
 @Component({
   selector: 'app-usuarios-listagem',
@@ -21,8 +18,8 @@ import { EstrategiaPaginacaoSpring } from '../../../shared/rest/estrategia-pagin
     Card
   ],
   viewProviders: [
-    { provide: RAIZ_API, useValue: '/api/v2' },
-    { provide: EstrategiaPaginacao, useClass: EstrategiaPaginacaoSpring },
+    // { provide: RAIZ_API, useValue: '/api/v2' },
+    // { provide: EstrategiaPaginacao, useClass: EstrategiaPaginacaoSpring },
     UsuariosApi
   ],
   templateUrl: './usuarios-listagem.html',
