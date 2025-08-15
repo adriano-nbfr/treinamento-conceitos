@@ -9,11 +9,10 @@ export default [
   },
   {
     path: 'usuarios',
-    title: 'Usuários',
     providers: [
       UsuariosApi
     ],
-    loadComponent: () => import('./usuarios/usuarios-listagem/usuarios-listagem').then(m => m.UsuariosListagem)
+    loadChildren: () => import('./usuarios/usuarios.routes')
   },
   {
     path: '',
