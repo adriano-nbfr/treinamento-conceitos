@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { finalize, Subscription } from 'rxjs';
 import { Card } from '../../../shared/card/card';
 import { Bloqueado } from '../../../shared/diretivas/bloqueado';
@@ -11,6 +12,7 @@ import { UsuariosApi } from '../usuarios-api';
 @Component({
   selector: 'app-usuarios-listagem',
   imports: [
+    RouterLink,
     ReactiveFormsModule,
     DatePipe,
     FiltrarPipe,

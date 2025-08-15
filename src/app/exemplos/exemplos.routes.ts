@@ -1,6 +1,5 @@
 import { Routes } from "@angular/router";
 import { UsuariosApi } from "./usuarios/usuarios-api";
-import { inject } from "@angular/core";
 
 export default [
   {
@@ -15,5 +14,14 @@ export default [
       UsuariosApi
     ],
     loadComponent: () => import('./usuarios/usuarios-listagem/usuarios-listagem').then(m => m.UsuariosListagem)
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    loadComponent: () => import('./exemplos-home/exemplos-home').then(m => m.ExemplosHome)
+  },
+  {
+    path: '**',
+    redirectTo: ''
   }
 ] as Routes;
