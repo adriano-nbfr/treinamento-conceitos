@@ -39,6 +39,6 @@ export class Navegacao {
           this.navegando.set(false);
         }
       });
-    }
+  }
 
 }
