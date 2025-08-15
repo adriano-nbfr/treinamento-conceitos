@@ -1,45 +1,16 @@
 <app-layout>
   <ul menu class="nav nav-underline px-3 bg-light">
     <li class="nav-item">
-      <a class="nav-link" [class.active]="tela === 'home'" href="#" (click)="tela = 'home'">
-        Home
-      </a>
+      <a href="" class="nav-link" routerLink="home" routerLinkActive="active">Home</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" [class.active]="tela === 'two-way'" href="#" (click)="tela = 'two-way'">
-        Two-way
-      </a>
+      <a href="" class="nav-link" [routerLink]="['exemplos','two-way']" routerLinkActive="active">Two-way</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" [class.active]="tela === 'usuarios'" href="#" (click)="tela = 'usuarios'">
-        Usuários
-      </a>
+      <a href="" class="nav-link" [routerLink]="['exemplos','usuarios']" routerLinkActive="active">Usuários</a>
     </li>
   </ul>
 
-  @switch (tela) {
-    @case ('two-way') {
-      <app-two-way-pai></app-two-way-pai>
-    }
-    @case ('usuarios') {
-      <app-usuarios-listagem></app-usuarios-listagem>
-    }
-    @default {
-      <app-home-portal>
-        <ng-template let-atalho let-indice="indice" let-impar="impar" let-primeiro="primeiro" let-ultimo="ultimo">
-          <div class="fs-5" [class.fw-bold]="primeiro || ultimo">
-            {{atalho.nome}} ({{indice + 1}})
-          </div>
+  <router-outlet></router-outlet>
 
-          <div [class]="{'text-primary': impar, 'text-secondary': !impar}">
-            ({{atalho.url}})
-          </div>
-        </ng-template>
-
-        <!-- Não vai ser projetado, mas vai ser detectado pelo contentChildren -->
-        <button #botao>Teste 1</button>
-        <button #botao>Teste 2</button>
-      </app-home-portal>
-    }
-  }
 </app-layout>
