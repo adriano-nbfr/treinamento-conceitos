@@ -1,5 +1,5 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, Injector } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, finalize, map, startWith, Subscription, tap } from 'rxjs';
 import { Card } from '../../../shared/card/card';
@@ -14,6 +14,9 @@ import { UsuariosApi } from '../usuarios-api';
     DatePipe,
     AsyncPipe,
     Card
+  ],
+  providers: [
+    UsuariosApi
   ],
   templateUrl: './usuarios-listagem.html',
   styleUrl: './usuarios-listagem.scss'
