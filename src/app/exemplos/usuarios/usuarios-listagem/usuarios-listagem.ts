@@ -1,25 +1,28 @@
-import { AsyncPipe, DatePipe } from '@angular/common';
-import { Component, inject, Injector } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, finalize, map, startWith, Subscription, tap } from 'rxjs';
+import { finalize, Subscription } from 'rxjs';
 import { Card } from '../../../shared/card/card';
-import { Usuario } from '../../../shared/model/usuario';
-import { obterItensFiltrados } from '../../../shared/pipes/filtragem';
-import { UsuariosApi } from '../usuarios-api';
 import { Bloqueado } from '../../../shared/diretivas/bloqueado';
+import { Usuario } from '../../../shared/model/usuario';
 import { FiltrarPipe } from '../../../shared/pipes/filtrar-pipe';
+import { UsuariosApi } from '../usuarios-api';
+import { RAIZ_API } from '../../../shared/providers/raiz-api';
+import { EstrategiaPaginacao } from '../../../shared/rest/estrategia-paginacao';
+import { EstrategiaPaginacaoSpring } from '../../../shared/rest/estrategia-paginacao-spring';
 
 @Component({
   selector: 'app-usuarios-listagem',
   imports: [
     ReactiveFormsModule,
     DatePipe,
-    AsyncPipe,
     FiltrarPipe,
     Bloqueado,
     Card
   ],
-  providers: [
+  viewProviders: [
+    { provide: RAIZ_API, useValue: '/api/v2' },
+    { provide: EstrategiaPaginacao, useClass: EstrategiaPaginacaoSpring },
     UsuariosApi
   ],
   templateUrl: './usuarios-listagem.html',
