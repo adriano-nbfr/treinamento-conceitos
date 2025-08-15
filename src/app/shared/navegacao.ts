@@ -10,11 +10,15 @@ export class Navegacao {
 
   private router = inject(Router);
 
-  navegando = signal(false);
+  private navegando = signal(false);
+
+  readonly isNavegando = this.navegando.asReadonly();
+
 
   constructor() {
     this.monitorarEventosDeNavegacao();
   }
+
 
   private monitorarEventosDeNavegacao() {
     this.router.events
