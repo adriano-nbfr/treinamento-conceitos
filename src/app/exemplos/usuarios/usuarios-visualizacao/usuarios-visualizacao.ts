@@ -16,12 +16,6 @@ import { Usuario } from '../../../shared/model/usuario';
 })
 export class UsuariosVisualizacao {
 
-  // private router = inject(Router);
-
   protected usuario = input.required<Usuario>();
-
-  constructor() {
-    // console.log(this.router.url);
-  }
 
 }

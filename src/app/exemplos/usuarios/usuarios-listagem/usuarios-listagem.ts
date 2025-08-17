@@ -19,10 +19,6 @@ import { UsuariosApi } from '../usuarios-api';
     Bloqueado,
     Card
   ],
-  viewProviders: [
-    // { provide: RAIZ_API, useValue: '/api/v2' },
-    // { provide: EstrategiaPaginacao, useClass: EstrategiaPaginacaoSpring },
-  ],
   templateUrl: './usuarios-listagem.html',
   styleUrl: './usuarios-listagem.scss'
 })
@@ -69,7 +65,7 @@ export class UsuariosListagem {
   protected async carregarUsuarios() {
     this.carregando = true;
 
-    this.usuariosApi.listar(this.numeroPagina, this.tamanhoPagina, 'nome')
+    this.subs = this.usuariosApi.listar(this.numeroPagina, this.tamanhoPagina, 'nome')
       .pipe(finalize(() => this.carregando = false))
       .subscribe({
         next: pagina => {
