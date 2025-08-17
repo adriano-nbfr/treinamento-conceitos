@@ -16,6 +16,7 @@ export default [
   },
   {
     path: '',
+    title: 'Exemplos',
     pathMatch: 'full',
     loadComponent: () => import('./exemplos-home/exemplos-home').then(m => m.ExemplosHome)
   },
