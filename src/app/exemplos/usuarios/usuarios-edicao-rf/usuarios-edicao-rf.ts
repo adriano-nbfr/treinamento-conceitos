@@ -1,10 +1,10 @@
 import { DatePipe, JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Card } from '../../../shared/card/card';
-import { UsuariosApi } from '../usuarios-api';
 import { Usuario } from '../../../shared/model/usuario';
+import { UsuariosApi } from '../usuarios-api';
 
 @Component({
   selector: 'app-usuarios-edicao-rf',
@@ -30,10 +30,10 @@ export class UsuariosEdicaoRf {
   private fb = inject(FormBuilder);
 
   protected formUsuario = this.fb.group({
-    'nome': this.fb.control(''),
-    'email': this.fb.control(''),
-    'matricula': this.fb.control<number | null>(null)
-  });
+    'nome': this.fb.control('', [Validators.required, Validators.minLength(10)]),
+    'email': this.fb.control('', [Validators.required, Validators.email]),
+    'matricula': this.fb.control<number | null>(null, [Validators.min(100)])
+  }, {validators: [this.customValidator]});
 
 
   ngOnInit() {
