@@ -1,24 +1,24 @@
 import { DatePipe, JsonPipe } from '@angular/common';
-import { Component, inject, viewChild } from '@angular/core';
-import { AbstractControl, FormsModule, NgForm, ValidationErrors } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Card } from '../../../shared/card/card';
-import { Usuario } from '../../../shared/model/usuario';
 import { UsuariosApi } from '../usuarios-api';
+import { Usuario } from '../../../shared/model/usuario';
 
 @Component({
-  selector: 'app-usuarios-edicao-td',
+  selector: 'app-usuarios-edicao-rf',
   imports: [
-    FormsModule,
+    ReactiveFormsModule,
     RouterLink,
     DatePipe,
     JsonPipe,
     Card
   ],
-  templateUrl: './usuarios-edicao-td.html',
-  styleUrl: './usuarios-edicao-td.scss'
+  templateUrl: './usuarios-edicao-rf.html',
+  styleUrl: './usuarios-edicao-rf.scss'
 })
-export class UsuariosEdicaoTd {
+export class UsuariosEdicaoRf {
 
   private router = inject(Router);
   private usuariosApi = inject(UsuariosApi);
@@ -27,23 +27,25 @@ export class UsuariosEdicaoTd {
   // É possível ler o usuário da activatedRoute porque ele já está carregado pelo resolve da rota
   protected usuarioSalvo: Usuario = this.activatedRoute.snapshot.data['usuario'];
 
-  protected usuario: Usuario = {...this.usuarioSalvo}; // copia rasa para um novo objeto
+  private fb = inject(FormBuilder);
 
-  private formUsuario = viewChild.required(NgForm);
+  protected formUsuario = this.fb.group({
+    'nome': this.fb.control(''),
+    'email': this.fb.control(''),
+    'matricula': this.fb.control<number | null>(null)
+  });
 
 
   ngOnInit() {
-    setTimeout(() => {
-      this.formUsuario().control.addValidators(this.customValidator);
-      this.formUsuario().control.updateValueAndValidity();
-    });
+    this.inicializarForm();
   }
 
-
   protected salvarClick() {
-    if (!this.usuario.id) {
-      this.usuario.dataCadastro = new Date().toISOString();
-      this.usuariosApi.incluir(this.usuario).subscribe({
+    const usuario = {...this.usuarioSalvo, ...this.formUsuario.value} as Usuario;
+
+    if (!this.usuarioSalvo.id) {
+      usuario.dataCadastro = new Date().toISOString();
+      this.usuariosApi.incluir(usuario).subscribe({
         next: (usuario) => {
           this.usuarioSalvo = usuario; // guarda o estado salvo no caso de ter que restaurar
           this.router.navigate(['/exemplos/usuarios', usuario.id]);
@@ -52,7 +54,7 @@ export class UsuariosEdicaoTd {
       });
     }
     else {
-      this.usuariosApi.alterar(this.usuario, this.usuario.id).subscribe({
+      this.usuariosApi.alterar(usuario, usuario.id).subscribe({
         next: (usuario) => {
           this.usuarioSalvo = usuario; // guarda o estado salvo no caso de ter que restaurar
           alert('Usuário alterado com sucesso.');
@@ -62,8 +64,9 @@ export class UsuariosEdicaoTd {
     }
   }
 
-  protected restaurarClick() {
-    this.usuario = {...this.usuarioSalvo};
+  protected inicializarForm() {
+    this.formUsuario.patchValue(this.usuarioSalvo);
+    this.formUsuario.markAsPristine();
   }
 
   private customValidator(control: AbstractControl<Usuario>) {
