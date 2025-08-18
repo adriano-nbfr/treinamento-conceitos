@@ -1,6 +1,6 @@
 import { DatePipe, JsonPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, inject, viewChild } from '@angular/core';
+import { AbstractControl, FormsModule, NgForm, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Card } from '../../../shared/card/card';
 import { Usuario } from '../../../shared/model/usuario';
@@ -29,6 +29,17 @@ export class UsuariosEdicaoTd {
 
   protected usuario: Usuario = {...this.usuarioSalvo}; // copia rasa para um novo objeto
 
+  private formUsuario = viewChild.required(NgForm);
+
+
+  ngOnInit() {
+    setTimeout(() => {
+      this.formUsuario().control.addValidators(this.customValidator);
+      this.formUsuario().control.updateValueAndValidity();
+    });
+  }
+
+
   protected salvarClick() {
     if (!this.usuario.id) {
       this.usuario.dataCadastro = new Date().toISOString();
@@ -54,5 +65,17 @@ export class UsuariosEdicaoTd {
   protected restaurarClick() {
     this.usuario = {...this.usuarioSalvo};
   }
+
+  private customValidator(control: AbstractControl<Usuario>) {
+    const erros: ValidationErrors = {};
+    const usuario = control.value;
+
+    if (usuario.email && !usuario.email.endsWith('@mpf.mp.br') &&
+      usuario.matricula && usuario.matricula < 1000)
+      erros['matricula.reservada'] = true;
+
+    return erros;
+  }
+
 
 }
