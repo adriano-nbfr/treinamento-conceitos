@@ -1,9 +1,9 @@
 import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, computed, inject, Signal, signal } from '@angular/core';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { finalize, Subscription } from 'rxjs';
+import { combineLatest, finalize, map, Subject, Subscription, switchMap, tap } from 'rxjs';
 import { Card } from '../../../shared/card/card';
 import { Bloqueado } from '../../../shared/diretivas/bloqueado';
 import { Usuario } from '../../../shared/model/usuario';
@@ -37,7 +37,27 @@ export class UsuariosListagem {
 
   protected totalPaginas = signal(0);
 
-  protected usuarios = signal<Usuario[]>([]);
+  // protected usuarios = signal<Usuario[]>([]);
+
+  private recarregar$ = new Subject<void>();
+
+  private usuarios$ =
+    combineLatest([
+      toObservable(this.numeroPagina),
+      toObservable(this.tamanhoPagina),
+      this.recarregar$
+    ])
+    .pipe(
+      switchMap(([numPagina, tamPagina]) => this.usuariosApi.listar(numPagina, tamPagina,'nome')),
+      tap(pagina => {
+        this.numeroPagina.set(pagina.info?.pagina ?? 1);
+        this.totalPaginas.set(pagina.info?.totalPaginas ?? 1);
+      }),
+      map(pagina => [...pagina.dados]),
+      takeUntilDestroyed()
+    );
+
+  protected usuarios = toSignal(this.usuarios$, {initialValue: []});
 
   private subs?: Subscription = undefined;
 
@@ -51,37 +71,38 @@ export class UsuariosListagem {
 
 
   ngOnInit() {
-    this.carregarUsuarios();
+    this.recarregar$.next();
+    // this.carregarUsuarios();
   }
 
 
-  ngOnDestroy() {
-    this.subs && this.subs.unsubscribe();
-  }
+  // ngOnDestroy() {
+  //   // this.subs && this.subs.unsubscribe();
+  // }
 
 
-  protected async carregarUsuarios() {
-    this.carregando = true;
+  // protected async carregarUsuarios() {
+  //   this.carregando = true;
 
-    this.subs = this.usuariosApi.listar(this.numeroPagina(), this.tamanhoPagina(), 'nome')
-      .pipe(finalize(() => this.carregando = false))
-      .subscribe({
-        next: pagina => {
-          this.usuarios.set([...pagina.dados]);
-          this.numeroPagina.set(pagina.info?.pagina ?? 1);
-          this.totalPaginas.set(pagina.info?.totalPaginas ?? 1);
-          this.filtro.setValue('');
-        },
-        error: (error: Error) => this.erro = `Não foi possível carregar: ${error.message}`
-      });
-  }
+  //   this.subs = this.usuariosApi.listar(this.numeroPagina(), this.tamanhoPagina(), 'nome')
+  //     .pipe(finalize(() => this.carregando = false))
+  //     .subscribe({
+  //       next: pagina => {
+  //         this.usuarios.set([...pagina.dados]);
+  //         this.numeroPagina.set(pagina.info?.pagina ?? 1);
+  //         this.totalPaginas.set(pagina.info?.totalPaginas ?? 1);
+  //         this.filtro.setValue('');
+  //       },
+  //       error: (error: Error) => this.erro = `Não foi possível carregar: ${error.message}`
+  //     });
+  // }
 
   protected async excluir(usuario: Usuario) {
     if (!confirm(`Confirmar a exclusão de ${usuario.nome} ?`))
       return;
 
     this.usuariosApi.excluir(usuario.id).subscribe({
-      next: () => this.carregarUsuarios(),
+      next: () => this.recarregar$.next(),
       error: (error: Error) => console.log(`Não foi possível excluir o usuário: ${error.message}`)
     });
   }
@@ -112,7 +133,6 @@ export class UsuariosListagem {
       return;
 
     this.numeroPagina.set(pagina);
-    this.carregarUsuarios();
   }
 
 }

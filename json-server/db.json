@@ -51,7 +51,8 @@
       ],
       "noAtuacao": false,
       "valida": true,
-      "agrupador": "PGR"
+      "agrupador": "PGR",
+      "id": "5a75"
     },
     {
       "idUnidadeOrganica": 15885,
@@ -66,7 +67,8 @@
         }
       ],
       "noAtuacao": false,
-      "valida": true
+      "valida": true,
+      "id": "54a8"
     },
     {
       "idUnidadeOrganica": -1,
@@ -77,7 +79,8 @@
       },
       "papeis": [],
       "noAtuacao": true,
-      "valida": false
+      "valida": false,
+      "id": "df82"
     }
   ],
   "categorias": [
@@ -338,14 +341,6 @@
       "dataCadastro": "2015-05-13T03:00:00.000Z"
     },
     {
-      "id": "16",
-      "nome": "Adriano Machado Pereira",
-      "email": "adriano.pereira@zmail.com",
-      "matricula": 19120,
-      "dataNascimento": "1978-01-28T03:00:00.000Z",
-      "dataCadastro": "2015-05-20T03:00:00.000Z"
-    },
-    {
       "id": "17",
       "nome": "Nonato Vieira Domingues",
       "email": "nonato.domingues@zmail.com",
@@ -424,14 +419,6 @@
       "matricula": 26429,
       "dataNascimento": "1979-07-22T03:00:00.000Z",
       "dataCadastro": "2015-07-29T03:00:00.000Z"
-    },
-    {
-      "id": "27",
-      "nome": "Adriano Pedrosa Rossi",
-      "email": "adriano.rossi@zmail.com",
-      "matricula": 14314,
-      "dataNascimento": "1975-12-10T03:00:00.000Z",
-      "dataCadastro": "2015-08-05T03:00:00.000Z"
     },
     {
       "id": "28",
@@ -920,14 +907,6 @@
       "matricula": 26812,
       "dataNascimento": "1978-12-28T03:00:00.000Z",
       "dataCadastro": "2016-10-05T03:00:00.000Z"
-    },
-    {
-      "id": "89",
-      "nome": "Carla Jordao Nobre",
-      "email": "carla.nobre@zmail.com",
-      "matricula": 14605,
-      "dataNascimento": "1980-09-13T03:00:00.000Z",
-      "dataCadastro": "2016-10-12T03:00:00.000Z"
     },
     {
       "id": "90",
