@@ -1,21 +1,22 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { finalize, Subscription } from 'rxjs';
 import { Card } from '../../../shared/card/card';
 import { Bloqueado } from '../../../shared/diretivas/bloqueado';
 import { Usuario } from '../../../shared/model/usuario';
-import { FiltrarPipe } from '../../../shared/pipes/filtrar-pipe';
+import { obterItensFiltrados } from '../../../shared/pipes/filtragem';
 import { UsuariosApi } from '../usuarios-api';
 
 @Component({
   selector: 'app-usuarios-listagem',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,
     ReactiveFormsModule,
     DatePipe,
-    FiltrarPipe,
     Bloqueado,
     Card
   ],
@@ -26,30 +27,27 @@ export class UsuariosListagem {
 
   private usuariosApi = inject(UsuariosApi);
 
-  protected usuarios: Usuario[] = [];
-
   protected erro = '';
 
   protected carregando = false;
 
-  protected numeroPagina = 1;
+  protected numeroPagina = signal(1);
 
-  protected tamanhoPagina = 5;
+  protected tamanhoPagina = signal(5);
 
-  protected totalPaginas = 0;
+  protected totalPaginas = signal(0);
+
+  protected usuarios = signal<Usuario[]>([]);
 
   private subs?: Subscription = undefined;
 
   protected filtro = new FormControl('');
 
-  // protected listagemFiltrada$ = this.filtro.valueChanges.pipe(
-  //   debounceTime(300),
-  //   map(texto => (texto?.length ?? 0) >= 3 ? texto : ''),
-  //   startWith(''),
-  //   distinctUntilChanged(),
-  //   tap(texto => console.log('Filtrando com: ', texto)),
-  //   map(texto => obterItensFiltrados(this.usuarios, texto))
-  // );
+  protected textoFiltro = toSignal(this.filtro.valueChanges);
+
+  protected listagemFiltrada = computed(() => {
+    return obterItensFiltrados(this.usuarios(), this.textoFiltro());
+  });
 
 
   ngOnInit() {
@@ -65,13 +63,13 @@ export class UsuariosListagem {
   protected async carregarUsuarios() {
     this.carregando = true;
 
-    this.subs = this.usuariosApi.listar(this.numeroPagina, this.tamanhoPagina, 'nome')
+    this.subs = this.usuariosApi.listar(this.numeroPagina(), this.tamanhoPagina(), 'nome')
       .pipe(finalize(() => this.carregando = false))
       .subscribe({
         next: pagina => {
-          this.usuarios = [...pagina.dados];
-          this.numeroPagina = pagina.info?.pagina ?? 1;
-          this.totalPaginas = pagina.info?.totalPaginas ?? 1;
+          this.usuarios.set([...pagina.dados]);
+          this.numeroPagina.set(pagina.info?.pagina ?? 1);
+          this.totalPaginas.set(pagina.info?.totalPaginas ?? 1);
           this.filtro.setValue('');
         },
         error: (error: Error) => this.erro = `Não foi possível carregar: ${error.message}`
@@ -93,27 +91,27 @@ export class UsuariosListagem {
   }
 
   protected anterior() {
-    this.carregarPagina(this.numeroPagina - 1)
+    this.carregarPagina(this.numeroPagina() - 1)
   }
 
   protected proxima() {
-    this.carregarPagina(this.numeroPagina + 1)
+    this.carregarPagina(this.numeroPagina() + 1)
   }
 
   protected ultima() {
-    this.carregarPagina(this.totalPaginas);
+    this.carregarPagina(this.totalPaginas());
   }
 
   protected alterarTamanhoPagina(n: number) {
-    this.tamanhoPagina = n;
+    this.tamanhoPagina.set(n);
     this.carregarPagina(1);
   }
 
   private carregarPagina(pagina: number) {
-    if (pagina > this.totalPaginas || pagina < 1)
+    if (pagina > this.totalPaginas() || pagina < 1)
       return;
 
-    this.numeroPagina = pagina;
+    this.numeroPagina.set(pagina);
     this.carregarUsuarios();
   }
 
