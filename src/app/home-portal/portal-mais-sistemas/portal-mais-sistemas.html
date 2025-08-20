@@ -3,9 +3,9 @@
 @if (minimoColapsar() > 0 && atalhos().length >= minimoColapsar()) {
   <div class="d-block text-center">
     <button class="btn btn-outline-secondary fw-semibold dropdown-toggle"
-      [class.active]="exibirMais"
-      (click)="exibirMais = !exibirMais">
-      <span class="visually-hidden">{{exibirMais ? 'Ocultar' : 'Exibir'}} links para</span>
+      [class.active]="exibirMais()"
+      (click)="exibirMais.set(!exibirMais())">
+      <span class="visually-hidden">{{exibirMais() ? 'Ocultar' : 'Exibir'}} links para</span>
       Mais sistemas do MPF
     </button>
   </div>
@@ -15,7 +15,7 @@
 }
 
 <nav class="links-mais-sistemas" [class.links-edicao]="edicaoAtiva()"
-  [hidden]="!(exibirMais || !minimoColapsar() || atalhos().length < minimoColapsar())">
+  [hidden]="!(exibirMais() || !minimoColapsar() || atalhos().length < minimoColapsar())">
   @for (atalho of atalhos() | ordenar : 'nome';
     let i=$index, impar=$odd, primeiro=$first, ultimo=$last;
     track $index) {

@@ -1,10 +1,11 @@
-import { Component, computed, effect, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Card } from '../../../shared/card/card';
 import { TwoWayFilho } from '../two-way-filho/two-way-filho';
 
 @Component({
   selector: 'app-two-way-pai',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,
     Card,

@@ -1,10 +1,11 @@
-import { Component, input, output, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, signal, TemplateRef } from '@angular/core';
 import { OrdenarPipe } from '../../shared/pipes/ordenar';
 import { AtalhoSistema } from '../atalho-sistema';
 import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'app-portal-mais-sistemas',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     OrdenarPipe,
     NgTemplateOutlet
@@ -30,7 +31,7 @@ export class PortalMaisSistemas {
    * O valor do evento é um objeto do tipo `AtalhoSistema` */
   atalhoPromovido = output<AtalhoSistema>();
 
-  protected exibirMais = false;
+  protected exibirMais = signal(false);
 
 
   protected atalhoClick(atalho: AtalhoSistema, event: MouseEvent) {

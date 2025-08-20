@@ -21,11 +21,12 @@ export class HomePortal {
   private atalhos = signal<AtalhoSistema[]>([]);
 
   protected atalhosDestaque = computed(() => this.atalhos().filter(a => a.destaque));
+
   protected atalhosMaisSistemas = computed(() => this.atalhos().filter(a => !a.destaque));
 
-  protected erroAtalhos = '';
+  protected erroAtalhos = signal('');
 
-  protected editando = false;
+  protected editando = signal(false);
 
   protected templateContentChild = contentChild(TemplateRef<any>);
 
@@ -51,7 +52,7 @@ export class HomePortal {
       .then((atalhos) => {
         this.atalhos.set(atalhos);
       })
-      .catch(() => this.erroAtalhos = 'Algo deu errado. Não foi possível obter os atalhos.');
+      .catch(() => this.erroAtalhos.set('Algo deu errado. Não foi possível obter os atalhos.'));
   }
 
 

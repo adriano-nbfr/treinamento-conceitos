@@ -1,8 +1,9 @@
-import { Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { AtalhoSistema } from '../atalho-sistema';
 
 @Component({
   selector: 'app-portal-destaques',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
   templateUrl: './portal-destaques.html',
   styleUrl: './portal-destaques.scss'

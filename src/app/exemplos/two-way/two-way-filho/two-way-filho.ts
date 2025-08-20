@@ -1,8 +1,9 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, model } from '@angular/core';
 
 @Component({
   selector: 'app-two-way-filho',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     DecimalPipe
   ],
