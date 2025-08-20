@@ -1,9 +1,31 @@
 <div class="container">
+
+  <div class="my-4 text-center">
+    <div class="d-flex justify-content-center gap-3">
+      @for (opcao of opcoesAvaliacao(); track opcao) {
+        <button class="btn btn-outline-dark"
+          [class.active]="opcao === avaliacao()"
+          (click)="avaliacao.set(opcao)">
+          {{opcao}}
+        </button>
+      }
+    </div>
+
+    <div class="mt-4">
+      <button class="btn btn-primary" (click)="trocarOpcoes(opcoesAvaliacao().length > 3)">
+        Alternar opções disponíveis
+      </button>
+    </div>
+  </div>
+
+
+
+
   @if (erroAtalhos) {
     <h2 class="text-center text-danger">{{erroAtalhos}}</h2>
   }
   @else {
-    @let destaques = atalhosDestaque.length ? atalhosDestaque : atalhosMaisSistemas;
+    @let destaques = atalhosDestaque().length ? atalhosDestaque() : atalhosMaisSistemas();
 
     <div class="d-block position-relative text-end">
       <button class="btn btn-sm btn-outline-secondary"
@@ -18,7 +40,7 @@
     </app-portal-destaques>
 
     @if (atalhosDestaque.length && atalhosMaisSistemas.length) {
-      <app-portal-mais-sistemas [atalhos]="atalhosMaisSistemas"
+      <app-portal-mais-sistemas [atalhos]="atalhosMaisSistemas()"
         [edicaoAtiva]="editando"
         [minimoColapsar]="5"
         [templateLink]="templateContentChild()"
