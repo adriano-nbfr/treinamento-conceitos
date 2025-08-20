@@ -1,10 +1,11 @@
 import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, Signal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { combineLatest, finalize, map, Subject, Subscription, switchMap, tap } from 'rxjs';
+import { combineLatest, map, Subject, switchMap, tap } from 'rxjs';
 import { Card } from '../../../shared/card/card';
+import { dadoAssincrono, mapearDadoAssincrono } from '../../../shared/dado-assincrono';
 import { Bloqueado } from '../../../shared/diretivas/bloqueado';
 import { Usuario } from '../../../shared/model/usuario';
 import { obterItensFiltrados } from '../../../shared/pipes/filtragem';
@@ -27,9 +28,9 @@ export class UsuariosListagem {
 
   private usuariosApi = inject(UsuariosApi);
 
-  protected erro = '';
+  // protected erro = '';
 
-  protected carregando = false;
+  // protected carregando = false;
 
   protected numeroPagina = signal(1);
 
@@ -37,7 +38,7 @@ export class UsuariosListagem {
 
   protected totalPaginas = signal(0);
 
-  // protected usuarios = signal<Usuario[]>([]);
+  protected usuarios = dadoAssincrono<Usuario[]>([]);
 
   private recarregar$ = new Subject<void>();
 
@@ -48,29 +49,34 @@ export class UsuariosListagem {
       this.recarregar$
     ])
     .pipe(
-      switchMap(([numPagina, tamPagina]) => this.usuariosApi.listar(numPagina, tamPagina,'nome')),
-      tap(pagina => {
-        this.numeroPagina.set(pagina.info?.pagina ?? 1);
-        this.totalPaginas.set(pagina.info?.totalPaginas ?? 1);
+      switchMap(([numPagina, tamPagina]) => {
+        return this.usuariosApi.listar(numPagina, tamPagina,'nome').pipe(
+          tap(pagina => {
+            this.numeroPagina.set(pagina.info?.pagina ?? 1);
+            this.totalPaginas.set(pagina.info?.totalPaginas ?? 1);
+          }),
+          map(pagina => [...pagina.dados]),
+          mapearDadoAssincrono(this.usuarios, [])
+        )
       }),
-      map(pagina => [...pagina.dados]),
-      takeUntilDestroyed()
+      takeUntilDestroyed(),
     );
 
-  protected usuarios = toSignal(this.usuarios$, {initialValue: []});
+  // protected usuarios = toSignal(this.usuarios$, {initialValue: []});
 
-  private subs?: Subscription = undefined;
+  // private subs?: Subscription = undefined;
 
   protected filtro = new FormControl('');
 
   protected textoFiltro = toSignal(this.filtro.valueChanges);
 
   protected listagemFiltrada = computed(() => {
-    return obterItensFiltrados(this.usuarios(), this.textoFiltro());
+    return obterItensFiltrados(this.usuarios.valor(), this.textoFiltro());
   });
 
 
   ngOnInit() {
+    this.usuarios$.subscribe();
     this.recarregar$.next();
     // this.carregarUsuarios();
   }
