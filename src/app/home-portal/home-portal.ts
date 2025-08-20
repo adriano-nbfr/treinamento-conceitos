@@ -3,6 +3,7 @@ import { AtalhoSistema } from './atalho-sistema';
 import { PortalApi } from './portal-api';
 import { PortalDestaques } from "./portal-destaques/portal-destaques";
 import { PortalMaisSistemas } from './portal-mais-sistemas/portal-mais-sistemas';
+import { dadoAssincrono, resolverDadoAssincrono } from '../shared/dado-assincrono';
 
 @Component({
   selector: 'app-home-portal',
@@ -18,13 +19,11 @@ export class HomePortal {
 
   private portalApi = inject(PortalApi);
 
-  private atalhos = signal<AtalhoSistema[]>([]);
+  protected atalhos = dadoAssincrono<AtalhoSistema[]>([]);
 
-  protected atalhosDestaque = computed(() => this.atalhos().filter(a => a.destaque));
+  protected atalhosDestaque = computed(() => this.atalhos.valor().filter(a => a.destaque));
 
-  protected atalhosMaisSistemas = computed(() => this.atalhos().filter(a => !a.destaque));
-
-  protected erroAtalhos = signal('');
+  protected atalhosMaisSistemas = computed(() => this.atalhos.valor().filter(a => !a.destaque));
 
   protected editando = signal(false);
 
@@ -43,21 +42,11 @@ export class HomePortal {
 
 
   ngOnInit() {
-    this.carregarAtalhos();
+    resolverDadoAssincrono(this.portalApi.obterAtalhos(), this.atalhos, []);
   }
-
-
-  protected carregarAtalhos() {
-    this.portalApi.obterAtalhos()
-      .then((atalhos) => {
-        this.atalhos.set(atalhos);
-      })
-      .catch(() => this.erroAtalhos.set('Algo deu errado. Não foi possível obter os atalhos.'));
-  }
-
 
   protected alterarDestaqueAtalho(atalho: AtalhoSistema, destaque: boolean) {
-    this.atalhos.update(atalhos => atalhos.map(a => a.url === atalho.url ? {...a, destaque} : a));
+    this.atalhos.valor.update(atalhos => atalhos.map(a => a.url === atalho.url ? {...a, destaque} : a));
   }
 
 }
