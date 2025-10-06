@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "play": "node --watch --no-warnings --experimental-transform-types playground.ts"
   },
   "prettier": {
     "printWidth": 100,
