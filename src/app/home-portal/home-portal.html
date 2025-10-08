@@ -1,29 +1,11 @@
 <div class="container">
   <nav class="links-destaque">
-    <a href="https://novoportal.mpf.mp.br/novaintra" target="_blank">
-      <img aria-hidden="true" src="img/atalhos/Intranet-MPF.jpg">Intranet
-    </a>
-    <a href="https://pontodigital.mpf.mp.br/pontodigital" target="_blank">
-      <img aria-hidden="true" src="img/atalhos/PontoDigital.jpg">Ponto Digital
-    </a>
-    <a href="https://unico.mpf.mp.br/unico" target="_blank">
-      <img aria-hidden="true" src="img/atalhos/Unico.jpg">Único
-    </a>
-    <a href="https://novoportal.mpf.mp.br/snp" target="_blank">
-      <img aria-hidden="true" src="img/atalhos/SNP.jpg">SNP
-    </a>
-    <a href="https://novoportal.mpf.mp.br/kairos" target="_blank">
-      <img aria-hidden="true" src="img/atalhos/Kairos.jpg">Kairos
-    </a>
-    <a href="https://horus.mpf.mp.br/horus" target="_blank">
-      <img aria-hidden="true" src="img/atalhos/Horus.jpg">Hórus
-    </a>
-    <a href="https://mail.google.com/a/mpf.mp.br" target="_blank">
-      <img aria-hidden="true" src="img/atalhos/Correio.jpg">Correio Eletrônico
-    </a>
-    <a href="https://novoportal.mpf.mp.br/biblioteca" target="_blank">
-      <img aria-hidden="true" src="img/atalhos/Biblioteca.jpg">Biblioteca
-    </a>
+    @for (atalho of atalhosDestaque; track $index) {
+      <a [href]="atalho.url" target="_blank">
+        <img aria-hidden="true" [src]="`img/atalhos/${atalho.icone || 'icone-generico.jpg'}`">
+        {{atalho.nome}}
+      </a>
+    }
   </nav>
 
   <hr class="divider my-4">
