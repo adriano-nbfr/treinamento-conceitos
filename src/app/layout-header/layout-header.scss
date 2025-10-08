@@ -16,3 +16,11 @@
   margin: 0;
   font-size: 150%;
 }
+
+:host.header-gigante .app-logo {
+  height: 4em;
+}
+
+:host.header-gigante h1 {
+  font-size: 300%;
+}
