@@ -18,7 +18,7 @@ export class HomePortal {
     { url: 'https://horus.mpf.mp.br/horus', nome: 'Hórus', icone: 'Horus.jpg', destaque: true },
     { url: 'https://mail.google.com/a/mpf.mp.br', nome: 'Correio Eletrônico', icone: 'Correio.jpg', destaque: true },
     { url: 'https://novoportal.mpf.mp.br/biblioteca', nome: 'Biblioteca', icone: 'Biblioteca.jpg', destaque: true },
-    { url: 'https://novoportal.mpf.mp.br/apex/f?p=pin', nome: 'PIN', destaque: true },
+    { url: 'https://novoportal.mpf.mp.br/apex/f?p=pin', nome: 'PIN', destaque: false },
     { url: 'https://novoportal.mpf.mp.br/apex/f?p=sigov', nome: 'SIGOV', destaque: false },
     { url: 'https://radar.mpf.mp.br/radar2', nome: 'RADAR', destaque: false },
     { url: 'https://novoportal.mpf.mp.br/sisam/portal', nome: 'SISAM', destaque: false },
