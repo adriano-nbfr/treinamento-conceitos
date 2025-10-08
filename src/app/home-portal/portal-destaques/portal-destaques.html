@@ -1,0 +1,8 @@
+<nav class="links-destaque">
+  @for (atalho of atalhos(); track $index) {
+    <a [href]="atalho.url" target="_blank">
+      <img aria-hidden="true" [src]="`img/atalhos/${atalho.icone || 'icone-generico.jpg'}`">
+      {{atalho.nome}}
+    </a>
+  }
+</nav>

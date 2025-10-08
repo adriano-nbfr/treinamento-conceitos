@@ -2,27 +2,16 @@
   @let destaques = atalhosDestaque.length ? atalhosDestaque : atalhosMaisSistemas;
 
   @if (destaques.length > 0) {
-    <nav class="links-destaque">
-      @for (atalho of destaques; track $index) {
-        <a [href]="atalho.url" target="_blank">
-          <img aria-hidden="true" [src]="`img/atalhos/${atalho.icone || 'icone-generico.jpg'}`">
-          {{atalho.nome}}
-        </a>
-      }
-    </nav>
+    <app-portal-destaques [atalhos]="destaques"></app-portal-destaques>
   }
   @else {
     <h2 class="text-center fs-5 mt-5">Não existem atalhos a serem exibidos.</h2>
   }
 
   @if (atalhosMaisSistemas.length > 0 && atalhosDestaque.length > 0) {
-    <hr class="divider my-4">
-    <h2 class="text-center">Mais sistemas do MPF</h2>
-
-    <nav class="links-mais-sistemas">
-      @for (atalho of atalhosMaisSistemas; track $index) {
-        <a [href]="atalho.url" target="_blank">{{atalho.nome}}</a>
-      }
-    </nav>
+    <app-portal-mais-sistemas
+      [atalhos]="atalhosMaisSistemas"
+      [minimoColapsar]="5">
+    </app-portal-mais-sistemas>
   }
 </div>

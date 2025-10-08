@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, Input } from '@angular/core';
 
 @Component({
   selector: 'header[app-layout-header]',
@@ -13,13 +13,13 @@ import { Component } from '@angular/core';
 })
 export class LayoutHeader {
 
-  protected titulo = 'Treinamento Angular';
+  titulo = input('Treinamento Angular');
 
   protected logoGradiente = false;
 
   protected tituloCentralizado = false;
 
-  protected opacidadeTitulo = 0.8;
+  protected opacidadeTitulo = 1;
 
   protected gigante = false;
 
