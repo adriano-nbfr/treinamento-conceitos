@@ -45,4 +45,9 @@ export class HomePortal {
     this.atalhosMaisSistemas = this.atalhos.filter(a => !a.destaque);
   }
 
+  protected alterarDestaqueAtalho(atalho: AtalhoSistema, destaque: boolean) {
+    this.atalhos = this.atalhos.map(a => a.url === atalho.url ? {...a, destaque} : a);
+    this.atualizarListasAtalhos();
+  }
+
 }

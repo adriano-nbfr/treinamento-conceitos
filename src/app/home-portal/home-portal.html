@@ -11,7 +11,8 @@
   @if (atalhosMaisSistemas.length > 0 && atalhosDestaque.length > 0) {
     <app-portal-mais-sistemas
       [atalhos]="atalhosMaisSistemas"
-      [minimoColapsar]="5">
+      [minimoColapsar]="5"
+      (atalhoPromovido)="alterarDestaqueAtalho($event, true)">
     </app-portal-mais-sistemas>
   }
 </div>

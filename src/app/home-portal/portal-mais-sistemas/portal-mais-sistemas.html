@@ -1,4 +1,12 @@
 <hr class="divider my-4">
+
+<div class="position-relative">
+  <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0"
+    (click)="editando = !editando">
+    {{editando ? 'Concluir' : 'Editar'}}
+  </button>
+</div>
+
  @if (minimoColapsar() && atalhos().length >= minimoColapsar()) {
    <div class="d-block text-center">
      <button class="btn btn-outline-secondary fw-semibold dropdown-toggle"
@@ -14,9 +22,12 @@
  }
 
 @if (exibirMais || !minimoColapsar() || atalhos().length < minimoColapsar()) {
-  <nav class="links-mais-sistemas">
+  <nav class="links-mais-sistemas" [class.links-edicao]="editando">
     @for (atalho of atalhos(); track $index) {
-      <a [href]="atalho.url" target="_blank">{{atalho.nome}}</a>
+      <a [href]="atalho.url" target="_blank"
+        (click)="atalhoClick(atalho, $event)">
+        {{atalho.nome}}
+      </a>
     }
   </nav>
 }

@@ -17,8 +17,13 @@
   border-top-color: #ddd;
 }
 
-.links-mais-sistemas a:hover,
-.links-mais-sistemas a:focus-visible {
+.links-mais-sistemas:not(.links-edicao) a:hover,
+.links-mais-sistemas:not(.links-edicao) a:focus-visible {
   background-color: #ddd6;
   text-decoration: underline;
+}
+
+.links-mais-sistemas.links-edicao a:hover {
+  border: 1px dashed #777;
+  background-color: #ffd8;
 }
