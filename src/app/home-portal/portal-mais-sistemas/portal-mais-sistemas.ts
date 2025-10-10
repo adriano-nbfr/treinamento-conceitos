@@ -1,9 +1,12 @@
 import { Component, input, output } from '@angular/core';
 import { AtalhoSistema } from '../atalho-sistema';
+import { OrdenarPipe } from '../../shared/pipes/ordenar-pipe';
 
 @Component({
   selector: 'app-portal-mais-sistemas',
-  imports: [],
+  imports: [
+    OrdenarPipe
+  ],
   templateUrl: './portal-mais-sistemas.html',
   styleUrl: './portal-mais-sistemas.scss'
 })
@@ -32,5 +35,16 @@ export class PortalMaisSistemas {
       this.atalhoPromovido.emit(atalho);
     }
   }
+
+
+  // protected ordenarAtalhos(itens: AtalhoSistema[], atributo: keyof AtalhoSistema) {
+  //   console.log('Função ordenarAtalhos() processada.');
+
+  //   if (itens.length === 0)
+  //     return itens;
+
+  //   return [...itens]
+  //     .sort((a, b) => (a[atributo]! > b[atributo]!) ? 1 : (a[atributo]! < b[atributo]!) ? - 1 : 0);
+  // }
 
 }

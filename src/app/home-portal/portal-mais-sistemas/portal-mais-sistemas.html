@@ -23,7 +23,7 @@
 
 @if (exibirMais || !minimoColapsar() || atalhos().length < minimoColapsar()) {
   <nav class="links-mais-sistemas" [class.links-edicao]="editando">
-    @for (atalho of atalhos(); track $index) {
+    @for (atalho of (atalhos() | ordenar : 'nome'); track $index) {
       <a [href]="atalho.url" target="_blank"
         (click)="atalhoClick(atalho, $event)">
         {{atalho.nome}}
