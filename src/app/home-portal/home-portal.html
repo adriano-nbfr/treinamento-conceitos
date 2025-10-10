@@ -2,7 +2,9 @@
   @let destaques = atalhosDestaque.length ? atalhosDestaque : atalhosMaisSistemas;
 
   @if (destaques.length > 0) {
-    <app-portal-destaques [atalhos]="destaques"></app-portal-destaques>
+    <app-portal-destaques [atalhos]="destaques"
+      (atalhoRebaixado)="alterarDestaqueAtalho($event, false)">
+    </app-portal-destaques>
   }
   @else {
     <h2 class="text-center fs-5 mt-5">Não existem atalhos a serem exibidos.</h2>

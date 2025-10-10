@@ -1,8 +1,16 @@
-<nav class="links-destaque">
+<nav class="links-destaque" [class.links-edicao]="editando">
   @for (atalho of atalhos(); track $index) {
-    <a [href]="atalho.url" target="_blank">
+    <a [href]="atalho.url" target="_blank"
+      (click)="atalhoClick(atalho, $event)">
       <img aria-hidden="true" [src]="`img/atalhos/${atalho.icone || 'icone-generico.jpg'}`">
       {{atalho.nome}}
     </a>
   }
 </nav>
+
+<div class="text-end">
+  <button class="btn btn-sm btn-outline-secondary"
+    (click)="editando = !editando">
+    {{editando ? 'Concluir' : 'Editar'}}
+  </button>
+</div>
