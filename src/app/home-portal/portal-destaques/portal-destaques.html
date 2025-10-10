@@ -2,7 +2,10 @@
   @for (atalho of atalhos(); track $index) {
     <a [href]="atalho.url" target="_blank"
       (click)="atalhoClick(atalho, $event)">
-      <img aria-hidden="true" [src]="`img/atalhos/${atalho.icone || 'icone-generico.jpg'}`">
+
+      <img aria-hidden="true" [src]="`img/atalhos/${atalho.icone || 'icone-generico.jpg'}`"
+        appFiltroHover="sepia">
+
       {{atalho.nome}}
     </a>
   }
