@@ -1,33 +1,17 @@
-<header app-layout-header [titulo]="'Treinamento - Conceitos'"></header>
+<app-layout>
+  <ul menu class="nav nav-underline px-3 bg-light">
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="tela === 'home'" href="#" (click)="tela = 'home'">
+        Home
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="tela === 'two-way'" href="#" (click)="tela = 'two-way'">
+        Two-way
+      </a>
+    </li>
+  </ul>
 
-<ul class="nav nav-underline px-3 bg-light">
-  <li class="nav-item">
-    <a class="nav-link" [class.active]="tela === 'home'" href="#" (click)="tela = 'home'">
-      Home
-    </a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" [class.active]="tela === 'two-way'" href="#" (click)="tela = 'two-way'">
-      Two-way
-    </a>
-  </li>
-</ul>
-
-
-<div class="d-flex justify-content-center gap-3 p-4">
-  <button #botao class="btn btn-secondary"
-    (click)="conteudoBloqueado = !conteudoBloqueado">
-    Alternar bloqueio pela propriedade
-  </button>
-
-  <button #botao class="btn btn-secondary"
-    (click)="bloq.appBloqueado.set(!bloq.appBloqueado())">
-    Alternar bloqueio direto pela diretiva
-  </button>
-</div>
-
-
-<main #appMain #bloq="appBloqueado" class="app-main" [appBloqueado]="conteudoBloqueado" [desfoque]="true">
   @switch (tela) {
     @case ('two-way') {
       <app-two-way-pai></app-two-way-pai>
@@ -36,4 +20,4 @@
       <app-home-portal></app-home-portal>
     }
   }
-</main>
+</app-layout>

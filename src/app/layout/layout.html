@@ -1,0 +1,7 @@
+<header app-layout-header [titulo]="'Treinamento - Conceitos'"></header>
+
+<ng-content select="ul[menu]"></ng-content>
+
+<main #appMain #bloq="appBloqueado" class="app-main" [appBloqueado]="conteudoBloqueado" [desfoque]="true">
+  <ng-content></ng-content>
+</main>
