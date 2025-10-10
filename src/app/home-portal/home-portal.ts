@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, contentChildren, ElementRef } from '@angular/core';
 import { AtalhoSistema } from './atalho-sistema';
 import { PortalDestaques } from "./portal-destaques/portal-destaques";
 import { PortalMaisSistemas } from "./portal-mais-sistemas/portal-mais-sistemas";
@@ -13,6 +13,8 @@ import { PortalMaisSistemas } from "./portal-mais-sistemas/portal-mais-sistemas"
   styleUrl: './home-portal.scss'
 })
 export class HomePortal {
+
+  private botoes = contentChildren<ElementRef>('botao');
 
   private atalhos: AtalhoSistema[] = [
     { url: 'https://novoportal.mpf.mp.br/novaintra', nome: 'Intranet', icone: 'Intranet-MPF.jpg', destaque: true },
@@ -38,6 +40,10 @@ export class HomePortal {
 
   constructor() {
     this.atualizarListasAtalhos();
+  }
+
+  ngAfterViewInit() {
+    console.log(this.botoes().map(b => b.nativeElement.innerText));
   }
 
   private atualizarListasAtalhos() {

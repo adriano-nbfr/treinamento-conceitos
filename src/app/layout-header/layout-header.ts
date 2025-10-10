@@ -24,7 +24,7 @@ export class LayoutHeader {
 
   protected opacidadeTitulo = 1;
 
-  protected gigante = false;
+  gigante = false;
 
   protected hoje = new Date();
 
