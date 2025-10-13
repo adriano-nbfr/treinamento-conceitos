@@ -1,20 +1,25 @@
 <div class="container">
-  @let destaques = atalhosDestaque.length ? atalhosDestaque : atalhosMaisSistemas;
-
-  @if (destaques.length > 0) {
-    <app-portal-destaques [atalhos]="destaques"
-      (atalhoRebaixado)="alterarDestaqueAtalho($event, false)">
-    </app-portal-destaques>
+  @if (erroAtalhos) {
+    <h2 class="text-center text-danger">{{erroAtalhos}}</h2>
   }
   @else {
-    <h2 class="text-center fs-5 mt-5">Não existem atalhos a serem exibidos.</h2>
-  }
+    @let destaques = atalhosDestaque.length ? atalhosDestaque : atalhosMaisSistemas;
 
-  @if (atalhosMaisSistemas.length > 0 && atalhosDestaque.length > 0) {
-    <app-portal-mais-sistemas
-      [atalhos]="atalhosMaisSistemas"
-      [minimoColapsar]="5"
-      (atalhoPromovido)="alterarDestaqueAtalho($event, true)">
-    </app-portal-mais-sistemas>
+    @if (destaques.length > 0) {
+      <app-portal-destaques [atalhos]="destaques"
+        (atalhoRebaixado)="alterarDestaqueAtalho($event, false)">
+      </app-portal-destaques>
+    }
+    @else {
+      <h2 class="text-center fs-5 mt-5">Não existem atalhos a serem exibidos.</h2>
+    }
+
+    @if (atalhosMaisSistemas.length > 0 && atalhosDestaque.length > 0) {
+      <app-portal-mais-sistemas
+        [atalhos]="atalhosMaisSistemas"
+        [minimoColapsar]="5"
+        (atalhoPromovido)="alterarDestaqueAtalho($event, true)">
+      </app-portal-mais-sistemas>
+    }
   }
 </div>
