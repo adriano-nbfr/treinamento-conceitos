@@ -18,6 +18,6 @@ import { UsuariosListagem } from './exemplos/usuarios/usuarios-listagem/usuarios
 })
 export class App {
 
-  protected tela: 'home' | 'two-way' | 'usuarios' = 'home';
+  protected tela: 'home' | 'two-way' | 'usuarios' = 'usuarios';
 
 }

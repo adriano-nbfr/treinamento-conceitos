@@ -1,7 +1,7 @@
-import { inject, Injectable } from '@angular/core';
-import { Usuario } from '../../shared/model/usuario';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, pipe, throwError } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { catchError, throwError } from 'rxjs';
+import { Usuario } from '../../shared/model/usuario';
 
 @Injectable({
   providedIn: 'root'
