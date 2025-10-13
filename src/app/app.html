@@ -10,11 +10,19 @@
         Two-way
       </a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="tela === 'usuarios'" href="#" (click)="tela = 'usuarios'">
+        Usuários
+      </a>
+    </li>
   </ul>
 
   @switch (tela) {
     @case ('two-way') {
       <app-two-way-pai></app-two-way-pai>
+    }
+    @case ('usuarios') {
+      <app-usuarios-listagem></app-usuarios-listagem>
     }
     @default {
       <app-home-portal></app-home-portal>

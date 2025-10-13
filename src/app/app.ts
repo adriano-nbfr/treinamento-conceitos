@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { HomePortal } from "./home-portal/home-portal";
 import { Layout } from './layout/layout';
 import { TwoWayPai } from "./two-way/two-way-pai/two-way-pai";
+import { UsuariosListagem } from './exemplos/usuarios/usuarios-listagem/usuarios-listagem';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,7 @@ import { TwoWayPai } from "./two-way/two-way-pai/two-way-pai";
   imports: [
     HomePortal,
     TwoWayPai,
+    UsuariosListagem,
     Layout
 ],
   templateUrl: './app.html',
@@ -16,6 +18,6 @@ import { TwoWayPai } from "./two-way/two-way-pai/two-way-pai";
 })
 export class App {
 
-  protected tela: 'home' | 'two-way' = 'home';
+  protected tela: 'home' | 'two-way' | 'usuarios' = 'home';
 
 }

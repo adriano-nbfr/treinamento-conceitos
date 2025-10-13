@@ -1,0 +1,28 @@
+<app-card titulo="Usuários - Listagem">
+  <table class="table table-striped mt-4">
+    <thead class="border-top">
+      <tr><th>Nome</th><th>E-mail</th><th>Matrícula</th><th>Dt. Nascimento</th></tr>
+    </thead>
+    <tbody>
+      @if (carregando) {
+        <tr><td colspan="5">Carregando usuários...</td></tr>
+      }
+      @else if (erro) {
+        <tr><td colspan="5" class="text-danger">{{erro}}</td></tr>
+      }
+      @else {
+        @for (usuario of usuarios; track usuario.id) {
+          <tr>
+            <td>{{usuario.nome}}</td>
+            <td>{{usuario.email}}</td>
+            <td>{{usuario.matricula}}</td>
+            <td>{{usuario.dataNascimento | date : 'dd/MM/yyyy'}}</td>
+          </tr>
+        }
+        @empty {
+          <tr><td colspan="4">Nenhum usuário encontrado.</td></tr>
+        }
+      }
+    </tbody>
+  </table>
+</app-card>
