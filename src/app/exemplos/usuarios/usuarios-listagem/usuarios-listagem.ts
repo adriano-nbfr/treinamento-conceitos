@@ -1,9 +1,9 @@
+import { DatePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { finalize, firstValueFrom, Subscription } from 'rxjs';
+import { Card } from '../../../shared/card/card';
 import { Usuario } from '../../../shared/model/usuario';
 import { UsuariosApi } from '../usuarios-api';
-import { Card } from '../../../shared/card/card';
-import { DatePipe } from '@angular/common';
-import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-usuarios-listagem',
@@ -24,27 +24,44 @@ export class UsuariosListagem {
 
   protected carregando = false;
 
+  private subscriptionUsuarios?: Subscription;
+
 
   ngOnInit() {
     this.carregarUsuarios();
   }
 
+  ngOnDestroy() {
+    this.subscriptionUsuarios && this.subscriptionUsuarios.unsubscribe();
+  }
+
+
   protected carregarUsuarios() {
     this.carregando = true;
 
-    this.usuariosApi.carregarUsuariosObservable()
+    const obs = this.usuariosApi.carregarUsuariosObservable()
       .pipe(
         finalize(() => this.carregando = false)
-      )
-      .subscribe({
-        next: (usuarios) => this.usuarios = usuarios,
-        error: (error: Error) => this.erro = `Não foi possível carregar: ${error.message}`,
-      });
+      );
+
+    this.subscriptionUsuarios = obs.subscribe({
+      next: (usuarios) => this.usuarios = usuarios,
+      error: (error: Error) => this.erro = `Não foi possível carregar: ${error.message}`,
+    });
+
+    // firstValueFrom(obs)
+    //   .then(usuarios => this.usuarios = usuarios)
+    //   .catch(error => this.erro = `Não foi possível carregar: ${error.message}`)
+    //   .finally(() => this.carregando = false);
+
+    // const abortController = new AbortController();
 
     // this.usuariosApi.carregarUsuariosPromise()
     //   .then(usuarios => this.usuarios = usuarios)
     //   .catch(error => this.erro = `Não foi possível carregar: ${error.message}`)
     //   .finally(() => this.carregando = false);
+
+    // abortController.abort(new Error('Cancelado ao sair da tela'));
   }
 
 }
