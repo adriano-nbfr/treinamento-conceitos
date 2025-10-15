@@ -1,16 +1,14 @@
 import { Routes } from '@angular/router';
-import exemplosRoutes from './exemplos/exemplos.routes';
-import { HomePortal } from './home-portal/home-portal';
 
 export const routes: Routes = [
   {
     path: 'home',
     title: 'Home - Treinamento Conceitos',
-    component: HomePortal
+    loadComponent: () => import('./home-portal/home-portal').then(m => m.HomePortal)
   },
   {
     path: 'exemplos',
-    children: exemplosRoutes
+    loadChildren: () => import('./exemplos/exemplos.routes')
   },
   {
     path: '',
