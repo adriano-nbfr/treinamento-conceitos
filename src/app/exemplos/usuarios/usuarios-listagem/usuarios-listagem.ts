@@ -6,14 +6,13 @@ import { Card } from '../../../shared/card/card';
 import { Bloqueado } from '../../../shared/diretivas/bloqueado';
 import { Usuario } from '../../../shared/model/usuario';
 import { FiltrarPipe } from '../../../shared/pipes/filtrar.pipe';
-import { provideRaizApi } from '../../../shared/providers/raiz-api';
-import { EstrategiaPaginacao } from '../../../shared/rest/estrategia-paginacao';
-import { EstrategiaPaginacaoSpring } from '../../../shared/rest/estrategia-paginacao-spring';
 import { UsuariosApi } from '../usuarios-api';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-usuarios-listagem',
   imports: [
+    RouterLink,
     Card,
     DatePipe,
     FiltrarPipe,

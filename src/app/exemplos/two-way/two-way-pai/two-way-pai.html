@@ -1,5 +1,10 @@
 <app-card titulo="Two-way">
-  <ng-container slot="titulo">Exemplo de <b>Two-way binding</b></ng-container>
+  <div slot="titulo" class="d-flex gap-3">
+    Exemplo de <b>Two-way binding</b>
+    <div class="ms-auto">
+      <button class="btn btn-sm btn-outline-light" routerLink="..">Voltar</button>
+    </div>
+  </div>
 
   <div class="d-flex align-items-center gap-4">
     <h3>Valor no componente pai: <span class="text-primary">{{valorPai}}</span></h3>

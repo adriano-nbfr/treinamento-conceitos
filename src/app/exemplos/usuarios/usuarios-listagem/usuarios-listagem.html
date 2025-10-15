@@ -1,4 +1,11 @@
-<app-card titulo="Usuários - Listagem">
+<app-card>
+  <div slot="titulo" class="d-flex gap-3">
+    Usuários - Listagem
+    <div class="ms-auto">
+      <button class="btn btn-sm btn-outline-light" routerLink="..">Voltar</button>
+    </div>
+  </div>
+
   <div class="input-group">
     <input type="text" class="form-control" placeholder="Filtrar..."
       [formControl]="filtro" #inputFiltro>

@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { TwoWayFilho } from "../two-way-filho/two-way-filho";
-import { Card } from '../../shared/card/card';
+import { Card } from '../../../shared/card/card';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-two-way-pai',
   imports: [
+    RouterLink,
     Card,
     TwoWayFilho
   ],

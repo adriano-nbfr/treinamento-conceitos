@@ -1,31 +1,16 @@
 <app-layout>
   <ul menu class="nav nav-underline px-3 bg-light">
     <li class="nav-item">
-      <a class="nav-link" [class.active]="tela === 'home'" href="#" (click)="tela = 'home'">
+      <a href="" class="nav-link" routerLink="home" routerLinkActive="active">
         Home
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" [class.active]="tela === 'two-way'" href="#" (click)="tela = 'two-way'">
-        Two-way
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" [class.active]="tela === 'usuarios'" href="#" (click)="tela = 'usuarios'">
-        Usuários
+      <a href="" class="nav-link" routerLink="exemplos" routerLinkActive="active">
+        Exemplos
       </a>
     </li>
   </ul>
 
-  @switch (tela) {
-    @case ('two-way') {
-      <app-two-way-pai></app-two-way-pai>
-    }
-    @case ('usuarios') {
-      <app-usuarios-listagem></app-usuarios-listagem>
-    }
-    @default {
-      <app-home-portal></app-home-portal>
-    }
-  }
+  <router-outlet></router-outlet>
 </app-layout>
