@@ -1,10 +1,11 @@
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, finalize, map, startWith, Subscription, tap } from 'rxjs';
+import { finalize, Subscription } from 'rxjs';
 import { Card } from '../../../shared/card/card';
+import { Bloqueado } from '../../../shared/diretivas/bloqueado';
 import { Usuario } from '../../../shared/model/usuario';
-import { obterItensFiltrados } from '../../../shared/pipes/filtragem';
+import { FiltrarPipe } from '../../../shared/pipes/filtrar.pipe';
 import { UsuariosApi } from '../usuarios-api';
 
 @Component({
@@ -12,7 +13,8 @@ import { UsuariosApi } from '../usuarios-api';
   imports: [
     Card,
     DatePipe,
-    AsyncPipe,
+    FiltrarPipe,
+    Bloqueado,
     ReactiveFormsModule
   ],
   providers: [
@@ -31,19 +33,25 @@ export class UsuariosListagem {
 
   protected carregando = false;
 
+  protected numeroPagina = 1;
+
+  protected tamanhoPagina = 5;
+
+  protected totalPaginas = 0;
+
   private subscriptionUsuarios?: Subscription;
 
   protected filtro = new FormControl('');
 
 
-  protected listagemFiltrada$ = this.filtro.valueChanges.pipe(
-    debounceTime(300),
-    map((texto) => (texto?.length ?? 0) > 2 ? texto : ''),
-    startWith(''),
-    distinctUntilChanged(),
-    tap(texto => console.log(`Filtrando com: ${texto}`)),
-    map((texto) => obterItensFiltrados(this.usuarios, texto ?? ''))
-  );
+  // protected listagemFiltrada$ = this.filtro.valueChanges.pipe(
+  //   debounceTime(300),
+  //   map((texto) => (texto?.length ?? 0) > 2 ? texto : ''),
+  //   startWith(''),
+  //   distinctUntilChanged(),
+  //   tap(texto => console.log(`Filtrando com: ${texto}`)),
+  //   map((texto) => obterItensFiltrados(this.usuarios, texto ?? ''))
+  // );
 
 
   ngOnInit() {
@@ -58,15 +66,18 @@ export class UsuariosListagem {
   protected carregarUsuarios() {
     this.carregando = true;
 
-    const obs = this.usuariosApi.carregarUsuariosObservable()
+    this.usuariosApi.listar(this.numeroPagina, this.tamanhoPagina, 'nome')
       .pipe(
         finalize(() => this.carregando = false)
-      );
-
-    this.subscriptionUsuarios = obs.subscribe({
-      next: (usuarios) => this.usuarios = usuarios,
-      error: (error: Error) => this.erro = `Não foi possível carregar: ${error.message}`,
-    });
+      ).subscribe({
+        next: (pagina) => {
+          this.usuarios = [...pagina.dados];
+          this.numeroPagina = pagina.info?.pagina ?? 1;
+          this.totalPaginas = pagina.info?.totalPaginas ?? 1;
+          this.filtro.setValue('');
+        },
+        error: (error: Error) => this.erro = `Não foi possível carregar: ${error.message}`,
+      });
 
     // firstValueFrom(obs)
     //   .then(usuarios => this.usuarios = usuarios)
@@ -81,6 +92,36 @@ export class UsuariosListagem {
     //   .finally(() => this.carregando = false);
 
     // abortController.abort(new Error('Cancelado ao sair da tela'));
+  }
+
+
+  protected primeira() {
+    this.carregarPagina(1);
+  }
+
+  protected anterior() {
+    this.carregarPagina(this.numeroPagina - 1)
+  }
+
+  protected proxima() {
+    this.carregarPagina(this.numeroPagina + 1)
+  }
+
+  protected ultima() {
+    this.carregarPagina(this.totalPaginas);
+  }
+
+  protected alterarTamanhoPagina(n: number) {
+    this.tamanhoPagina = n;
+    this.carregarPagina(1);
+  }
+
+  private carregarPagina(pagina: number) {
+    if (pagina > this.totalPaginas || pagina < 1)
+      return;
+
+    this.numeroPagina = pagina;
+    this.carregarUsuarios();
   }
 
 }
