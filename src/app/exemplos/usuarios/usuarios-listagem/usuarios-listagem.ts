@@ -6,6 +6,9 @@ import { Card } from '../../../shared/card/card';
 import { Bloqueado } from '../../../shared/diretivas/bloqueado';
 import { Usuario } from '../../../shared/model/usuario';
 import { FiltrarPipe } from '../../../shared/pipes/filtrar.pipe';
+import { provideRaizApi } from '../../../shared/providers/raiz-api';
+import { EstrategiaPaginacao } from '../../../shared/rest/estrategia-paginacao';
+import { EstrategiaPaginacaoSpring } from '../../../shared/rest/estrategia-paginacao-spring';
 import { UsuariosApi } from '../usuarios-api';
 
 @Component({
@@ -18,6 +21,8 @@ import { UsuariosApi } from '../usuarios-api';
     ReactiveFormsModule
   ],
   providers: [
+    // provideRaizApi('/api/v2'),
+    // { provide: EstrategiaPaginacao, useClass: EstrategiaPaginacaoSpring },
     UsuariosApi
   ],
   templateUrl: './usuarios-listagem.html',
