@@ -2,15 +2,16 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 import { Usuario } from '../../shared/model/usuario';
+import { RAIZ_API } from '../../shared/providers/raiz-api';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class UsuariosApi {
 
   private http = inject(HttpClient);
 
-  private urlApi = '/api/usuarios';
+  private raizApi = inject(RAIZ_API);
+
+  private urlApi = `${this.raizApi}/usuarios`;
 
   async carregarUsuariosPromise(abortSignal?: AbortSignal) {
     try {

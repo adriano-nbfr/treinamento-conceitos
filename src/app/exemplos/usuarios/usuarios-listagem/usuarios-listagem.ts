@@ -15,6 +15,9 @@ import { UsuariosApi } from '../usuarios-api';
     AsyncPipe,
     ReactiveFormsModule
   ],
+  providers: [
+    UsuariosApi
+  ],
   templateUrl: './usuarios-listagem.html',
   styleUrl: './usuarios-listagem.scss'
 })
