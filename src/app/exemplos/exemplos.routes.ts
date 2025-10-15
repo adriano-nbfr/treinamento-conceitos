@@ -9,9 +9,7 @@ export default [
   },
   {
     path: 'usuarios',
-    title: 'Exemplos - Listagem de usuários - Treinamento Conceitos',
-    loadComponent: () => import('./usuarios/usuarios-listagem/usuarios-listagem')
-      .then(m => m.UsuariosListagem)
+    loadChildren: () => import('./usuarios/usuarios.routes')
   },
   {
     path: '',

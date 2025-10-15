@@ -26,7 +26,7 @@
       @else {
         @for (usuario of (usuarios | filtrar : filtro.value); track usuario.id) {
           <tr>
-            <td>{{usuario.nome}}</td>
+            <td><a href="" [routerLink]="['.', usuario.id]"> {{usuario.nome}}</a></td>
             <td>{{usuario.email}}</td>
             <td>{{usuario.matricula}}</td>
             <td>{{usuario.dataNascimento | date : 'dd/MM/yyyy'}}</td>

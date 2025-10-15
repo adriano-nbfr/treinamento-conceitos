@@ -62,4 +62,9 @@ export class UsuariosApi {
     );
   }
 
+  obter(id: string) {
+    return this.http.get<Usuario>(`${this.urlApi}/${id}`)
+      .pipe(catchError(erroResponseTratado));
+  }
+
 }

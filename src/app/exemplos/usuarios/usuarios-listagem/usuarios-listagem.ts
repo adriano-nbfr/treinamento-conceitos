@@ -1,13 +1,13 @@
 import { DatePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { finalize, Subscription } from 'rxjs';
 import { Card } from '../../../shared/card/card';
 import { Bloqueado } from '../../../shared/diretivas/bloqueado';
 import { Usuario } from '../../../shared/model/usuario';
 import { FiltrarPipe } from '../../../shared/pipes/filtrar.pipe';
 import { UsuariosApi } from '../usuarios-api';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-usuarios-listagem',
@@ -18,11 +18,6 @@ import { RouterLink } from '@angular/router';
     FiltrarPipe,
     Bloqueado,
     ReactiveFormsModule
-  ],
-  providers: [
-    // provideRaizApi('/api/v2'),
-    // { provide: EstrategiaPaginacao, useClass: EstrategiaPaginacaoSpring },
-    UsuariosApi
   ],
   templateUrl: './usuarios-listagem.html',
   styleUrl: './usuarios-listagem.scss'
