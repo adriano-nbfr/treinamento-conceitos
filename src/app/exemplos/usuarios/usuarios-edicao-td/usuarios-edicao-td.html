@@ -7,7 +7,7 @@
   </div>
 
 
-  <div>
+  <form #formUsuario="ngForm" autocomplete="off">
     <div class="row gy-4">
       <div class="col-md-6">
         <label for="usuarioNome" class="form-label">
@@ -18,7 +18,21 @@
 
         <div class="has-validation input-group">
           <input type="text" class="form-control"
-            id="usuarioNome" name="nome" [(ngModel)]="usuario.nome" />
+            id="usuarioNome" name="nome" [(ngModel)]="usuario.nome" #nome="ngModel"
+            required minlength="10"
+            aria-describedby="usuarioNome_erros"
+            [class.is-invalid]="nome.invalid && nome.touched"
+            [attr.aria-invalid]="nome.invalid" />
+
+          <div id="usuarioNome_erros" class="invalid-feedback">
+            @let nomeErros = nome.errors || {};
+            @if (nomeErros['required']) {
+              <div>Preencha este campo</div>
+            }
+            @if (nomeErros['minlength']) {
+              <div>Mínimo de caracteres: {{nomeErros['minlength'].requiredLength}}</div>
+            }
+          </div>
         </div>
       </div>
 
@@ -31,7 +45,21 @@
 
         <div class="has-validation input-group">
           <input type="text" class="form-control"
-            id="usuarioEmail" name="email" [(ngModel)]="usuario.email" />
+            id="usuarioEmail" name="email" [(ngModel)]="usuario.email" #email="ngModel"
+            required email
+            aria-describedby="usuarioEmail_erros"
+            [class.is-invalid]="email.invalid && email.touched"
+            [attr.aria-invalid]="email.invalid" />
+
+          <div id="usuarioEmail_erros" class="invalid-feedback">
+            @let emailErros = email.errors || {};
+            @if (emailErros['required']) {
+              <div> Preencha este campo</div>
+            }
+            @if (emailErros['email']) {
+              <div>E-mail inválido</div>
+            }
+          </div>
         </div>
       </div>
 
@@ -42,7 +70,18 @@
 
         <div class="has-validation input-group">
           <input type="number" class="form-control"
-            id="usuarioMatricula" name="matricula" [(ngModel)]="usuario.matricula" />
+            id="usuarioMatricula" name="matricula" [(ngModel)]="usuario.matricula" #matricula="ngModel"
+            min="100"
+            aria-describedby="usuarioMatricula_erros"
+            [class.is-invalid]="matricula.invalid && matricula.touched"
+            [attr.aria-invalid]="matricula.invalid" />
+
+          <div id="usuarioMatricula_erros" class="invalid-feedback">
+            @let matriculaErros = matricula.errors || {};
+            @if (matriculaErros['min']) {
+              <div>Matrícula inválida</div>
+            }
+          </div>
         </div>
       </div>
 
@@ -57,15 +96,23 @@
         </div>
       }
     </div>
-  </div>
+
+    @if (formUsuario.errors && formUsuario.touched) {
+      <div class="text-danger mt-5 fw-semibold">
+        @if(formUsuario.errors['matricula.reservada']) {
+          <p>A matrícula está em uma faixa reservada para usuários do MPF</p>
+        }
+      </div>
+    }
+  </form>
 
   <hr class="divider mt-5">
 
   <div class="d-flex justify-content-end gap-3">
-    <button class="btn btn-outline-secondary"
-      (click)="restaurarClick()" >Restaurar
+    <button class="btn btn-outline-secondary" [disabled]="formUsuario.pristine"
+      (click)="restaurarClick(); formUsuario.form.markAsPristine()" >Restaurar
     </button>
-    <button class="btn btn-primary" [disabled]="!usuario.nome || !usuario.email"
+    <button class="btn btn-primary" [disabled]="formUsuario.invalid"
       (click)="salvarClick()">Salvar
     </button>
   </div>
@@ -74,7 +121,7 @@
 
   <div class="d-flex gap-5 fs-5">
     <div>Objeto salvo: <code><pre>{{usuarioSalvo | json}}</pre></code></div>
-    <div>Objeto model: <code><pre>{{usuario | json}}</pre></code></div>
+    <div>Valor no form: <code><pre>{{formUsuario.value | json}}</pre></code></div>
   </div>
 
 </app-card>
