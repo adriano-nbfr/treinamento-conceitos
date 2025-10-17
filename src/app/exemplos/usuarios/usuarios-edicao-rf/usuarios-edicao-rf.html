@@ -1,0 +1,129 @@
+<app-card>
+  <div slot="titulo" class="d-flex gap-3">
+    <span>Usuários - {{usuarioSalvo.id ? 'Alteração' : 'Inclusão'}} (Reactive Form)</span>
+    <div class="ms-auto">
+      <button class="btn btn-outline-light" routerLink="..">Voltar</button>
+    </div>
+  </div>
+
+
+  <form [formGroup]="formUsuario" autocomplete="off">
+    @let controls = formUsuario.controls;
+
+    <div class="row gy-4">
+      <div class="col-md-6">
+        <label for="usuarioNome" class="form-label">
+          <span class="d-flex gap-1">Nome
+            <abbr title="Este campo é obrigatório">*</abbr>
+          </span>
+        </label>
+
+        <div class="has-validation input-group">
+          <input type="text" class="form-control"
+            id="usuarioNome" formControlName="nome"
+            aria-describedby="usuarioNome_erros"
+            [class.is-invalid]="controls['nome'].invalid && controls['nome'].touched"
+            [attr.aria-invalid]="controls['nome'].invalid" />
+
+          <div id="usuarioNome_erros" class="invalid-feedback">
+            @let nomeErros = controls['nome'].errors || {};
+            @if (nomeErros['required']) {
+              <div>Preencha este campo</div>
+            }
+            @if (nomeErros['minlength']) {
+              <div>Mínimo de caracteres: {{nomeErros['minlength'].requiredLength}}</div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="usuarioEmail" class="form-label">
+          <span class="d-flex gap-1">E-mail
+            <abbr title="Este campo é obrigatório">*</abbr>
+          </span>
+        </label>
+
+        <div class="has-validation input-group">
+          <input type="text" class="form-control"
+            id="usuarioEmail" formControlName="email"
+            aria-describedby="usuarioEmail_erros"
+            [class.is-invalid]="controls['email'].invalid && controls['email'].touched"
+            [attr.aria-invalid]="controls['email'].invalid" />
+
+          <div id="usuarioEmail_erros" class="invalid-feedback">
+            @let emailErros = controls['email'].errors || {};
+            @if (emailErros['required']) {
+              <div> Preencha este campo</div>
+            }
+            @if (emailErros['email']) {
+              <div>E-mail inválido</div>
+            }
+            @if (emailErros['emailMPF']) {
+              <div>Forneça um e-mail do MPF</div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <label for="usuarioMatricula" class="form-label">
+          <span class="d-flex gap-1">Matrícula</span>
+        </label>
+
+        <div class="has-validation input-group">
+          <input type="number" class="form-control"
+            id="usuarioMatricula" formControlName="matricula"
+            aria-describedby="usuarioMatricula_erros"
+            [class.is-invalid]="controls['matricula'].invalid && controls['matricula'].touched"
+            [attr.aria-invalid]="controls['matricula'].invalid" />
+
+          <div id="usuarioMatricula_erros" class="invalid-feedback">
+            @let matriculaErros = controls['matricula'].errors || {};
+            @if (matriculaErros['min']) {
+              <div>Matrícula inválida</div>
+            }
+          </div>
+        </div>
+      </div>
+
+      @if (usuarioSalvo.dataCadastro) {
+        <div class="col-md-4">
+          <label for="usuarioDataCadastro" class="form-label">
+            <span class="d-flex gap-1">Data de Cadastro</span>
+          </label>
+
+          <input type="text" class="form-control" id="usuarioDataCadastro" disabled
+            [value]="usuarioSalvo.dataCadastro | date : 'dd/MM/yyyy HH:mm'">
+        </div>
+      }
+    </div>
+
+    @if (formUsuario.errors && formUsuario.touched) {
+      <div class="text-danger mt-5 fw-semibold">
+        @if(formUsuario.errors['matricula.reservada']) {
+          <p>A matrícula está em uma faixa reservada para usuários do MPF</p>
+        }
+      </div>
+    }
+  </form>
+
+  <hr class="divider mt-5">
+
+  <div class="d-flex justify-content-end gap-3">
+    <button class="btn btn-outline-secondary" [disabled]="formUsuario.pristine"
+      (click)="inicializarForm()" >Restaurar
+    </button>
+    <button class="btn btn-primary" [disabled]="formUsuario.invalid"
+      (click)="salvarClick()">Salvar
+    </button>
+  </div>
+
+  <hr class="divider mt-4">
+
+  <div class="d-flex gap-5 fs-5">
+    <div>Objeto salvo: <code><pre>{{usuarioSalvo | json}}</pre></code></div>
+    <div>Valor no form: <code><pre>{{formUsuario.value | json}}</pre></code></div>
+  </div>
+
+</app-card>
