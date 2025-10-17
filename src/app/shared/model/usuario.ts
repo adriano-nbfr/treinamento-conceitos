@@ -5,4 +5,10 @@ export interface Usuario {
   matricula: number;
   dataNascimento: string;
   dataCadastro: string;
+  contatos?: ContatoUsuario[];
+}
+
+export interface ContatoUsuario {
+  nome: string;
+  telefone: string;
 }

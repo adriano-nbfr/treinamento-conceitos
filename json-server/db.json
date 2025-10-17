@@ -1822,7 +1822,17 @@
       "nome": "AAA Usuario teste 2",
       "email": "teste@gmail.com",
       "matricula": 1001,
-      "dataCadastro": "2025-10-17T18:46:45.131Z"
+      "dataCadastro": "2025-10-17T18:46:45.131Z",
+      "contatos": [
+        {
+          "nome": "contato de teste 1",
+          "telefone": "12345678"
+        },
+        {
+          "nome": "contato de teste 2",
+          "telefone": "987654321"
+        }
+      ]
     }
   ]
 }

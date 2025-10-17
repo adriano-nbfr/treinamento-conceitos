@@ -1,10 +1,24 @@
 import { DatePipe, JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Card } from '../../../shared/card/card';
 import { Usuario } from '../../../shared/model/usuario';
 import { UsuariosApi } from '../usuarios-api';
+
+
+type ContatoFormGroup = {
+  nome: FormControl<string>;
+  telefone: FormControl<string>;
+}
+
+type UsuarioFormGroup = {
+  nome: FormControl<string | null>;
+  email: FormControl<string | null>;
+  matricula: FormControl<number | null>;
+  contatos?: FormArray<FormGroup<ContatoFormGroup>>;
+}
+
 
 @Component({
   selector: 'app-usuarios-edicao-rf',
@@ -29,11 +43,12 @@ export class UsuariosEdicaoRf {
 
   private fb = inject(FormBuilder);
 
-  protected formUsuario = this.fb.group({
+  protected formUsuario = this.fb.group<UsuarioFormGroup>({
     'nome': this.fb.control('', {validators: [Validators.required, Validators.minLength(10)]}),
     'email': this.fb.control('', {validators: [Validators.required, Validators.email]}),
     // 'email': this.fb.control('', {validators: [Validators.required, this.emailMPFValidator]}),
-    'matricula': this.fb.control<number | null>(null, {validators: [Validators.min(100)]})
+    'matricula': this.fb.control<number | null>(null, {validators: [Validators.min(100)]}),
+    'contatos': this.fb.array<FormGroup<ContatoFormGroup>>([])
   }, {validators: [this.customValidator]});
 
 
@@ -48,9 +63,34 @@ export class UsuariosEdicaoRf {
     this.inicializarForm();
   }
 
+  protected get contatos() {
+    return this.formUsuario.controls.contatos;
+  }
+
   protected inicializarForm() {
+    this.formUsuario.controls.contatos?.clear();
+    this.usuarioSalvo.contatos?.forEach(() => this.adicionarContato());
     this.formUsuario.patchValue(this.usuarioSalvo);
     this.formUsuario.markAsPristine();
+  }
+
+  protected criarContatoFormGroup() {
+    return this.fb.group({
+      nome: this.fb.control('',
+        {validators: [Validators.required, Validators.minLength(10)], nonNullable: true}),
+      telefone: this.fb.control('',
+        {validators: [Validators.required, Validators.minLength(8)], nonNullable: true}),
+    });
+  }
+
+  protected adicionarContato() {
+    this.contatos?.push(this.criarContatoFormGroup());
+    this.contatos?.markAsDirty();
+  }
+
+  protected removerContato(indice: number) {
+    this.contatos?.removeAt(indice);
+    this.contatos?.markAsDirty();
   }
 
   protected salvarClick() {
