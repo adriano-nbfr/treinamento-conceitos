@@ -37,6 +37,13 @@ export class UsuariosEdicaoRf {
   }, {validators: [this.customValidator]});
 
 
+  // constructor() {
+  //   this.formUsuario.controls['nome'].valueChanges
+  //     .pipe(takeUntilDestroyed())
+  //     .subscribe((valor) => console.log(valor));
+  // }
+
+
   ngOnInit() {
     this.inicializarForm();
   }
