@@ -67,4 +67,22 @@ export class UsuariosApi {
       .pipe(catchError(erroResponseTratado));
   }
 
+  incluir(usuario: Usuario) {
+    return this.http.post<Usuario>(`${this.urlApi}`, usuario)
+      .pipe(catchError(erroResponseTratado));
+  }
+
+  alterar(usuario: Usuario, id?: string) {
+    const idUsuario = id ?? usuario.id;
+    const url = idUsuario ? `${this.urlApi}/${idUsuario}` : this.urlApi;
+
+    return this.http.put<Usuario>(url, usuario)
+      .pipe(catchError(erroResponseTratado));
+  }
+
+  excluir(id: string) {
+    return this.http.delete(`${this.urlApi}/${id}`)
+      .pipe(catchError(erroResponseTratado));
+  }
+
 }

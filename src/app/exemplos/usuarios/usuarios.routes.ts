@@ -1,6 +1,19 @@
 import { ActivatedRouteSnapshot, Routes } from "@angular/router";
 import { UsuariosApi } from "./usuarios-api";
 import { inject } from "@angular/core";
+import { of } from "rxjs";
+
+const usuarioVisualizarResolve = (route: ActivatedRouteSnapshot) =>
+  inject(UsuariosApi).obter(route.params['idUsuario']);
+
+const usuarioEdicaoResolve = (route: ActivatedRouteSnapshot) => {
+  const id = route.params['idUsuario'];
+
+  if (id === 'novo')
+    return of({});
+
+  return inject(UsuariosApi).obter(id);
+};
 
 export default [
   {
@@ -10,14 +23,22 @@ export default [
     ],
     children: [
       {
-        path: ':idUsuario',
+        path: ':idUsuario/visualizar',
         title: 'Exemplos - Usuário Visualização - Treinamento Conceitos',
         resolve: {
-          usuario: (route: ActivatedRouteSnapshot) =>
-            inject(UsuariosApi).obter(route.params['idUsuario'])
+          usuario: usuarioVisualizarResolve
         },
         loadComponent: () => import('./usuarios-visualizacao/usuarios-visualizacao')
           .then(m => m.UsuariosVisualizacao)
+      },
+      {
+        path: ':idUsuario',
+        title: 'Exemplos - Usuário Edição - Treinamento Conceitos',
+        resolve: {
+          usuario: usuarioEdicaoResolve
+        },
+        loadComponent: () => import('./usuarios-edicao-td/usuarios-edicao-td')
+          .then(m => m.UsuariosEdicaoTd)
       },
       {
         path: '',

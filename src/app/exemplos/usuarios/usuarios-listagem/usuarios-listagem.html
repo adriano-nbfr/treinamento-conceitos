@@ -2,6 +2,7 @@
   <div slot="titulo" class="d-flex gap-3">
     Usuários - Listagem
     <div class="ms-auto">
+      <button class="btn btn-sm btn-outline-light me-3" routerLink="./novo">Incluir</button>
       <button class="btn btn-sm btn-outline-light" routerLink="..">Voltar</button>
     </div>
   </div>
@@ -17,7 +18,13 @@
 
   <table class="table table-striped mt-4" [appBloqueado]="carregando" [desfoque]="true">
     <thead class="border-top">
-      <tr><th>Nome</th><th>E-mail</th><th>Matrícula</th><th>Dt. Nascimento</th></tr>
+      <tr>
+        <th>Nome</th>
+        <th>E-mail</th>
+        <th>Matrícula</th>
+        <th>Dt. Nascimento</th>
+        <th class="text-center">Ações</th>
+      </tr>
     </thead>
     <tbody>
       @if (erro) {
@@ -26,14 +33,18 @@
       @else {
         @for (usuario of (usuarios | filtrar : filtro.value); track usuario.id) {
           <tr>
-            <td><a href="" [routerLink]="['.', usuario.id]"> {{usuario.nome}}</a></td>
+            <td><a href="" [routerLink]="['.', usuario.id, 'visualizar']"> {{usuario.nome}}</a></td>
             <td>{{usuario.email}}</td>
             <td>{{usuario.matricula}}</td>
             <td>{{usuario.dataNascimento | date : 'dd/MM/yyyy'}}</td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['.', usuario.id]">Editar</button>
+              <button class="btn btn-sm btn-outline-danger" (click)="excluir(usuario)">Excluir</button>
+            </td>
           </tr>
         }
         @empty {
-          <tr><td colspan="4">Nenhum usuário encontrado.</td></tr>
+          <tr><td colspan="5">Nenhum usuário encontrado.</td></tr>
         }
       }
     </tbody>

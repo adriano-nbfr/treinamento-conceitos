@@ -1,0 +1,80 @@
+<app-card>
+  <div slot="titulo" class="d-flex gap-3">
+    <span>Usuários - {{usuarioSalvo.id ? 'Alteração' : 'Inclusão'}} (Template Driven)</span>
+    <div class="ms-auto">
+      <button class="btn btn-outline-light" routerLink="..">Voltar</button>
+    </div>
+  </div>
+
+
+  <div>
+    <div class="row gy-4">
+      <div class="col-md-6">
+        <label for="usuarioNome" class="form-label">
+          <span class="d-flex gap-1">Nome
+            <abbr title="Este campo é obrigatório">*</abbr>
+          </span>
+        </label>
+
+        <div class="has-validation input-group">
+          <input type="text" class="form-control"
+            id="usuarioNome" name="nome" [(ngModel)]="usuario.nome" />
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="usuarioEmail" class="form-label">
+          <span class="d-flex gap-1">E-mail
+            <abbr title="Este campo é obrigatório">*</abbr>
+          </span>
+        </label>
+
+        <div class="has-validation input-group">
+          <input type="text" class="form-control"
+            id="usuarioEmail" name="email" [(ngModel)]="usuario.email" />
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <label for="usuarioMatricula" class="form-label">
+          <span class="d-flex gap-1">Matrícula</span>
+        </label>
+
+        <div class="has-validation input-group">
+          <input type="number" class="form-control"
+            id="usuarioMatricula" name="matricula" [(ngModel)]="usuario.matricula" />
+        </div>
+      </div>
+
+      @if (usuarioSalvo.dataCadastro) {
+        <div class="col-md-4">
+          <label for="usuarioDataCadastro" class="form-label">
+            <span class="d-flex gap-1">Data de Cadastro</span>
+          </label>
+
+          <input type="text" class="form-control" id="usuarioDataCadastro" disabled
+            [value]="usuarioSalvo.dataCadastro | date : 'dd/MM/yyyy HH:mm'">
+        </div>
+      }
+    </div>
+  </div>
+
+  <hr class="divider mt-5">
+
+  <div class="d-flex justify-content-end gap-3">
+    <button class="btn btn-outline-secondary"
+      (click)="restaurarClick()" >Restaurar
+    </button>
+    <button class="btn btn-primary" [disabled]="!usuario.nome || !usuario.email"
+      (click)="salvarClick()">Salvar
+    </button>
+  </div>
+
+  <hr class="divider mt-4">
+
+  <div class="d-flex gap-5 fs-5">
+    <div>Objeto salvo: <code><pre>{{usuarioSalvo | json}}</pre></code></div>
+    <div>Objeto model: <code><pre>{{usuario | json}}</pre></code></div>
+  </div>
+
+</app-card>

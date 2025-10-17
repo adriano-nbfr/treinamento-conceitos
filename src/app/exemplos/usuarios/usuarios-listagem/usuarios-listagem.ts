@@ -93,6 +93,15 @@ export class UsuariosListagem {
     // abortController.abort(new Error('Cancelado ao sair da tela'));
   }
 
+  protected async excluir(usuario: Usuario) {
+    if (!confirm(`Confirmar a exclusão de ${usuario.nome} ?`))
+      return;
+
+    this.usuariosApi.excluir(usuario.id).subscribe({
+      next: () => this.carregarUsuarios(),
+      error: (error: Error) => console.log(`Não foi possível excluir o usuário. ${error.message}`)
+    });
+  }
 
   protected primeira() {
     this.carregarPagina(1);
