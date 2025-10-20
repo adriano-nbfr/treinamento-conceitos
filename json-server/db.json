@@ -51,7 +51,8 @@
       ],
       "noAtuacao": false,
       "valida": true,
-      "agrupador": "PGR"
+      "agrupador": "PGR",
+      "id": "8654"
     },
     {
       "idUnidadeOrganica": 15885,
@@ -66,7 +67,8 @@
         }
       ],
       "noAtuacao": false,
-      "valida": true
+      "valida": true,
+      "id": "c2db"
     },
     {
       "idUnidadeOrganica": -1,
@@ -77,7 +79,8 @@
       },
       "papeis": [],
       "noAtuacao": true,
-      "valida": false
+      "valida": false,
+      "id": "b3ea"
     }
   ],
   "categorias": [
@@ -1464,14 +1467,6 @@
       "matricula": 14775,
       "dataNascimento": "1977-05-14T03:00:00.000Z",
       "dataCadastro": "2018-01-24T02:00:00.000Z"
-    },
-    {
-      "id": "157",
-      "nome": "Walter Aquino Nabuco",
-      "email": "walter.nabuco@zmail.com",
-      "matricula": 19616,
-      "dataNascimento": "1976-03-16T03:00:00.000Z",
-      "dataCadastro": "2018-01-31T02:00:00.000Z"
     },
     {
       "id": "158",

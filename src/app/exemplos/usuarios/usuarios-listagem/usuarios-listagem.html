@@ -54,7 +54,7 @@
   <div class="d-flex align-items-center gap-3 py-2" [appBloqueado]="usuarios.status().ocupado">
     <div class="me-auto d-flex align-items-center gap-2">
       Exibir
-      <select class="form-select form-select-sm" [value]="tamanhoPagina"
+      <select class="form-select form-select-sm" [value]="tamanhoPagina()"
         (change)="alterarTamanhoPagina($any($event.target).value)">
         <option [ngValue]="5">5</option>
         <option [ngValue]="10">10</option>
@@ -62,16 +62,16 @@
       registros
     </div>
 
-    <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina < 2"
+    <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina() < 2"
       (click)="primeira()">Primeira</button>
-    <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina < 2"
+    <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina() < 2"
       (click)="anterior()">Anterior</button>
 
-    <span>Página: {{numeroPagina}} {{totalPaginas > 0 ? 'de ' + totalPaginas : ''}}</span>
+    <span>Página: {{numeroPagina()}} {{totalPaginas() > 0 ? 'de ' + totalPaginas() : ''}}</span>
 
-    <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina >= totalPaginas"
+    <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina() >= totalPaginas()"
       (click)="proxima()">Próxima</button>
-    <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina >= totalPaginas"
+    <button class="btn btn-sm btn-secondary" [disabled]="numeroPagina() >= totalPaginas()"
       (click)="ultima()">Última</button>
   </div>
 </app-card>

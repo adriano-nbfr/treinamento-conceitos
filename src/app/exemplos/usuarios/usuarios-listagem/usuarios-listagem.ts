@@ -1,9 +1,9 @@
 import { DatePipe } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { debounceTime, distinctUntilChanged, finalize, map, Subscription, tap } from 'rxjs';
+import { combineLatest, debounceTime, distinctUntilChanged, finalize, map, Subject, Subscription, switchMap, tap } from 'rxjs';
 import { Card } from '../../../shared/card/card';
 import { dadoAssincrono, mapearDadoAssincrono } from '../../../shared/dado-assincrono';
 import { Bloqueado } from '../../../shared/diretivas/bloqueado';
@@ -29,15 +29,37 @@ export class UsuariosListagem {
 
   protected usuarios = dadoAssincrono<Usuario[]>([]);
 
-  protected numeroPagina = 1;
+  protected numeroPagina = signal(1);
 
-  protected tamanhoPagina = 5;
+  protected tamanhoPagina = signal(5);
 
-  protected totalPaginas = 0;
+  protected totalPaginas = signal(0);
 
-  private subscriptionUsuarios?: Subscription;
+  private recarregar$ = new Subject<void>();
 
   protected filtro = new FormControl('');
+
+  private usuarios$ = combineLatest([
+    toObservable(this.numeroPagina),
+    toObservable(this.tamanhoPagina),
+    this.recarregar$
+  ])
+  .pipe(
+    switchMap(([numPagina, tamPagina]) => {
+      return this.usuariosApi.listar(numPagina, tamPagina, 'nome')
+      .pipe(
+        tap((pagina) => {
+          this.numeroPagina.set(pagina.info?.pagina ?? 1);
+          this.totalPaginas.set(pagina.info?.totalPaginas ?? 1);
+        }),
+        map((pagina) => [...pagina.dados]),
+        mapearDadoAssincrono(this.usuarios, []),
+      )
+    }),
+    takeUntilDestroyed()
+  );
+
+
 
   protected textoFiltro = toSignal(this.filtro.valueChanges.pipe(
     debounceTime(300),
@@ -51,46 +73,43 @@ export class UsuariosListagem {
 
 
   ngOnInit() {
-    this.carregarUsuarios();
-  }
-
-  ngOnDestroy() {
-    this.subscriptionUsuarios && this.subscriptionUsuarios.unsubscribe();
+    this.usuarios$.subscribe();
+    this.recarregar$.next();
   }
 
 
-  protected carregarUsuarios() {
-    this.usuariosApi.listar(this.numeroPagina, this.tamanhoPagina, 'nome')
-      .pipe(
-        tap((pagina) => {
-          this.numeroPagina = pagina.info?.pagina ?? 1;
-          this.totalPaginas = pagina.info?.totalPaginas ?? 1;
-        }),
-        map((pagina) => [...pagina.dados]),
-        mapearDadoAssincrono(this.usuarios, []),
-      ).subscribe();
+  // protected carregarUsuarios() {
+  //   // this.usuariosApi.listar(this.numeroPagina, this.tamanhoPagina, 'nome')
+  //   //   .pipe(
+  //   //     tap((pagina) => {
+  //   //       this.numeroPagina = pagina.info?.pagina ?? 1;
+  //   //       this.totalPaginas = pagina.info?.totalPaginas ?? 1;
+  //   //     }),
+  //   //     map((pagina) => [...pagina.dados]),
+  //   //     mapearDadoAssincrono(this.usuarios, []),
+  //   //   ).subscribe();
 
-    // firstValueFrom(obs)
-    //   .then(usuarios => this.usuarios = usuarios)
-    //   .catch(error => this.erro = `Não foi possível carregar: ${error.message}`)
-    //   .finally(() => this.carregando = false);
+  //   // firstValueFrom(obs)
+  //   //   .then(usuarios => this.usuarios = usuarios)
+  //   //   .catch(error => this.erro = `Não foi possível carregar: ${error.message}`)
+  //   //   .finally(() => this.carregando = false);
 
-    // const abortController = new AbortController();
+  //   // const abortController = new AbortController();
 
-    // this.usuariosApi.carregarUsuariosPromise()
-    //   .then(usuarios => this.usuarios = usuarios)
-    //   .catch(error => this.erro = `Não foi possível carregar: ${error.message}`)
-    //   .finally(() => this.carregando = false);
+  //   // this.usuariosApi.carregarUsuariosPromise()
+  //   //   .then(usuarios => this.usuarios = usuarios)
+  //   //   .catch(error => this.erro = `Não foi possível carregar: ${error.message}`)
+  //   //   .finally(() => this.carregando = false);
 
-    // abortController.abort(new Error('Cancelado ao sair da tela'));
-  }
+  //   // abortController.abort(new Error('Cancelado ao sair da tela'));
+  // }
 
   protected async excluir(usuario: Usuario) {
     if (!confirm(`Confirmar a exclusão de ${usuario.nome} ?`))
       return;
 
     this.usuariosApi.excluir(usuario.id).subscribe({
-      next: () => this.carregarUsuarios(),
+      next: () => this.recarregar$.next(),
       error: (error: Error) => console.log(`Não foi possível excluir o usuário. ${error.message}`)
     });
   }
@@ -100,28 +119,27 @@ export class UsuariosListagem {
   }
 
   protected anterior() {
-    this.carregarPagina(this.numeroPagina - 1)
+    this.carregarPagina(this.numeroPagina() - 1)
   }
 
   protected proxima() {
-    this.carregarPagina(this.numeroPagina + 1)
+    this.carregarPagina(this.numeroPagina() + 1)
   }
 
   protected ultima() {
-    this.carregarPagina(this.totalPaginas);
+    this.carregarPagina(this.totalPaginas());
   }
 
   protected alterarTamanhoPagina(n: number) {
-    this.tamanhoPagina = n;
+    this.tamanhoPagina.set(n);
     this.carregarPagina(1);
   }
 
   private carregarPagina(pagina: number) {
-    if (pagina > this.totalPaginas || pagina < 1)
+    if (pagina > this.totalPaginas() || pagina < 1)
       return;
 
-    this.numeroPagina = pagina;
-    this.carregarUsuarios();
+    this.numeroPagina.set(pagina);
   }
 
 }
