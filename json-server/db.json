@@ -1816,23 +1816,6 @@
       "matricula": 29799,
       "dataNascimento": "1975-12-04T03:00:00.000Z",
       "dataCadastro": "2018-11-28T02:00:00.000Z"
-    },
-    {
-      "id": "80e8",
-      "nome": "AAA Usuario teste 2",
-      "email": "teste@gmail.com",
-      "matricula": 1001,
-      "dataCadastro": "2025-10-17T18:46:45.131Z",
-      "contatos": [
-        {
-          "nome": "contato de teste 1",
-          "telefone": "12345678"
-        },
-        {
-          "nome": "contato de teste 2",
-          "telefone": "987654321"
-        }
-      ]
     }
   ]
 }

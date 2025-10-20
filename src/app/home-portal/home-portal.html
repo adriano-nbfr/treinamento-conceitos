@@ -1,9 +1,31 @@
 <div class="container">
+
+  <!-- <div class="my-4 text-center">
+    <div class="d-flex justify-content-center gap-3">
+      @for (opcao of opcoesAvaliacao(); track opcao) {
+        <button class="btn btn-outline-dark"
+          [class.active]="opcao === avaliacao()"
+          (click)="avaliacao.set(opcao)">
+          {{opcao}}
+        </button>
+      }
+    </div>
+
+    <div class="mt-4">
+      <button class="btn btn-primary" (click)="trocarOpcoes(opcoesAvaliacao().length > 3)">
+        Alternar opções disponíveis
+      </button>
+    </div>
+  </div> -->
+
+
+
+
   @if (erroAtalhos) {
     <h2 class="text-center text-danger">{{erroAtalhos}}</h2>
   }
   @else {
-    @let destaques = atalhosDestaque.length ? atalhosDestaque : atalhosMaisSistemas;
+    @let destaques = atalhosDestaque().length ? atalhosDestaque() : atalhosMaisSistemas();
 
     @if (destaques.length > 0) {
       <app-portal-destaques [atalhos]="destaques"
@@ -14,9 +36,9 @@
       <h2 class="text-center fs-5 mt-5">Não existem atalhos a serem exibidos.</h2>
     }
 
-    @if (atalhosMaisSistemas.length > 0 && atalhosDestaque.length > 0) {
+    @if (atalhosMaisSistemas().length > 0 && atalhosDestaque().length > 0) {
       <app-portal-mais-sistemas
-        [atalhos]="atalhosMaisSistemas"
+        [atalhos]="atalhosMaisSistemas()"
         [minimoColapsar]="5"
         (atalhoPromovido)="alterarDestaqueAtalho($event, true)">
       </app-portal-mais-sistemas>

@@ -14,11 +14,11 @@ export class TwoWayFilho  {
   valor = model(0);
 
   protected incrementar() {
-    this.valor.update(v => v + 1);
+    this.valor.update(v => v + 2);
   }
 
   protected decrementar() {
-    this.valor.update(v => v - 1);
+    this.valor.update(v => v - 2);
   }
 
   /////

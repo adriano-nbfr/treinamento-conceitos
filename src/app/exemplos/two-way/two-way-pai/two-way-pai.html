@@ -7,7 +7,8 @@
   </div>
 
   <div class="d-flex align-items-center gap-4">
-    <h3>Valor no componente pai: <span class="text-primary">{{valorPai}}</span></h3>
+    <h3>Valor no componente pai: <span class="text-primary">{{valorPai()}}</span></h3>
     <app-two-way-filho [(valor)]="valorPai"></app-two-way-filho>
+    <code class="fs-4">isPar: {{isPar()}}</code>
   </div>
 </app-card>
