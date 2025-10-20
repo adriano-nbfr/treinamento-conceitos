@@ -31,7 +31,7 @@
         <tr><td colspan="5" class="text-danger">{{erro}}</td></tr>
       }
       @else {
-        @for (usuario of (usuarios | filtrar : filtro.value); track usuario.id) {
+        @for (usuario of listagemFiltrada(); track usuario.id) {
           <tr>
             <td><a href="" [routerLink]="['.', usuario.id, 'visualizar']"> {{usuario.nome}}</a></td>
             <td>{{usuario.email}}</td>

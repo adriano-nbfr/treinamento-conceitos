@@ -1,12 +1,13 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { finalize, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, finalize, map, startWith, Subscription } from 'rxjs';
 import { Card } from '../../../shared/card/card';
 import { Bloqueado } from '../../../shared/diretivas/bloqueado';
 import { Usuario } from '../../../shared/model/usuario';
-import { FiltrarPipe } from '../../../shared/pipes/filtrar.pipe';
+import { obterItensFiltrados } from '../../../shared/pipes/filtragem';
 import { UsuariosApi } from '../usuarios-api';
 
 @Component({
@@ -15,7 +16,6 @@ import { UsuariosApi } from '../usuarios-api';
     RouterLink,
     Card,
     DatePipe,
-    FiltrarPipe,
     Bloqueado,
     ReactiveFormsModule
   ],
@@ -26,7 +26,7 @@ export class UsuariosListagem {
 
   private usuariosApi = inject(UsuariosApi);
 
-  protected usuarios: Usuario[] = [];
+  protected usuarios = signal<Usuario[]>([]);
 
   protected erro = '';
 
@@ -42,15 +42,15 @@ export class UsuariosListagem {
 
   protected filtro = new FormControl('');
 
+  protected textoFiltro = toSignal(this.filtro.valueChanges.pipe(
+    debounceTime(300),
+    map((texto) => (texto?.length ?? 0) > 2 ? texto : ''),
+    distinctUntilChanged()
+  ), {initialValue: ''});
 
-  // protected listagemFiltrada$ = this.filtro.valueChanges.pipe(
-  //   debounceTime(300),
-  //   map((texto) => (texto?.length ?? 0) > 2 ? texto : ''),
-  //   startWith(''),
-  //   distinctUntilChanged(),
-  //   tap(texto => console.log(`Filtrando com: ${texto}`)),
-  //   map((texto) => obterItensFiltrados(this.usuarios, texto ?? ''))
-  // );
+  protected listagemFiltrada = computed(() => {
+    return obterItensFiltrados(this.usuarios(), this.textoFiltro());
+  });
 
 
   ngOnInit() {
@@ -70,10 +70,10 @@ export class UsuariosListagem {
         finalize(() => this.carregando = false)
       ).subscribe({
         next: (pagina) => {
-          this.usuarios = [...pagina.dados];
+          this.usuarios.set([...pagina.dados]);
           this.numeroPagina = pagina.info?.pagina ?? 1;
           this.totalPaginas = pagina.info?.totalPaginas ?? 1;
-          this.filtro.setValue('');
+          // this.filtro.setValue('');
         },
         error: (error: Error) => this.erro = `Não foi possível carregar: ${error.message}`,
       });
