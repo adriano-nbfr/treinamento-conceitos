@@ -16,7 +16,7 @@
   </div>
 
 
-  <table class="table table-striped mt-4" [appBloqueado]="carregando" [desfoque]="true">
+  <table class="table table-striped mt-4" [appBloqueado]="usuarios.status().ocupado" [desfoque]="true">
     <thead class="border-top">
       <tr>
         <th>Nome</th>
@@ -27,7 +27,7 @@
       </tr>
     </thead>
     <tbody>
-      @if (erro) {
+      @if (usuarios.status().erro; as erro) {
         <tr><td colspan="5" class="text-danger">{{erro}}</td></tr>
       }
       @else {
@@ -51,7 +51,7 @@
   </table>
 
 
-  <div class="d-flex align-items-center gap-3 py-2" [appBloqueado]="carregando">
+  <div class="d-flex align-items-center gap-3 py-2" [appBloqueado]="usuarios.status().ocupado">
     <div class="me-auto d-flex align-items-center gap-2">
       Exibir
       <select class="form-select form-select-sm" [value]="tamanhoPagina"

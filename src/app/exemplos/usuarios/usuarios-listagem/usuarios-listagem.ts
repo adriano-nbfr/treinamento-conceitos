@@ -1,10 +1,11 @@
 import { DatePipe } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { debounceTime, distinctUntilChanged, finalize, map, startWith, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, finalize, map, Subscription, tap } from 'rxjs';
 import { Card } from '../../../shared/card/card';
+import { dadoAssincrono, mapearDadoAssincrono } from '../../../shared/dado-assincrono';
 import { Bloqueado } from '../../../shared/diretivas/bloqueado';
 import { Usuario } from '../../../shared/model/usuario';
 import { obterItensFiltrados } from '../../../shared/pipes/filtragem';
@@ -26,11 +27,7 @@ export class UsuariosListagem {
 
   private usuariosApi = inject(UsuariosApi);
 
-  protected usuarios = signal<Usuario[]>([]);
-
-  protected erro = '';
-
-  protected carregando = false;
+  protected usuarios = dadoAssincrono<Usuario[]>([]);
 
   protected numeroPagina = 1;
 
@@ -49,7 +46,7 @@ export class UsuariosListagem {
   ), {initialValue: ''});
 
   protected listagemFiltrada = computed(() => {
-    return obterItensFiltrados(this.usuarios(), this.textoFiltro());
+    return obterItensFiltrados(this.usuarios.valor(), this.textoFiltro());
   });
 
 
@@ -63,20 +60,15 @@ export class UsuariosListagem {
 
 
   protected carregarUsuarios() {
-    this.carregando = true;
-
     this.usuariosApi.listar(this.numeroPagina, this.tamanhoPagina, 'nome')
       .pipe(
-        finalize(() => this.carregando = false)
-      ).subscribe({
-        next: (pagina) => {
-          this.usuarios.set([...pagina.dados]);
+        tap((pagina) => {
           this.numeroPagina = pagina.info?.pagina ?? 1;
           this.totalPaginas = pagina.info?.totalPaginas ?? 1;
-          // this.filtro.setValue('');
-        },
-        error: (error: Error) => this.erro = `Não foi possível carregar: ${error.message}`,
-      });
+        }),
+        map((pagina) => [...pagina.dados]),
+        mapearDadoAssincrono(this.usuarios, []),
+      ).subscribe();
 
     // firstValueFrom(obs)
     //   .then(usuarios => this.usuarios = usuarios)
