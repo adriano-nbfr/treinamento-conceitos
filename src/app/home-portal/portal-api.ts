@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, resource } from '@angular/core';
+import { AtalhoSistema } from './atalho-sistema';
+import { httpResource } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +12,22 @@ export class PortalApi {
   async obterAtalhos() {
     const res = await fetch(this.urlAtalhosJson);
     return await res.json();
+  }
+
+
+  obterAtalhosComoResource() {
+    return resource<AtalhoSistema[], unknown>({
+      loader: () => this.obterAtalhos(),
+      defaultValue: []
+    })
+  }
+
+
+  obterAtalhosComoHttpResource() {
+    return httpResource<AtalhoSistema[]>(
+      () => this.urlAtalhosJson,
+      { defaultValue: [] }
+    );
   }
 
 }

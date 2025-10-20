@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, linkedSignal, signal, untracked } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { AtalhoSistema } from './atalho-sistema';
 import { PortalApi } from './portal-api';
 import { PortalDestaques } from "./portal-destaques/portal-destaques";
 import { PortalMaisSistemas } from "./portal-mais-sistemas/portal-mais-sistemas";
-import { dadoAssincrono, resolverDadoAssincrono } from '../shared/dado-assincrono';
 
 
 // const OPCOES_COMPLETA = ['Muito ruim', 'Ruim', 'Regular', 'Bom', 'Muito Bom'];
@@ -24,10 +23,10 @@ export class HomePortal {
 
   private portalApi = inject(PortalApi);
 
-  protected atalhos = dadoAssincrono<AtalhoSistema[]>([]);
+  protected atalhos = this.portalApi.obterAtalhosComoHttpResource();
 
-  protected atalhosDestaque = computed(() => this.atalhos.valor().filter(a => a.destaque));
-  protected atalhosMaisSistemas = computed(() => this.atalhos.valor().filter(a => !a.destaque));
+  protected atalhosDestaque = computed(() => this.atalhos.value().filter(a => a.destaque));
+  protected atalhosMaisSistemas = computed(() => this.atalhos.value().filter(a => !a.destaque));
 
 
   // ////////////////
@@ -54,7 +53,7 @@ export class HomePortal {
 
 
   constructor() {
-    this.carregarAtalhos();
+    // this.carregarAtalhos();
 
     // effect(() => {
     //   const qtdMaisSistemas = this.atalhosMaisSistemas().length;
@@ -65,12 +64,17 @@ export class HomePortal {
     // });
   }
 
-  protected async carregarAtalhos() {
-    resolverDadoAssincrono(this.portalApi.obterAtalhos(), this.atalhos, []);
-  }
+  // protected async carregarAtalhos() {
+  //   resolverDadoAssincrono(this.portalApi.obterAtalhos(), this.atalhos, []);
+  // }
 
   protected alterarDestaqueAtalho(atalho: AtalhoSistema, destaque: boolean) {
-    this.atalhos.valor.update((atalhos) => atalhos.map(a => a.url === atalho.url ? {...a, destaque} : a));
+    this.atalhos.value.update((atalhos) => atalhos.map(a => a.url === atalho.url ? {...a, destaque} : a));
+  }
+
+
+  recarregar() {
+    this.atalhos.reload();
   }
 
 }

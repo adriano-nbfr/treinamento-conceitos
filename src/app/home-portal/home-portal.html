@@ -20,10 +20,10 @@
 
 
 
-  @if (atalhos.status().ocupado) {
+  @if (atalhos.isLoading()) {
     <h2 class="text-center">Carregando atalhos...</h2>
   }
-  @if (atalhos.status().erro; as erro) {
+  @if (atalhos.error()?.message; as erro) {
     <h2 class="text-center text-danger">{{erro}}</h2>
   }
   @else {
@@ -34,7 +34,7 @@
         (atalhoRebaixado)="alterarDestaqueAtalho($event, false)">
       </app-portal-destaques>
     }
-    @else if (!atalhos.status().ocupado) {
+    @else if (!atalhos.isLoading()) {
       <h2 class="text-center fs-5 mt-5">Não existem atalhos a serem exibidos.</h2>
     }
 
