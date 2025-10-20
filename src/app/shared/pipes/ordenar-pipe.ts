@@ -6,8 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class OrdenarPipe<T extends object> implements PipeTransform {
 
   transform(itens: readonly T[], atributo: keyof T): readonly T[] {
-    console.log('Pipe ordenar processado.');
-
     if (itens.length === 0)
       return itens;
 

@@ -1,9 +1,10 @@
-import { Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
 import { AtalhoSistema } from '../atalho-sistema';
 import { OrdenarPipe } from '../../shared/pipes/ordenar-pipe';
 
 @Component({
   selector: 'app-portal-mais-sistemas',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     OrdenarPipe
   ],
@@ -24,13 +25,13 @@ export class PortalMaisSistemas {
   atalhoPromovido = output<AtalhoSistema>();
 
 
-  exibirMais = false;
+  exibirMais = signal(false);
 
-  editando = false;
+  editando = signal(false);
 
 
   protected atalhoClick(atalho: AtalhoSistema, event: MouseEvent) {
-    if (this.editando) {
+    if (this.editando()) {
       event.preventDefault(); // evita que o link seja acionado
       this.atalhoPromovido.emit(atalho);
     }

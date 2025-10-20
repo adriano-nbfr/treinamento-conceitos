@@ -1,14 +1,15 @@
 import { DatePipe } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
 
 @Component({
   selector: 'header[app-layout-header]',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     DatePipe
   ],
   host: {
     'class' : 'app-header',
-    '[class.header-gigante]' : 'gigante',
+    '[class.header-gigante]' : 'gigante()',
     '(click)' : 'headerClick($event)'
   },
   templateUrl: './layout-header.html',
@@ -18,27 +19,27 @@ export class LayoutHeader {
 
   titulo = input('Treinamento Angular');
 
-  protected logoGradiente = false;
+  protected logoGradiente = signal(false);
 
-  protected tituloCentralizado = false;
+  protected tituloCentralizado = signal(false);
 
-  protected opacidadeTitulo = 1;
+  protected opacidadeTitulo = signal(1);
 
-  gigante = false;
+  gigante = signal(false);
 
   protected hoje = new Date();
 
 
   protected headerClick(event: MouseEvent) {
     if (event.ctrlKey) {
-      this.gigante = !this.gigante;
+      this.gigante.set(!this.gigante());
     }
   }
 
   protected logoClick(event: MouseEvent) {
     event.preventDefault();
     event.stopPropagation();
-    this.logoGradiente = !this.logoGradiente;
+    this.logoGradiente.set(!this.logoGradiente());
   }
 
 

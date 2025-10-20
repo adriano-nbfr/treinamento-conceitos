@@ -17,6 +17,4 @@ import { Layout } from './layout/layout';
 })
 export class App {
 
-  protected tela: 'home' | 'two-way' | 'usuarios' = 'usuarios';
-
 }

@@ -2,6 +2,7 @@
 
 <ng-content select="ul[menu]"></ng-content>
 
-<main #appMain #bloq="appBloqueado" class="app-main" [appBloqueado]="conteudoBloqueado" [desfoque]="true">
+<main #appMain #bloq="appBloqueado" class="app-main"
+  [appBloqueado]="conteudoBloqueado()" [desfoque]="true">
   <ng-content></ng-content>
 </main>

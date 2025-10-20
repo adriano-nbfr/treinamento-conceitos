@@ -2,17 +2,17 @@
 
 <div class="text-end">
   <button class="btn btn-sm btn-outline-secondary"
-    (click)="editando = !editando">
-    {{editando ? 'Concluir' : 'Editar'}}
+    (click)="editando.set(!editando())">
+    {{editando() ? 'Concluir' : 'Editar'}}
   </button>
 </div>
 
  @if (minimoColapsar() && atalhos().length >= minimoColapsar()) {
    <div class="d-block text-center">
      <button class="btn btn-outline-secondary fw-semibold dropdown-toggle"
-       [class.active]="exibirMais"
-       (click)="exibirMais = !exibirMais">
-       <span class="visually-hidden">{{exibirMais ? 'Ocultar' : 'Exibir'}} links para</span>
+       [class.active]="exibirMais()"
+       (click)="exibirMais.set(!exibirMais())">
+       <span class="visually-hidden">{{exibirMais() ? 'Ocultar' : 'Exibir'}} links para</span>
        Mais sistemas do MPF
      </button>
    </div>
@@ -21,8 +21,8 @@
   <h2 class="w-100 text-center">Mais sistemas do MPF</h2>
  }
 
-@if (exibirMais || !minimoColapsar() || atalhos().length < minimoColapsar()) {
-  <nav class="links-mais-sistemas" [class.links-edicao]="editando">
+@if (exibirMais() || !minimoColapsar() || atalhos().length < minimoColapsar()) {
+  <nav class="links-mais-sistemas" [class.links-edicao]="editando()">
     @for (atalho of (atalhos() | ordenar : 'nome'); track $index) {
       <a [href]="atalho.url" target="_blank"
         (click)="atalhoClick(atalho, $event)">

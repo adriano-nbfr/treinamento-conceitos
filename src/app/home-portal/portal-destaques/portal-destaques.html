@@ -1,4 +1,4 @@
-<nav class="links-destaque" [class.links-edicao]="editando">
+<nav class="links-destaque" [class.links-edicao]="editando()">
   @for (atalho of atalhos(); track $index) {
     <a [href]="atalho.url" target="_blank"
       (click)="atalhoClick(atalho, $event)">
@@ -13,7 +13,7 @@
 
 <div class="text-end">
   <button class="btn btn-sm btn-outline-secondary"
-    (click)="editando = !editando">
-    {{editando ? 'Concluir' : 'Editar'}}
+    (click)="editando.set(!editando())">
+    {{editando() ? 'Concluir' : 'Editar'}}
   </button>
 </div>

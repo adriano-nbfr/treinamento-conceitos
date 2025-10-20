@@ -1,12 +1,12 @@
 <img class="app-logo"
-  [src]="`img/logo-angular-${logoGradiente ? 'gradiente' : 'branco'}.png`"
+  [src]="`img/logo-angular-${logoGradiente() ? 'gradiente' : 'branco'}.png`"
   [attr.title]="titulo()"
   (click)="logoClick($event)" />
 
 <h1 class="titulo-header"
-  [class]="{'w-100': tituloCentralizado}"
-  [class.text-center]="tituloCentralizado"
-  [style.opacity]="opacidadeTitulo" >
+  [class]="{'w-100': tituloCentralizado()}"
+  [class.text-center]="tituloCentralizado()"
+  [style.opacity]="opacidadeTitulo()" >
   {{titulo()}}
 </h1>
 

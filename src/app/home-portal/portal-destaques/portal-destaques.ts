@@ -1,9 +1,10 @@
-import { Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
 import { AtalhoSistema } from '../atalho-sistema';
 import { FiltroHover } from '../../shared/diretivas/filtro-hover';
 
 @Component({
   selector: 'app-portal-destaques',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FiltroHover
   ],
@@ -18,11 +19,11 @@ export class PortalDestaques {
   /** Evento disparado ao clicar em um atalho durante a edição, indicando que ele deve deixar os destaques. */
   atalhoRebaixado = output<AtalhoSistema>();
 
-  editando = false;
+  editando = signal(false);
 
 
   protected atalhoClick(atalho: AtalhoSistema, event: MouseEvent) {
-    if (this.editando) {
+    if (this.editando()) {
       event.preventDefault(); // evita que o link seja acionado
       this.atalhoRebaixado.emit(atalho);
     }

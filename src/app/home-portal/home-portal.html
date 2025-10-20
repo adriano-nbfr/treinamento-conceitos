@@ -20,9 +20,11 @@
 
 
 
-
-  @if (erroAtalhos) {
-    <h2 class="text-center text-danger">{{erroAtalhos}}</h2>
+  @if (atalhos.status().ocupado) {
+    <h2 class="text-center">Carregando atalhos...</h2>
+  }
+  @if (atalhos.status().erro; as erro) {
+    <h2 class="text-center text-danger">{{erro}}</h2>
   }
   @else {
     @let destaques = atalhosDestaque().length ? atalhosDestaque() : atalhosMaisSistemas();
@@ -32,7 +34,7 @@
         (atalhoRebaixado)="alterarDestaqueAtalho($event, false)">
       </app-portal-destaques>
     }
-    @else {
+    @else if (!atalhos.status().ocupado) {
       <h2 class="text-center fs-5 mt-5">Não existem atalhos a serem exibidos.</h2>
     }
 
