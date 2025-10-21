@@ -8,6 +8,12 @@ export default [
       .then(m => m.TwoWayPai)
   },
   {
+    path: 'linked-signal',
+    title: 'Exemplos - LinkedSignal - Treinamento Conceitos',
+    loadComponent: () => import('./linked-signal/linked-signal')
+      .then(m => m.LinkedSignal)
+  },
+  {
     path: 'usuarios',
     loadChildren: () => import('./usuarios/usuarios.routes')
   },

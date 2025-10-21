@@ -1,25 +1,4 @@
 <div class="container">
-
-  <!-- <div class="my-4 text-center">
-    <div class="d-flex justify-content-center gap-3">
-      @for (opcao of opcoesAvaliacao(); track opcao) {
-        <button class="btn btn-outline-dark"
-          [class.active]="opcao === avaliacao()"
-          (click)="avaliacao.set(opcao)">
-          {{opcao}}
-        </button>
-      }
-    </div>
-
-    <div class="mt-4">
-      <button class="btn btn-primary" (click)="trocarOpcoes(opcoesAvaliacao().length > 3)">
-        Alternar opções disponíveis
-      </button>
-    </div>
-  </div> -->
-
-
-
   @if (atalhos.isLoading()) {
     <h2 class="text-center">Carregando atalhos...</h2>
   }

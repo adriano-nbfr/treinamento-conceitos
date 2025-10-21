@@ -1,0 +1,30 @@
+<app-card>
+  <div slot="titulo" class="d-flex gap-3">
+    Exemplo de LinkedSignal
+    <div class="ms-auto">
+      <button class="btn btn-sm btn-outline-light" routerLink="..">Voltar</button>
+    </div>
+  </div>
+
+  <div class="my-4 text-center">
+    <div class="d-flex justify-content-center gap-3">
+      @for (opcao of opcoesAvaliacao(); track opcao) {
+        <button class="btn btn-outline-primary"
+          [class.active]="opcao === avaliacao()"
+          (click)="avaliacao.set(opcao)">
+          {{opcao}}
+        </button>
+      }
+    </div>
+
+    <hr class="divider">
+
+    <div>
+      <button class="btn btn-outline-secondary"
+        (click)="definirOpcoesAvaliacao(opcoesAvaliacao().length > 3)">
+        Alternar opções disponíveis
+      </button>
+    </div>
+  </div>
+
+</app-card>

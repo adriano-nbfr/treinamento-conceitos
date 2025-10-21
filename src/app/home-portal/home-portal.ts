@@ -4,11 +4,6 @@ import { PortalApi } from './portal-api';
 import { PortalDestaques } from "./portal-destaques/portal-destaques";
 import { PortalMaisSistemas } from "./portal-mais-sistemas/portal-mais-sistemas";
 
-
-// const OPCOES_COMPLETA = ['Muito ruim', 'Ruim', 'Regular', 'Bom', 'Muito Bom'];
-// const OPCOES_REDUZIDA = ['Ruim', 'Regular', 'Bom'];
-
-
 @Component({
   selector: 'app-home-portal',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,40 +24,17 @@ export class HomePortal {
   protected atalhosMaisSistemas = computed(() => this.atalhos.value().filter(a => !a.destaque));
 
 
-  // ////////////////
+  // constructor() {
+  //   this.carregarAtalhos();
 
-  // opcoesAvaliacao = signal(OPCOES_COMPLETA);
+  //   // effect(() => {
+  //   //   const qtdMaisSistemas = this.atalhosMaisSistemas().length;
 
-  // avaliacao = linkedSignal({
-  //   source: this.opcoesAvaliacao,
-  //   computation: (opcoes, previo) => {
-  //     return opcoes.find(o => o === previo?.value) ?? opcoes[Math.trunc(opcoes.length / 2)];
-  //   }
-  // });
-
-
-  // trocarOpcoes(reduzida: boolean) {
-  //   if (reduzida)
-  //     this.opcoesAvaliacao.set(OPCOES_REDUZIDA);
-  //   else
-  //     this.opcoesAvaliacao.set(OPCOES_COMPLETA);
+  //   //   // untracked(() => {
+  //   //   //   metodoComplexoEmUmServico(qtdMaisSistemas);
+  //   //   // });
+  //   // });
   // }
-
-
-  // ///////////////
-
-
-  constructor() {
-    // this.carregarAtalhos();
-
-    // effect(() => {
-    //   const qtdMaisSistemas = this.atalhosMaisSistemas().length;
-
-    //   // untracked(() => {
-    //   //   metodoComplexoEmUmServico(qtdMaisSistemas);
-    //   // });
-    // });
-  }
 
   // protected async carregarAtalhos() {
   //   resolverDadoAssincrono(this.portalApi.obterAtalhos(), this.atalhos, []);
@@ -73,8 +45,8 @@ export class HomePortal {
   }
 
 
-  recarregar() {
-    this.atalhos.reload();
+  protected recarregar() {
+    this.atalhos.reload(); // um resource permite executar posteriormente sua função loader.
   }
 
 }
